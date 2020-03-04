@@ -44,21 +44,21 @@ body {
     margin-right: 1em;
 }
 
-.top > :nth-child(2) > button {
+.top > :nth-child(2) > a > button {
     border: none;
     background: none;
     padding: 0;
     width: fit-content;
     height: fit-content;
-    margin-left: 2em;
-    margin-right: 2em;
-}
-
-.top > :nth-child(2) > button > a {
-    text-decoration: none;
     font-size: 2em;
     font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
     color: inherit;
+}
+
+.top > :nth-child(2) > a {
+    text-decoration: none;
+    margin-left: 2em;
+    margin-right: 2em;
 }
 
 .activeButton {
@@ -69,7 +69,7 @@ body {
     color: #adadad;
 }
 
-@media screen and (max-width: 675px) {
+@media screen and (max-width: 700px) {
     .top {
         flex-direction: column;
         align-items: center;
@@ -84,7 +84,7 @@ body {
         margin: 0;
     }
 
-    .top > :nth-child(2) > button {
+    .top > :nth-child(2) > a {
         margin-right: 2vw;
         margin-left: 2vw;
     }
@@ -107,11 +107,11 @@ body {
         margin-right: 10vw;
     }
 
-    .top > :nth-child(2) > button {
+    .top > :nth-child(2) > a {
         margin: 0;
     }
 
-    .top > :nth-child(2) > button > a {
+    .top > :nth-child(2) > a > button {
         font-size: 15vw;
     }
 }
