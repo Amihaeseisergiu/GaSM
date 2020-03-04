@@ -1,0 +1,239 @@
+
+body
+{
+  background-color:black;
+  margin:0px;
+}
+
+.parentDiv
+{
+  
+  display:flex;
+  flex-direction:row;
+  width:100%;
+  height:50%;
+}
+
+.leftDiv
+{ 
+  display:flex;
+  flex-direction:column;
+  width:50%;
+  background-color:#e7e7e7;
+  align-items:flex-start;
+  justify-content:center;
+  padding:5%;
+}
+
+.rightDiv
+{
+  display:flex;
+  flex-direction:row;
+  width:50%;
+  background-color:#e7e7e7;
+  padding:5%;
+  align-items:center;
+  justify-content:flex-end;
+}
+
+.divInput
+{
+    background-color:#e7e7e7;
+    width:70%;
+    height:100%;
+    align-items:center;
+    justify-content:center;
+  display:flex;
+  flex-direction:column;
+}
+
+.inputButtonsContainer
+{
+  display:flex;
+  background-color:#e7e7e7;
+  align-items:center;
+  justify-content:space-between;
+  width:100%;
+  height:80%;
+
+}
+
+.divColumnAll
+{
+  width:100%;
+  height:50%;
+  align-items:flex-start;
+  justify-content:center;
+  background-color:#e7e7e7;
+  display:flex;
+  flex-direction:column;
+
+}
+
+.textH
+{
+  font-size:3vw;
+  
+  line-height:0.5%;
+  font-weight:normal;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
+  
+}
+
+.signupButton
+{
+  font-size:1em;  
+  height:6vh;
+  width:12vw;
+
+  outline:none;
+  border:0px;
+  background-color:rgb(0,156,42);
+  color:white;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+.loginButton
+{
+  font-size:1.4em;
+  height:95%;
+  width:35%;
+  padding:1%;
+  
+  outline:none;
+  border:0px;
+  background-color:rgb(0,156,42);
+  color:white;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+  
+}
+
+.loginButton:hover
+{
+    background-color:white;
+    color:black;
+    outline:none; /* chestia cu albastru cand apesi */
+    transition-duration:0.8s ;
+    
+}
+
+.loginButton:active
+{
+    background-color:black;
+    color:white;
+    transform: translateY(5%);
+    outline:none;
+}
+
+.signupButton:hover
+{
+    background-color:white;
+    color:black;
+    outline:none; /* chestia cu albastru cand apesi */
+    transition-duration:0.8s ;
+}
+
+.signupButton:active
+{
+    background-color:black;
+    color:white;
+    transform: translateY(5%);
+    outline:none;
+}
+
+.inputBox
+{
+  width:90%;
+  height:50%;
+  font-size:1em;
+  
+  margin:1%;
+  padding:2%;
+  border:0px;
+  outline:none;/* chestia cu albastru la click*/
+}
+
+.forgotPW
+{
+  margin-top:2%;
+  margin-left:2%;
+  font-size:1.2em;
+  text-decoration:none;
+  color:gray;
+}
+
+::placeholder
+{
+  
+  color:gray;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+@media only screen and (max-width: 700px)
+{
+
+  body
+   {
+    background-color:blue;
+  }
+
+  .parentDiv
+  {
+    display:flex;
+    flex-direction:column;
+  }
+
+  .leftDiv
+  {
+    width:100%;
+    align-items:flex-start;
+  }
+
+   .textH
+   {
+    font-size:1.6em;
+    margin-bottom:5%;
+    margin-left:2%;
+   }
+
+
+   .signupButton
+   {
+    height:4vh;
+    width:20%;
+    margin:2%;
+   }
+  
+  .rightDiv
+  {
+    width:100%;
+    align-items:flex-start;
+  }
+
+  .inputButtonsContainer
+  {
+    justify-content:flex-start;
+  }
+
+
+  .loginButton
+  {
+    width:20%;
+    font-size:1.2em;
+  }
+
+  @media only screen and (max-width: 330px)
+  {
+    .signupButton
+    {
+      font-size:0.8em;
+    }
+
+    .loginButton{
+      font-size:1em;
+    }
+
+  
+  }
+
+}
