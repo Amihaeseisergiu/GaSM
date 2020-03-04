@@ -9,8 +9,8 @@ body {
     flex-direction: row;
     justify-content: space-between;
     background: #e7e7e7;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
 .top > :nth-child(1) {

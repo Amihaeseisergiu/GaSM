@@ -1,48 +1,35 @@
-
-body
-{
-  background-color:black;
-  margin:0px;
-}
-
 .parentDiv
 {
-  
   display:flex;
   flex-direction:row;
-  width:100%;
-  height:50%;
+  justify-content: space-between;
+  padding: 5em 5em 10em 5em;
+  background: #e7e7e7;
 }
 
 .leftDiv
 { 
   display:flex;
   flex-direction:column;
-  width:50%;
-  background-color:#e7e7e7;
+  background-color: inherit;
   align-items:flex-start;
   justify-content:center;
-  padding:5%;
 }
 
 .rightDiv
 {
   display:flex;
-  flex-direction:row;
-  width:50%;
-  background-color:#e7e7e7;
-  padding:5%;
-  align-items:center;
-  justify-content:flex-end;
+  flex-direction: column;
+  background-color: inherit;
+  align-items: start;
+  justify-content: space-evenly;
 }
 
 .divInput
 {
-    background-color:#e7e7e7;
-    width:70%;
-    height:100%;
-    align-items:center;
-    justify-content:center;
+  background-color:#e7e7e7;
+  align-items: center;
+  justify-content:center;
   display:flex;
   flex-direction:column;
 }
@@ -52,57 +39,40 @@ body
   display:flex;
   background-color:#e7e7e7;
   align-items:center;
+  flex-direction: row;
   justify-content:space-between;
-  width:100%;
-  height:80%;
-
-}
-
-.divColumnAll
-{
-  width:100%;
-  height:50%;
-  align-items:flex-start;
-  justify-content:center;
-  background-color:#e7e7e7;
-  display:flex;
-  flex-direction:column;
-
 }
 
 .textH
 {
-  font-size:3vw;
-  
-  line-height:0.5%;
+  font-size:3em;
+  margin: 0;
   font-weight:normal;
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu Sans", "Helvetica Neue", Arial, sans-serif;
   
 }
 
 .signupButton
-{
-  font-size:1em;  
-  height:6vh;
-  width:12vw;
-
-  outline:none;
-  border:0px;
-  background-color:rgb(0,156,42);
+{  
+  height: 2em;
+  width: 100%;
+  font-size: 1.5em;
+  outline: none;
+  border: 0;
+  background-color:#0ed145;
   color:white;
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
 .loginButton
 {
-  font-size:1.4em;
-  height:95%;
-  width:35%;
-  padding:1%;
-  
-  outline:none;
-  border:0px;
-  background-color:rgb(0,156,42);
+  font-size:1.5em;
+  height: 5em;
+  width: 6em;
+  margin-left: 5%;
+  border: none;
+  outline: none;
+  background-color:#0ed145;
   color:white;
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
   
@@ -143,97 +113,91 @@ body
 
 .inputBox
 {
-  width:90%;
-  height:50%;
-  font-size:1em;
-  
-  margin:1%;
-  padding:2%;
-  border:0px;
+  font-size:1.5em;
+  padding:0.5em;
+  border:0;
   outline:none;/* chestia cu albastru la click*/
+}
+
+.divInput > :nth-child(1) {
+  margin-bottom: 5%;
 }
 
 .forgotPW
 {
-  margin-top:2%;
-  margin-left:2%;
-  font-size:1.2em;
+  font-size:1.5em;
   text-decoration:none;
   color:gray;
 }
 
 ::placeholder
 {
-  
   color:gray;
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
 }
 
-@media only screen and (max-width: 700px)
+@media only screen and (max-width: 1100px)
 {
-
-  body
-   {
-    background-color:blue;
-  }
-
   .parentDiv
   {
-    display:flex;
     flex-direction:column;
   }
 
-  .leftDiv
-  {
-    width:100%;
-    align-items:flex-start;
+  .leftDiv {
+    margin-bottom: 2em;
   }
 
-   .textH
-   {
-    font-size:1.6em;
-    margin-bottom:5%;
-    margin-left:2%;
-   }
-
-
-   .signupButton
-   {
-    height:4vh;
-    width:20%;
-    margin:2%;
-   }
-  
-  .rightDiv
-  {
-    width:100%;
-    align-items:flex-start;
+  .forgotPW {
+    margin-top: 0.5em;
   }
 
-  .inputButtonsContainer
+  @media only screen and (max-width: 635px)
   {
-    justify-content:flex-start;
-  }
-
-
-  .loginButton
-  {
-    width:20%;
-    font-size:1.2em;
-  }
-
-  @media only screen and (max-width: 330px)
-  {
-    .signupButton
-    {
-      font-size:0.8em;
+    .inputButtonsContainer {
+      flex-direction: column;
     }
 
-    .loginButton{
-      font-size:1em;
+    .loginButton {
+      width: 100%;
+      height: 2em;
+      margin-left: 0;
+      margin-top: 1em;
+      font-size: 5vw;
     }
 
-  
+    .inputBox {
+      width: 90%;
+      margin-left: 0;
+      margin-right: 0;
+      font-size: 4vw;
+    }
+
+    .textH {
+      font-size: 7vw;
+    }
+
+    .signupButton {
+      font-size: 4vw;
+    }
+
+    .forgotPW {
+      font-size: 3vw;
+      margin-top: 0.5em;
+    }
+
+    .parentDiv {
+      padding: 5vw;
+      align-items: center;
+    }
+
+    .leftDiv {
+      align-items: center;
+    }
+
+    .rightDiv {
+      align-items: center;
+    }
+
   }
 
 }
