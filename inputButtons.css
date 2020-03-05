@@ -1,3 +1,52 @@
+.activePage
+{
+    color:black;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+    text-decoration:none;
+    outline:0px;
+}
+
+
+.notActivePage
+{
+    color:gray;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+    text-decoration:none;
+    outline:0px;
+}
+
+.notActivePage:hover
+{
+    color:white;
+    transition:0.8s;
+    border-bottom:0.2em solid black;
+}
+
+.notActivePage:active
+{
+    color:white;
+    transform: translateY(10%);
+    transition:0.8s;
+    
+}
+
+
+.activePage:active
+{
+    color:white;
+    transform: translateY(10%);
+    transition:0.8s;
+}
+
+.activePage:hover
+{
+    color:white;
+    transition:0.8s;
+    border-bottom:0.2em solid black;
+}
+
+
+
 .inputButton
 {
   margin:2%;

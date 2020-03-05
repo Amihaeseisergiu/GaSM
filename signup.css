@@ -1,0 +1,261 @@
+
+.greenContainer
+{
+    background-color:#0ed145;
+    height:54.2em;
+    margin:0px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    
+}
+
+.greyContainer
+{
+
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:flex-start;
+    padding:3em;
+    background-color:#e7e7e7;
+    border-radius:2em;
+}
+
+.textH {
+    margin-bottom:1em;
+    font-size: 5vw;
+    line-height:0.7%;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+    font-weight:normal;
+  }
+
+.inputBox
+{
+  width:30vw;
+  font-size:1.5em;
+  padding:0.5em;
+  margin-top:0.7em;
+  border:0;
+  outline:none;/* chestia cu albastru la click*/
+}
+
+.submitButton
+{
+
+  width:30vw;
+  font-size:1.5em;
+  padding:0.5em;
+  padding-top:0.8em;
+  padding-bottom:0.8em;
+  margin-top:1em;
+  border:0;
+  box-sizing: content-box; /* pt a avea acelasi width ca inputBox-urile*/
+  outline:none;/* chestia cu albastru la click*/
+
+  background-color:#0ed145;
+  color:white;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+
+}
+
+.submitButton:hover
+{
+    background-color:white;
+    color:black;
+    outline:none; /* chestia cu albastru cand apesi */
+    transition-duration:0.8s ;
+}
+
+.submitButton:active
+{
+    background-color:black;
+    color:white;
+    transform: translateY(5%);
+    outline:none;
+}
+
+::placeholder
+{
+  color:gray;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+}
+
+
+ .textH
+ {
+  font-size: 6vw;
+ }
+
+
+ @media screen and (max-width: 1333px)
+ {
+   .inputBox
+   {
+     width:50vw;
+   }
+
+   .submitButton{
+     width:50vw;
+   }
+ }
+
+@media screen and (max-width: 700px) 
+{
+
+ .textH
+ {
+  font-size: 10vw;
+ }
+
+ .inputBox
+{
+  width:50vw;
+  font-size:1.3em;
+  
+}
+
+.submitButton
+{
+
+  width:50vw;
+  font-size:1.3em;
+  padding:0.5em;
+  padding-top:0.8em;
+  padding-bottom:0.8em;
+  margin-top:1em;
+ 
+}
+
+
+}
+
+
+@media screen and (max-width: 600px) 
+{
+
+.greyContainer
+{
+
+ padding:5em;
+
+}
+ .textH
+ {
+  font-size: 10vw;
+ }
+
+ .inputBox
+{
+  width:50vw;
+  height:5vh;
+  font-size:1.3em;
+  
+}
+
+.submitButton
+{
+
+  width:50vw;
+  height:7vh;
+  font-size:1.3em;
+  padding:0.5em;
+  padding-top:0.8em;
+  padding-bottom:0.8em;
+  margin-top:1em;
+ 
+}
+
+
+}
+
+@media screen and (max-width: 390px) 
+{
+
+.greyContainer
+{
+
+    padding:4em;
+
+}
+ .textH
+ {
+  font-size: 12vw;
+ }
+
+ .inputBox
+{
+  width:45vw;
+  height:5vh;
+  font-size:1.3em;
+  
+}
+
+.submitButton
+{
+
+  width:45vw;
+  height:7vh;
+  font-size:1.3em;
+  padding:0.5em;
+  padding-top:0.8em;
+  padding-bottom:0.8em;
+  margin-top:1em;
+ 
+}
+
+@media screen and (max-width: 300px)
+{
+  .greyContainer
+  {
+    padding:2em;
+  }
+
+  .textH{
+    font-size: 15vw;
+  }
+
+  .inputBox
+  {
+    height:7vh;
+    width:50vw;
+  }
+
+  .submitButton
+  {
+    width:50vw;
+  }
+}
+
+@media screen and (max-width: 185px)
+{
+  .greyContainer
+  {
+    padding:2em;
+  }
+
+  .textH{
+    font-size: 16vw;
+  }
+
+  .inputBox
+  {
+    height:7vh;
+    width:50vw;
+    padding:0.3em;
+    font-size: 1em;
+  }
+
+  .submitButton
+  {
+    width:50vw;
+    padding:0.3em;
+    padding-top:0.5em;
+    padding-bottom:0.5em;
+    font-size: 1em;
+  }
+
+}
+
+}
