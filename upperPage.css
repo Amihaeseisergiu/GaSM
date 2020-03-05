@@ -44,32 +44,21 @@ body {
     margin-right: 1em;
 }
 
-.top > :nth-child(2) > a > button {
+.top > :nth-child(2) > button {
+    margin-left: 1em;
+    margin-right: 1em;
+    background: #0ed145;
+    outline: none;
     border: none;
-    background: none;
-    padding: 0;
     width: fit-content;
     height: fit-content;
     font-size: 2em;
     font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
-    color: inherit;
-}
-
-.top > :nth-child(2) > a {
-    text-decoration: none;
-    margin-left: 2em;
-    margin-right: 2em;
-}
-
-.activeButton {
     color: black;
+    padding: 0.25em 0.5em 0.25em 0.5em;
 }
 
-.inactiveButton {
-    color: #adadad;
-}
-
-@media screen and (max-width: 700px) {
+@media screen and (max-width: 800px) {
     .top {
         flex-direction: column;
         align-items: center;
@@ -85,7 +74,7 @@ body {
         margin-top: 1em;
     }
 
-    .top > :nth-child(2) > a {
+    .top > :nth-child(2) > button {
         margin-right: 2vw;
         margin-left: 2vw;
     }
@@ -101,7 +90,7 @@ body {
         margin-right: 2.5vw;
     }
 
-    .top > :nth-child(2) > a > button {
+    .top > :nth-child(2) > button {
         font-size: 5vw;
     }
 }
@@ -111,11 +100,10 @@ body {
     .top > :nth-child(2) {
         flex-direction: column;
     }
-}
 
-@media screen and (max-width: 160px) {
-    .top > :nth-child(2) > a {
-        margin: 0;
-    }
-
+    .top > :nth-child(2) > button {
+        margin-left: 0;
+        margin-right: 0;
+        margin-top: 1em;
+    }  
 }

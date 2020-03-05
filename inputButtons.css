@@ -29,3 +29,33 @@
     transform: translateY(5%);
     outline:none;
 }
+
+.D3Button {
+
+	transition: margin-top 0.3s ease, margin-left 0.3s ease, box-shadow 0.3s ease;
+	
+	background: #0ed145;
+  border: 1px solid #0ed145;
+
+  	box-shadow: 1px 0px 0px green,0px 1px 0px green,
+  				2px 1px 0px green,1px 2px 0px green,
+  				3px 2px 0px green,2px 3px 0px green,
+  				4px 3px 0px green,3px 4px 0px green,
+  				5px 4px 0px green,4px 5px 0px green,
+  				6px 5px 0px green,5px 6px 0px green,
+  				7px 6px 0px green,6px 7px 0px green,
+  				8px 7px 0px green,7px 8px 0px green,
+  				9px 8px 0px green,8px 9px 0px green;
+	}
+	
+.D3Button:active{
+
+	transition: margin-top 0.3s ease, 
+				margin-left 0.3s ease, 
+				box-shadow 0.3s ease;
+
+  margin-left:10px;
+	
+  box-shadow: 0px 0px 0px green,0px 0px 0px green,
+  				0px 0px 0px green,0px 0px 0px green;
+}
