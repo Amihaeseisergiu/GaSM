@@ -20,6 +20,7 @@
     padding-bottom: 5%;
     padding-left: 3%;
     padding-right: 3%;
+    width: 33%;
 }
 
 .vl {
@@ -45,6 +46,7 @@
   .bottom-text
   {
     padding-bottom: 0.5%;
+    width: 95%;
   }
   .vl
   {
@@ -57,3 +59,4 @@
     width: 90%;
     align-self: center;
   }
+}
