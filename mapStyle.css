@@ -1,0 +1,127 @@
+
+.main {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    height: 87.3vh;
+}
+
+.leftSide {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 2em;
+    background-color: #e7e7e7;
+}
+
+.middle {
+    width: 60%;
+}
+
+.rightSide {
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    padding: 2em;
+    background-color: #e7e7e7;
+}
+
+.buttons {
+    padding-top: 0.6em;
+    padding-bottom: 0.6em;
+    padding-left: 3em;
+    padding-right: 3em;
+    font-size: 2em;
+}
+
+#mapid {
+    height: 100%;
+    width: 100%;
+}
+
+@media screen and (max-width: 1550px)
+{
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        background-color: #e7e7e7;
+    }
+    
+    .leftSide {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        background-color: #e7e7e7;
+        padding: 0;
+    }
+    
+    .middle {
+        width: 100%;
+        height: 50vh;
+        display: inline-block;
+    }
+    
+    .rightSide {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-evenly;
+        background-color: #e7e7e7;
+        padding: 0;
+    }
+}
+
+@media screen and (max-width: 1050px)
+{
+    .main {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #e7e7e7;
+    }
+    
+    .leftSide {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: #e7e7e7;
+        padding: 0;
+    }
+    
+    .middle {
+        width: 100%;
+        height: 30vh;
+        margin-top: 2vh;
+        display: inline-block;
+    }
+    
+    .rightSide {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        align-items: center;
+        background-color: #e7e7e7;
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 2em;
+        padding-bottom: 2em;
+    }
+
+    
+    .buttons {
+        padding-top: 1vh;
+        padding-bottom: 1vh;
+        padding-left: 3vw;
+        padding-right: 3vw;
+        margin: 1vh;
+        font-size: 3vw;
+    }
+}
