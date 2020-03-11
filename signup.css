@@ -1,13 +1,9 @@
-body
-{
-  overflow-Y:hidden;
-}
 
 
 .greenContainer
 {
     background-color:#0ed145;
-    height:54.2em;
+    height:53.5em;
     margin:0px;
     display:flex;
     flex-direction:column;

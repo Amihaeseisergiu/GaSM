@@ -50,7 +50,13 @@
     <input class="inputBox" type="password" id="pw" name="Password" placeholder="Password">
     <input class="inputBox" type="text" id="address" name="Address" placeholder="Address">
 
-    <button class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
+    <script>   /* script JS pentru a redirecta pe pagina indexLoggedIn dupa apasarea butonului de Submit ce are ca tip submit */
+    function foo() {
+        window.location = "./indexLoggedIn.html";
+        return false;
+     }
+    </script>
+    <button onclick= "return foo();" class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
 
   </form>
 
