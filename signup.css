@@ -32,6 +32,15 @@
     font-weight:normal;
   }
 
+.textHCampaign
+{
+    margin-bottom:1em;
+    font-size: 3.5vw;
+    line-height:0.7%;
+    font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+    font-weight:normal;
+}
+
 .inputBox
 {
   width:30vw;
@@ -110,6 +119,11 @@
   font-size: 10vw;
  }
 
+.textHCampaign
+{
+  font-size:6vw;
+}
+
  .inputBox
 {
   width:50vw;
@@ -184,6 +198,11 @@
  {
   font-size: 12vw;
  }
+
+ .textHCampaign
+{
+  font-size:7vw;
+}
 
  .inputBox
 {
