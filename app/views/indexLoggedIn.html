@@ -15,7 +15,7 @@
     <div class="top">
         <!--top part-->
         <div>
-            <img src="logo.jpg" alt="Logo">
+            <img src="http://localhost:80/prj/public/images/logo.jpg" alt="Logo">
             <p>
                 GaSM
             </p>
@@ -43,21 +43,21 @@
             <h2 class="textH">Recycle better with us.</h2>
             <div>
                 <h2 class="textH">Join today.</h2>
-                <button onclick= "location.href = './signup.html'" type="button" name="Signup" id="signup" class="signupButton">Sign
+                <button onclick= "location.href = 'http://localhost:80/prj/app/views/signup.php'" type="button" name="Signup" id="signup" class="signupButton">Sign
                         up</button>
             </div>
         </div>
 
         <div class="rightDiv">
-            <div class="inputButtonsContainer">
+            <form  action="http://localhost/prj/public/" method="post" class="inputButtonsContainer">
                 <div class="divInput">
                     <h2 class="textH">Welcome back</h2>
 
                 </div>
 
-                <button onclick= "location.href = './index.html'" type="button" name="Login" id="login" class="loginButton">Logout</button>
+                <button  type="submit" name="LogoutButton" id="login" class="loginButton">Logout</button>
 
-            </div>
+            </form>
            
         </div>
 

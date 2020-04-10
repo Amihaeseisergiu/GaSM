@@ -11,7 +11,7 @@
 <body>
     <div class="top">      <!--top part-->
         <div>
-            <img src="logo.jpg" alt="Logo">
+            <img src="http://localhost:80/prj/public/images/logo.jpg" alt="Logo">
             <p>
                 GaSM
             </p>
@@ -19,7 +19,7 @@
 
         <div>
             
-                <button onclick= "location.href = './index.html'" class="D3Button" >
+                <button onclick= "location.href = 'http://localhost:80/prj/public/'" class="D3Button" >  <!--merge redirectarea-->
                     Home
                 </button>
             
@@ -41,22 +41,18 @@
 <div class="greenContainer"> <!--signupPart-->
 
 
-  <form class="greyContainer">
+  <form  action="http://localhost/prj/public/" method="post" class="greyContainer">
 
     <h1 class="textH">Sign-Up</h1>
 
-    <input class="inputBox" type="text" id="name" name="Name" placeholder="Name">
-    <input class="inputBox" type="email" id="email" name="Email" placeholder="Email">
-    <input class="inputBox" type="password" id="pw" name="Password" placeholder="Password">
+    <input required class="inputBox" type="text" id="name" name="Name" placeholder="Name" >
+    <input required class="inputBox" type="email" id="email" name="Email" placeholder="Email" >
+    <input required class="inputBox" type="password" id="pw" name="Password" placeholder="Password" >
     <input class="inputBox" type="text" id="address" name="Address" placeholder="Address">
 
-    <script>   /* script JS pentru a redirecta pe pagina indexLoggedIn dupa apasarea butonului de Submit ce are ca tip submit */
-    function foo() {
-        window.location = "./indexLoggedIn.html";
-        return false;
-     }
-    </script>
-    <button onclick= "return foo();" class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
+    
+    <button   class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
+
 
   </form>
 
