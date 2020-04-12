@@ -31,7 +31,7 @@
             
 
             
-                <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/statistics.html'" class="D3Button">
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/statistics.php'" class="D3Button">
                     Statistics
                 </button>
             

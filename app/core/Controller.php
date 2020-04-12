@@ -13,7 +13,7 @@ class Controller
 
     public function view($view,$data=[])   //$data e empty array pt ca uneori vrem sa parsam date la view uneori nu(ca sa putem apela cu un singur argument dintr-un controller )
     {
-        require_once '../app/views/'  .  $view  .   '.html';
+        require_once '../app/views/'  .  $view  .   '.php';
 
     }
 

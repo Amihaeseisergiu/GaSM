@@ -29,7 +29,7 @@
                 Map
             </button>
 
-            <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/statistics.html'" class="D3Button">
+            <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/statistics.php'" class="D3Button">
                 Statistics
             </button>
         </div>

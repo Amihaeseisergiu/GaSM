@@ -5,10 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GaSM</title>
-    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/public/css/upperPage.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/public/css/upperPage.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/public/css/midPart.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/public/css/bottomStyle.css">
-    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/public/css/inputButtons.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/public/css/inputButtons.css">
 </head>
 
 <body>
@@ -26,11 +26,11 @@
                 Home
             </button>
 
-            <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/map.html'" class="D3Button">
+            <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/map.php'" class="D3Button">
                 Map
             </button>
 
-            <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/statistics.html'" class="D3Button">
+            <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/statistics.php'" class="D3Button">
                 Statistics
             </button>
         </div>
@@ -43,7 +43,7 @@
             <h2 class="textH">Recycle better with us.</h2>
             <div>
                 <h2 class="textH">Join today.</h2>
-                <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/signup.html'" type="button" name="Signup" id="signup" class="signupButton">Sign
+                <button onclick= "location.href = 'http://localhost:80/proiect/GaSM/app/views/signup.php'" type="button" name="Signup" id="signup" class="signupButton">Sign
                         up</button>
             </div>
         </div>
@@ -51,15 +51,14 @@
         <div class="rightDiv">
             <form  action="http://localhost/proiect/GaSM/public/" method="post" class="inputButtonsContainer">
                 <div class="divInput">
-                    <input class="inputBox" type="text" id="username" name="Username" placeholder="Username">
-                    <input class="inputBox" type="password" id="pw" name="Password" placeholder="Password">
+                    <h2 class="textH">Welcome back</h2>
 
                 </div>
 
-                <button type="submit" name="LoginButton" id="login" class="loginButton">Login</button>
+                <button  type="submit" name="LogoutButton" id="login" class="loginButton">Logout</button>
 
             </form>
-            <a class="forgotPW" href="resetpw.html">Forgot password?</a>
+           
         </div>
 
     </div>

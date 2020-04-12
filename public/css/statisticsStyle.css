@@ -8,6 +8,7 @@ body
     width: 100%;
     margin-top: 1em;
     font-family: sans-serif;
+    justify-content: space-around;
 }
 
 .main2
@@ -40,7 +41,7 @@ body
     padding-right: 3em;
     font-size: 2em;
     margin-top: 0em;
-    margin-left: 3em;
+    margin-left: 2em;
 }
 
 #secondButton
@@ -51,7 +52,7 @@ body
     padding-right: 3em;
     font-size: 2em;
     margin-top: 1.5em;
-    margin-left: 3em;
+    margin-left: 2em;
 }
 
 #thirdButton
@@ -62,7 +63,7 @@ body
     padding-right: 3em;
     font-size: 2em;
     margin-top: 1.5em;
-    margin-left: 3em;
+    margin-left: 2em;
 }
 
 .box1
@@ -109,14 +110,6 @@ body
     font-size: 1.5em;
 }
 
-.circle-container
-{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 1em;
-    padding-bottom: 1em;
-}
 
 .circle
 {
