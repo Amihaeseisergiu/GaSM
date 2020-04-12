@@ -30,7 +30,7 @@
                 Map
             </button>
 
-            <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/statistics.php'" class="D3Button">
+            <button onclick= "location.href = 'Statistics'" class="D3Button">
                 Statistics
             </button>
         </div>
@@ -43,7 +43,7 @@
             <h2 class="textH">Recycle better with us.</h2>
             <div>
                 <h2 class="textH">Join today.</h2>
-                <button onclick= "location.href = 'http://localhost:80/proiect/GaSM/app/views/signup.php'" type="button" name="Signup" id="signup" class="signupButton">Sign
+                <button onclick= "location.href = 'Signup'" type="button" name="Signup" id="signup" class="signupButton">Sign
                         up</button>
             </div>
         </div>

@@ -43,7 +43,7 @@
             <h2 class="textH">Recycle better with us.</h2>
             <div>
                 <h2 class="textH">Join today.</h2>
-                <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/views/signup.php'" type="button" name="Signup" id="signup" class="signupButton">Sign
+                <button onclick= "location.href = 'Signup'" type="button" name="Signup" id="signup" class="signupButton">Sign
                         up</button>
             </div>
         </div>
