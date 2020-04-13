@@ -10,13 +10,17 @@ class Home extends Controller
 
         if (isset($_POST['SubmitButton']))  //daca un user ajunge aici din signup datele sale vor fi puse in db
          {
-        
+             $_SESSION['loggedIn']=false;      //daca dau submit de pe signup si ajung aici ar trebui sa dau logout automat daca eram logat inainte
+             $_SESSION['userID']=-1;
+             $_SESSION['privileges']="none";
+
+
+
              $anUser->name=$_POST['Name'];
              $anUser->email=$_POST['Email'];
              $anUser->password=$_POST['Password'];
-
-             if(isset($_POST['Address']))
-             $anUser->address=$_POST['Address'];
+             $anUser->country=$_POST['Country'];
+             $anUser->city=$_POST['City'];
 
              if($anUser->isTheNameAvailable()) //daca numele e disponibil vom fi redirectati pe homepage logged out si vor fi stocate info in BD
               {
@@ -40,6 +44,7 @@ class Home extends Controller
             if($anUser->isValidLogin()) //verificam daca e valid loginul
             {
                 $_SESSION['loggedIn']="true";   //login cu succes
+                
                 $this->view('indexLoggedIn');
             }
             else 
@@ -53,6 +58,8 @@ class Home extends Controller
          else if(isset($_POST['LogoutButton']))
             {
                 $_SESSION['loggedIn']=false;
+                $_SESSION['userID']=-1;
+                $_SESSION['privileges']="none";
                 $this->view('index');
             }
            else if($_SESSION['loggedIn']==="true")  $this->view('indexLoggedIn');  //daca vin de pe alta pagina si m-am logat deja, sa imi afiseze versiunea loggedIn a homepage-ului
@@ -60,6 +67,8 @@ class Home extends Controller
 
          var_dump($_POST); // pt debugging, va arata ce valori s-au primit la $_POST
          echo $_SESSION['loggedIn'];
+         echo $_SESSION['userID'];
+         echo $_SESSION['privileges'];
     }  
 
 }

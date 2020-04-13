@@ -6,7 +6,8 @@ class User
 
     public $name;
     public $email;
-    public $address;
+    public $country;
+    public $city;
     public $password;
     public $privileges;
 
@@ -25,7 +26,8 @@ class User
 
     if ($result->num_rows===1)
     {
-        $_SESSION['privileges']=$row['privileges'];
+        $_SESSION['privileges']=$row['privileges'];  //salvam in session-uri user id-ul si privilegiile userului logat
+        $_SESSION['userID']=$row['id'];
         $con->close();
         return true;
     }
@@ -42,18 +44,8 @@ public function storeIntoDB() //am sa verific eventual daca exista sau nu numele
 
     $this->privileges="user";
 
-    if(isset($this->address)) //daca am dat adresa 
-    {
-        //echo '<script>alert("Welcome to Geeks for Geeks")</script>';
-      $query = $con->prepare("INSERT INTO users(name,pw,email,address,privileges) values(?,?,?,?,?)");  //facem prepare, nu dam valoare la id ca e auto_increment
-      $query->bind_param("sssss",$this->name,$this->password,$this->email,$this->address,$this->privileges);  //s de la String, bind-uim parametrii
-    }
-    else
-    {
-      $query = $con->prepare("INSERT INTO users(name,pw,email,privileges) values(?,?,?,?)");  //facem prepare 
-      $query->bind_param("ssss",$this->name,$this->password,$this->email,$this->privileges);  //s de la String, bind-uim parametrii
-
-    }
+    $query = $con->prepare("INSERT INTO users(name,pw,email,country,city,privileges) values(?,?,?,?,?,?)");  //facem prepare, nu dam valoare la id ca e auto_increment
+    $query->bind_param("ssssss",$this->name,$this->password,$this->email,$this->country,$this->city,$this->privileges);  //s de la String, bind-uim parametrii
 
 
     $query->execute(); //executam query-ul

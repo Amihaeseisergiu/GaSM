@@ -48,8 +48,8 @@
     <input required class="inputBox" type="text" id="name" name="Name" placeholder="Name" >
     <input required class="inputBox" type="email" id="email" name="Email" placeholder="Email" >
     <input required class="inputBox" type="password" id="pw" name="Password" placeholder="Password" >
-    <input class="inputBox" type="text" id="address" name="Address" placeholder="Address">
-
+    <input required class="inputBox" type="text" id="country" name="Country" placeholder="Country">
+    <input required class="inputBox" type="text" id="city" name="City" placeholder="City">
     
     <button   class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
 
