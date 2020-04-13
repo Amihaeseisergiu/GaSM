@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Map</title>
-    <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/public/css/upperPage.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/public/css/inputButtons.css">
-    <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/public/css/mapStyle.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/upperPage.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/inputButtons.css">
+    <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/mapStyle.css">
 </head>
 
 <body>
     <div class="top">
         <!--top part-->
         <div>
-            <img src="http://localhost:80/proiect/GaSM/public/images/logo.jpg" alt="Logo">
+            <img src="http://localhost:80/proiect/GaSM/app/images/logo.jpg" alt="Logo">
             <p>
                 GaSM
             </p>

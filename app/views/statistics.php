@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/public/css/upperPage.css">
-    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/public/css/inputButtons.css">
-    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/public/css/statisticsStyle.css">
+    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/app/css/upperPage.css">
+    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/app/css/inputButtons.css">
+    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/app/css/statisticsStyle.css">
     <title>GaSM</title>
 </head>
 
@@ -14,7 +14,7 @@
     <div class="top">
         <!--top part-->
         <div>
-            <img src="http://localhost:80/proiect/GaSM/public/images/logo.jpg" alt="Logo">
+            <img src="http://localhost:80/proiect/GaSM/app/images/logo.jpg" alt="Logo">
             <p>
                 GaSM
             </p>
@@ -46,8 +46,8 @@
                 Download HTML
             </button>
         </div>
-        <div class="chartAndButton" style="width: 70%; height: 405px; margin: auto; display:flex; justify-content:center; align-items:center; flex-direction:column;">
-            <div id="chartContainer" style="height: 400px; width: 100%; border: 5px solid black;"></div>
+        <div class="chartAndButton">
+            <div id="chartContainer"></div>
             <form method="get">
                 <input list="filters" name="filter">
                 <datalist id="filters">

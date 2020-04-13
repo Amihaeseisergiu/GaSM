@@ -66,6 +66,24 @@ body
     margin-left: 2em;
 }
 
+.chartAndButton
+{
+    width: 70%; 
+    height: 405px; 
+    margin: auto; 
+    display:flex; 
+    justify-content:center; 
+    align-items:center; 
+    flex-direction:column;
+}
+
+#chartContainer
+{
+    height: 400px; 
+    width: 100%;
+    border: 5px solid black;
+}
+
 .box1
 {
     width: 25%;
