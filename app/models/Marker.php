@@ -8,11 +8,27 @@ class Marker
     public $userId;
     public $time;
 
-    public function getTrash()
+    public function getTrash($filter = '')
     {
         $con = mysqli_connect("Localhost", "root", "", "tw");
         $markers = array();
-        $query = $con->prepare("SELECT * from markers");
+        if ($filter == "weekly") {
+            $query = $con->prepare("SELECT * FROM markers
+        WHERE time >= curdate() - INTERVAL DAYOFWEEK(curdate())+4 DAY
+        AND time < curdate() - INTERVAL DAYOFWEEK(curdate())-3 DAY");
+        } else if($filter == "monthly") {
+            $query = $con->prepare("SELECT * FROM markers
+        WHERE time >= curdate() - INTERVAL DAYOFWEEK(curdate())+29 DAY
+        AND time < curdate() - INTERVAL DAYOFWEEK(curdate())-3 DAY");
+        }
+        else if($filter == "daily") {
+            $query = $con->prepare("SELECT * FROM markers
+         WHERE time > curdate() - INTERVAL DAYOFWEEK(curdate()) - 2 DAY
+         AND time < curdate() - INTERVAL DAYOFWEEK(curdate())- 3 DAY ");
+        }
+         else {
+            $query = $con->prepare("SELECT * from markers");
+        }
         $query->execute();
         $result = $query->get_result();
 

@@ -51,12 +51,29 @@
             <form method="get">
                 <input list="filters" name="filter">
                 <datalist id="filters">
+                    <option value="All Time">
                     <option value="Last Day">
                     <option value="Last Week">
                     <option value="Last Month">
                 </datalist>
-                <button type="submit" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em;">Filter</button>
+                <button type="submit" name="dateFilter" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em;">Filter</button>
             </form>
+            <?php
+            if (isset($_GET["dateFilter"])) {
+                if (isset($_GET["filter"])) {
+                    if ($_GET["filter"] === "Last Day") {
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByDay");
+                    } else if ($_GET["filter"] === "Last Week") {
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByWeek");
+                    } else if ($_GET["filter"] === "Last Month") {
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByMonth");
+                    }
+                    else {
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics");
+                    }
+                }
+            }
+            ?>
         </div>
     </div>
     <div class="main2">
