@@ -13,4 +13,14 @@ if(!isset($_SESSION['userID']))
  if(!isset($_SESSION['privileges']))
  $_SESSION['privileges']="none";
 
+ if(!isset($_SESSION['country']))
+ $_SESSION['country']="none";
+
+ if(!isset($_SESSION['city']))
+ $_SESSION['city']="none";
+
+ if(!isset($_SESSION['name']))
+ $_SESSION['name']="none";
+
+ 
 ?>

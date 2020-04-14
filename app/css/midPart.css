@@ -1,3 +1,13 @@
+.error
+{
+    color:red;
+    font-size:1.1em;
+}
+
+input:invalid {
+  background-color: #8b0606;
+}
+
 .parentDiv
 {
   display:flex;

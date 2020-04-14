@@ -10,12 +10,7 @@ class Home extends Controller
 
         if (isset($_POST['SubmitButton']))  //daca un user ajunge aici din signup datele sale vor fi puse in db
          {
-             $_SESSION['loggedIn']=false;      //daca dau submit de pe signup si ajung aici ar trebui sa dau logout automat daca eram logat inainte
-             $_SESSION['userID']=-1;
-             $_SESSION['privileges']="none";
-
-
-
+             
              $anUser->name=$_POST['Name'];
              $anUser->email=$_POST['Email'];
              $anUser->password=$_POST['Password'];
@@ -28,17 +23,24 @@ class Home extends Controller
                 {
                     $anUser->storeIntoDB();  //vom stoca toate astea in DB
                     $this->view('index'); //sunt redirectat aici dupa ce apas sign up din signup.php (on form action=), versiunea logged out
+
+                    $_SESSION['loggedIn']=false;      //daca dau submit de pe signup sichiar am creat un cont voi da logout automat
+                    $_SESSION['userID']=-1;
+                    $_SESSION['privileges']="none";
+                    $_SESSION['country']="none";
+                    $_SESSION['city']="none";
+                    $_SESSION['name']="none";
                 }
                 else
                 {
-                  $this->view('signup');
-                  echo '<script>alert("Numele dat este deja folosit!")</script>';  //daca sunt gresite datele introduse la  login
+                  $this->view('signup',['mesaj'=>"Numele dat este deja folosit"]);//pt a afisa mesajul de eroare in view
+                  //echo '<script>alert("Numele dat este deja folosit!")</script>';  //daca sunt gresite datele introduse la  login
                 }
              }
              else
              {
-                $this->view('signup');
-                echo '<script>alert("Datele introduse nu sunt valide!")</script>';
+                $this->view('signup',['mesaj'=>"Datele introduse nu sunt valide!"]);
+                //echo '<script>alert("Datele introduse nu sunt valide!")</script>';
              }
 
             
@@ -62,15 +64,15 @@ class Home extends Controller
                 }
                 else 
                 {
-                    $this->view('index');
-                    echo '<script>alert("Parola sau username gresite!")</script>';  //daca sunt gresite datele introduse la  login
+                    $this->view('index',['mesaj'=>"Datele introduse nu sunt valide!"]);
+                    //echo '<script>alert("Parola sau username gresite!")</script>';  //daca sunt gresite datele introduse la  login
     
                 }    
             }
             else 
                 {
-                    $this->view('index');
-                    echo '<script>alert("Datele introduse nu sunt valide!")</script>';  //daca sunt gresite datele introduse la  login
+                    $this->view('index',['mesaj'=>"Datele introduse nu sunt valide!"]);
+                    //echo '<script>alert("Datele introduse nu sunt valide!")</script>';  //daca sunt gresite datele introduse la  login
     
                 }    
             
@@ -81,6 +83,9 @@ class Home extends Controller
                 $_SESSION['loggedIn']=false;
                 $_SESSION['userID']=-1;
                 $_SESSION['privileges']="none";
+                $_SESSION['country']="none";
+                $_SESSION['city']="none";
+                $_SESSION['name']="none";
                 $this->view('index');
             }
            else if($_SESSION['loggedIn']==="true")  $this->view('indexLoggedIn');  //daca vin de pe alta pagina si m-am logat deja, sa imi afiseze versiunea loggedIn a homepage-ului
@@ -91,6 +96,9 @@ class Home extends Controller
          echo $_SESSION['loggedIn'];
          echo $_SESSION['userID'];
          echo $_SESSION['privileges'];
+         echo $_SESSION['country'];
+         echo $_SESSION['city'];
+         echo $_SESSION['name'];
     }  
 
 }

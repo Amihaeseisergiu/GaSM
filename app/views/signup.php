@@ -52,6 +52,9 @@
     <input required title="max 30 alphanumeric chars" max="30" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="city" name="City" placeholder="City*">
     
     <button   class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
+    <?php
+      if(isset($data['mesaj'])) echo '<p class="error">' . $data['mesaj'] .'</p>';
+    ?>
 
 
   </form>

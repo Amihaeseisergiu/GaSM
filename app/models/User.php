@@ -26,8 +26,11 @@ class User
 
     if ($result->num_rows===1)
     {
-        $_SESSION['privileges']=$row['privileges'];  //salvam in session-uri user id-ul si privilegiile userului logat
+        $_SESSION['privileges']=$row['privileges'];  //salvam in session-uri user id-ul,name-ul,tara,orasul si privilegiile userului logat
         $_SESSION['userID']=$row['id'];
+        $_SESSION['country']=$row['country'];
+        $_SESSION['city']=$row['city'];
+        $_SESSION['name']=$row['name'];
         $con->close();
         return true;
     }

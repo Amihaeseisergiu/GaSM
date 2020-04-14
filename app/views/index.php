@@ -54,11 +54,16 @@
                     <input required title="max 16 alphanumeric chars" max="16" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="username" name="Username" placeholder="Username">
                     <input required title="max 16 alphanumeric chars" max="16" pattern="[a-zA-Z\d]+" class="inputBox" type="password" id="pw" name="Password" placeholder="Password">
 
+                    
                 </div>
 
                 <button type="submit" name="LoginButton" id="login" class="loginButton">Login</button>
 
+                
             </form>
+            <?php
+              if(isset($data['mesaj'])) echo '<p  class="error">' . $data['mesaj'] .'</p>';
+            ?>
             <a class="forgotPW" href="resetpw.html">Forgot password?</a>
         </div>
 
