@@ -12,6 +12,15 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <!-- Load Esri Leaflet from CDN -->
+    <script src="https://unpkg.com/esri-leaflet@2.2.3/dist/esri-leaflet.js" integrity="sha512-YZ6b5bXRVwipfqul5krehD9qlbJzc6KOGXYsDjU9HHXW2gK57xmWl2gU6nAegiErAqFXhygKIsWPKbjLPXVb2g==" crossorigin=""></script>
+
+
+    <!-- Load Esri Leaflet Geocoder from CDN -->
+    <link rel="stylesheet" href="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.css" integrity="sha512-v5YmWLm8KqAAmg5808pETiccEohtt8rPVMGQ1jA6jqkWVydV5Cuz3nJ9fQ7ittSxvuqsvI9RSGfVoKPaAJZ/AQ==" crossorigin="">
+    <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js" integrity="sha512-zdT4Pc2tIrc6uoYly2Wp8jh6EPEWaveqqD3sT0lf5yei19BC1WulGuh5CesB0ldBKZieKGD7Qyf/G0jdSe016A==" crossorigin=""></script>
+
+    <script src="http://localhost:80/proiect/GaSM/app/javascript/countrycodes.js"></script>
 </head>
 
 <body>
@@ -135,31 +144,62 @@
             currentGarbageType = garbageType;
         }
 
+        function convertToAddress(coords)
+        {
+            var defObject = $.Deferred();
+            var geocodeService = L.esri.Geocoding.geocodeService();
+            geocodeService.reverse().latlng(coords).run(function(error, result) {
+                var locationData = {
+                    city : result.address.City,
+                    country : getCountryNameIso3(result.address.CountryCode)
+                }
+                defObject.resolve(locationData);
+            });
+
+            return defObject.promise();
+        }
+
         function onMapClick(e)
         {
             var latlng = garbageMap.mouseEventToLatLng(e.originalEvent);
-            var loggedIn = <?php
-                            echo json_encode($_SESSION['loggedIn']);
-                            ?>;
+            var loggedIn = <?php echo json_encode($_SESSION['loggedIn']); ?>;
+
             if(loggedIn.toString().localeCompare('true') == 0)
             {
+                var currentdate = new Date();
                 var marker = {
                     latitude: latlng.lat,
                     longitude: latlng.lng,
-                    trashType: currentGarbageType
+                    trashType: currentGarbageType,
+                    userId: parseInt(<?php echo json_encode($_SESSION['userID']); ?>),
+                    time: currentdate.getFullYear() + "-"
+                        + currentdate.getMonth()  + "-" 
+                        + currentdate.getDate() + " "  
+                        + currentdate.getHours() + ":"  
+                        + currentdate.getMinutes() + ":" 
+                        + currentdate.getSeconds(),
+                    userName: <?php echo json_encode($_SESSION['name']); ?>,
+                    userCountry: <?php echo json_encode($_SESSION['country']); ?>,
+                    userCity: <?php echo json_encode($_SESSION['city']); ?>
                 };
                 addMarker(marker);
             }
 
-            var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng+"&type=" + currentGarbageType;
+            var locationData = convertToAddress(latlng);
+            
+            $.when(locationData).done(function(r) {
+                locationData = r;
 
-            $.ajax
-            ({
-                url: "http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php",
-                type : "POST",
-                cache : false,
-                data : urlString,
-            });
+                var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng + "&type=" + currentGarbageType + "&country=" + locationData.country + "&city=" + locationData.city;
+
+                $.ajax
+                ({
+                    url: "http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php",
+                    type : "POST",
+                    cache : false,
+                    data : urlString,
+                });
+            })
         }
 
         garbageMap.on('click', onMapClick);
