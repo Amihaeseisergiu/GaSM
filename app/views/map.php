@@ -51,6 +51,7 @@
             </div>
 
             <script>
+                
                 var garbageMap = L.map('garbageMap', {
                     center: [45.9776587, 25.3419035],
                     zoom: 7.2,
@@ -105,6 +106,7 @@
                 }
 
                 loadMarkers();
+                
             </script>
         </div>
 
@@ -116,6 +118,7 @@
     </div>
 
     <script>
+        
         var currentGarbageType = '';
 
         function selectMarker(garbageType)
@@ -126,15 +129,19 @@
         function onMapClick(e)
         {
             var latlng = garbageMap.mouseEventToLatLng(e.originalEvent);
+            var loggedIn = <?php
+                            echo json_encode($_SESSION['loggedIn']);
+                            ?>;
+            if(loggedIn.toString().localeCompare('true') == 0)
+            {
+                addMarker(latlng.lat, latlng.lng, currentGarbageType);
+            }
 
-            addMarker(latlng.lat, latlng.lng, currentGarbageType);
-
-            var userId = 1;
-            var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng+"&type=" + currentGarbageType + "&userId=" + userId;
+            var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng+"&type=" + currentGarbageType;
 
             $.ajax
             ({
-                url: "http://localhost:80/proiect/GaSM/app/controllers/MarkerInsert.php",
+                url: "http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php",
                 type : "POST",
                 cache : false,
                 data : urlString,
@@ -142,6 +149,7 @@
         }
 
         garbageMap.on('click', onMapClick);
+        
     </script>
 </body>
 
