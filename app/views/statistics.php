@@ -25,7 +25,7 @@
                 Home
             </button>
 
-            <button onclick="location.href = 'Map'" class="D3Button">
+            <button onclick="location.href = 'http://localhost/proiect/GaSM/public/Map'" class="D3Button">
                 Map
             </button>
 

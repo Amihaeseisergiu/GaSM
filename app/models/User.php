@@ -78,9 +78,59 @@ public function isTheNameAvailable() //sa nu se poata inregistra 2 useri cu acel
         return false;
         $con->close();
         
+}
 
-    
+public function validateSignupInput()
+{
+    if(!preg_match("/^[a-zA-Z\d]+$/",$this->name))  //daca numele nu e format doar din caractere alfanumerice(litere si cifre)
+     return false;
 
+    if(!preg_match("/^[a-zA-Z\d]+$/",$this->password))
+     return false;  
+     
+    if(!preg_match("/^[a-zA-Z]+$/",$this->country))  //doar litere la country
+     return false;
+
+    if(!preg_match("/^[a-zA-Z\d]+$/",$this->city))
+     return false;
+
+    if (!filter_var($this->email, FILTER_VALIDATE_EMAIL))  //daca nu e valida adresa de email
+      return false;
+
+    if(strlen($this->name)>16)
+     return false; 
+
+    if(strlen($this->password)>16)
+     return false; 
+
+    if(strlen($this->country)>16)
+     return false; 
+
+    if(strlen($this->city)>30)
+     return false; 
+
+    if(strlen($this->email)>320)  //lungimea max permisa pt o adresa de email
+     return false; 
+
+
+     return true;  //daca toate inputurile sunt valide
+}
+
+public function validateLoginInput()
+{
+    if(!preg_match("/^[a-zA-Z\d]+$/",$this->name))  //daca numele nu e format doar din caractere alfanumerice(litere si cifre)
+    return false;
+
+    if(!preg_match("/^[a-zA-Z\d]+$/",$this->password))
+    return false;  
+
+    if(strlen($this->name)>16)
+     return false; 
+
+    if(strlen($this->password)>16)
+     return false; 
+
+     return true;
 
 }
 
