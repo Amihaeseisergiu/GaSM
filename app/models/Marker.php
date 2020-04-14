@@ -23,8 +23,8 @@ class Marker
         }
         else if($filter == "daily") {
             $query = $con->prepare("SELECT * FROM markers
-         WHERE time > curdate() - INTERVAL DAYOFWEEK(curdate()) - 2 DAY
-         AND time < curdate() - INTERVAL DAYOFWEEK(curdate())- 3 DAY ");
+         WHERE time > curdate() - INTERVAL DAYOFWEEK(curdate()) - 3 DAY
+         AND time < curdate() - INTERVAL DAYOFWEEK(curdate())- 4 DAY ");
         }
          else {
             $query = $con->prepare("SELECT * from markers");
