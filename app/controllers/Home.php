@@ -22,6 +22,7 @@ class Home extends Controller
              $anUser->country=$_POST['Country'];
              $anUser->city=$_POST['City'];
 
+             
              if($anUser->isTheNameAvailable()) //daca numele e disponibil vom fi redirectati pe homepage logged out si vor fi stocate info in BD
               {
                   $anUser->storeIntoDB();  //vom stoca toate astea in DB
