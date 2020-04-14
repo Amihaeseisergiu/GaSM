@@ -48,7 +48,15 @@
         </div>
         <div class="chartAndButton">
             <div id="chartContainer"></div>
-            <form method="get">
+            <form method="get" class="form">
+                <label  for="plastic"> Plastic </label>
+                <input type="checkbox" class="types" name="plastic">
+                <label  for="paper"> Paper </label>
+                <input type="checkbox" class="types" name="paper">
+                <label  for="glass"> Glass </label>
+                <input type="checkbox" class="types" name="glass">
+                <label for="metal"> Metal </label>
+                <input type="checkbox" class="types" name="metal">
                 <input list="filters" name="filter">
                 <datalist id="filters">
                     <option value="All Time">
@@ -61,15 +69,27 @@
             <?php
             if (isset($_GET["dateFilter"])) {
                 if (isset($_GET["filter"])) {
-                    if ($_GET["filter"] === "Last Day") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByDay");
-                    } else if ($_GET["filter"] === "Last Week") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByWeek");
-                    } else if ($_GET["filter"] === "Last Month") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByMonth");
+                    $shownGarbageTypes = "";
+                    if(isset($_GET["plastic"])) {
+                        $shownGarbageTypes = $shownGarbageTypes . "plastic_";
                     }
-                    else {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics");
+                    if(isset($_GET["paper"])) {
+                        $shownGarbageTypes = $shownGarbageTypes . "paper_";
+                    }
+                    if(isset($_GET["glass"])) {
+                        $shownGarbageTypes = $shownGarbageTypes . "glass_";
+                    }
+                    if(isset($_GET["metal"])) {
+                        $shownGarbageTypes = $shownGarbageTypes . "metal_";
+                    }
+                    if ($_GET["filter"] === "Last Day") {
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByDay/" . $shownGarbageTypes);
+                    } else if ($_GET["filter"] === "Last Week") {
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByWeek/" . $shownGarbageTypes);
+                    } else if ($_GET["filter"] === "Last Month") {
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByMonth/" . $shownGarbageTypes);
+                    } else {
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/all/" . $shownGarbageTypes);
                     }
                 }
             }
@@ -281,6 +301,7 @@
                     showInLegend: true,
                     name: "series1",
                     legendText: "Plastic",
+                    visible :  '<?php if($data['garbageToShow']['plastic'] === true) echo true; else echo false; ?>',
                     type: "line",
                     dataPoints: dpsPlastic
                 },
@@ -288,6 +309,7 @@
                     showInLegend: true,
                     name: "series2",
                     legendText: "Paper",
+                    visible :  '<?php if($data['garbageToShow']['paper'] === true) echo true; else echo false; ?>',
                     type: "line",
                     dataPoints: dpsPaper
                 },
@@ -295,6 +317,7 @@
                     showInLegend: true,
                     name: "series3",
                     legendText: "Glass",
+                    visible :  '<?php if($data['garbageToShow']['glass'] === true) echo true; else echo false; ?>',
                     type: "line",
                     dataPoints: dpsGlass
                 },
@@ -302,6 +325,7 @@
                     showInLegend: true,
                     name: "series4",
                     legendText: "Metal",
+                    visible :  '<?php if($data['garbageToShow']['metal'] === true) echo true; else echo false; ?>',
                     type: "line",
                     dataPoints: dpsMetal
                 }
