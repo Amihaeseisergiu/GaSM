@@ -22,17 +22,26 @@ class Home extends Controller
              $anUser->country=$_POST['Country'];
              $anUser->city=$_POST['City'];
 
-             
-             if($anUser->isTheNameAvailable()) //daca numele e disponibil vom fi redirectati pe homepage logged out si vor fi stocate info in BD
-              {
-                  $anUser->storeIntoDB();  //vom stoca toate astea in DB
-                  $this->view('index'); //sunt redirectat aici dupa ce apas sign up din signup.php (on form action=), versiunea logged out
-              }
-              else
-              {
+             if($anUser->validateSignupInput()) 
+             {
+                if($anUser->isTheNameAvailable()) //daca numele e disponibil vom fi redirectati pe homepage logged out si vor fi stocate info in BD
+                {
+                    $anUser->storeIntoDB();  //vom stoca toate astea in DB
+                    $this->view('index'); //sunt redirectat aici dupa ce apas sign up din signup.php (on form action=), versiunea logged out
+                }
+                else
+                {
+                  $this->view('signup');
+                  echo '<script>alert("Numele dat este deja folosit!")</script>';  //daca sunt gresite datele introduse la  login
+                }
+             }
+             else
+             {
                 $this->view('signup');
-                echo '<script>alert("Numele dat este deja folosit!")</script>';  //daca sunt gresite datele introduse la  login
-              }
+                echo '<script>alert("Datele introduse nu sunt valide!")</script>';
+             }
+
+            
 
          }
 
@@ -42,18 +51,29 @@ class Home extends Controller
             $anUser->password=$_POST['Password'];
             $anUser->name=$_POST['Username'];
 
-            if($anUser->isValidLogin()) //verificam daca e valid loginul
+            if($anUser->validateLoginInput())
             {
-                $_SESSION['loggedIn']="true";   //login cu succes
                 
-                $this->view('indexLoggedIn');
+               if($anUser->isValidLogin()) //verificam daca e valid loginul
+                {
+                    $_SESSION['loggedIn']="true";   //login cu succes
+                    
+                    $this->view('indexLoggedIn');
+                }
+                else 
+                {
+                    $this->view('index');
+                    echo '<script>alert("Parola sau username gresite!")</script>';  //daca sunt gresite datele introduse la  login
+    
+                }    
             }
             else 
-            {
-                $this->view('index');
-                echo '<script>alert("Parola sau username gresite!")</script>';  //daca sunt gresite datele introduse la  login
-
-            }    
+                {
+                    $this->view('index');
+                    echo '<script>alert("Datele introduse nu sunt valide!")</script>';  //daca sunt gresite datele introduse la  login
+    
+                }    
+            
             
          }
          else if(isset($_POST['LogoutButton']))
@@ -66,7 +86,8 @@ class Home extends Controller
            else if($_SESSION['loggedIn']==="true")  $this->view('indexLoggedIn');  //daca vin de pe alta pagina si m-am logat deja, sa imi afiseze versiunea loggedIn a homepage-ului
               else $this->view('index');
 
-         var_dump($_POST); // pt debugging, va arata ce valori s-au primit la $_POST
+         //var_dump($_POST); // pt debugging, va arata ce valori s-au primit la $_POST, daca o las asa aici,necomentata, se va putea face XSS pe ea
+
          echo $_SESSION['loggedIn'];
          echo $_SESSION['userID'];
          echo $_SESSION['privileges'];
