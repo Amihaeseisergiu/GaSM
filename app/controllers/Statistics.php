@@ -2,17 +2,16 @@
 
 class Statistics extends Controller
 {
-    public function index($filter = '')
+    public function index($filter = '', $shownGarbageTypes = '')
     {
         $marker = $this->model('Marker');
         if ($filter == "filterByWeek") {
             $markers = $marker->getTrash("weekly");
-        } else if($filter == "filterByMonth") {
+        } else if ($filter == "filterByMonth") {
             $markers = $marker->getTrash("monthly");
-        } else if($filter == "filterByDay") {
+        } else if ($filter == "filterByDay") {
             $markers = $marker->getTrash("daily");
-        }
-         else {
+        } else {
             $markers = $marker->getTrash();
         }
         $plastics = array();
@@ -21,8 +20,8 @@ class Statistics extends Controller
         $glasses = array();
         foreach ($markers as $marker) {
             $time = substr($marker->time, 0, strpos($marker->time, ' '));
-            if($filter == 'filterByDay') {
-                $time = date("Y-m-d H:00:00",strtotime($marker->time));
+            if ($filter == 'filterByDay') {
+                $time = date("Y-m-d H:i:00", strtotime($marker->time));
             }
             if ($marker->trashType == 'plastic') {
                 $ok = 0;
@@ -70,7 +69,34 @@ class Statistics extends Controller
                 }
             }
         }
-        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals]);
+        if ($shownGarbageTypes === "") {
+            $shownGarbage['plastic'] = true;
+            $shownGarbage['paper'] = true;
+            $shownGarbage['glass'] = true;
+            $shownGarbage['metal'] = true;
+        } else {
+            $shownGarbage = array();
+            if (strpos($shownGarbageTypes, "plastic") !== false) {
+                $shownGarbage['plastic'] = true;
+            } else {
+                $shownGarbage['plastic'] = false;
+            }
+            if (strpos($shownGarbageTypes, "paper") !== false) {
+                $shownGarbage['paper'] = true;
+            } else {
+                $shownGarbage['paper'] = false;
+            }
+            if (strpos($shownGarbageTypes, "glass") !== false) {
+                $shownGarbage['glass'] = true;
+            } else {
+                $shownGarbage['glass'] = false;
+            }
+            if (strpos($shownGarbageTypes, "metal") !== false) {
+                $shownGarbage['metal'] = true;
+            } else {
+                $shownGarbage['metal'] = false;
+            }
+        }
+        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage]);
     }
-
 }
