@@ -38,9 +38,21 @@ class Marker
             $marker->latitude = $row['latitude'];
             $marker->longitude = $row['longitude'];
             $marker->trashType = $row['trash_type'];
+            $marker->userId = $row['user_id'];
             $marker->time = $row['time'];
+
+            $query2 = $con->prepare("SELECT * FROM users WHERE id = ?");
+            $query2->bind_param('i', $marker->userId);
+            $query2->execute();
+            $row2 = $query2->get_result()->fetch_assoc();
+
+            $marker->userName = $row2['name'];
+            $marker->userCountry = $row2['country'];
+            $marker->userCity = $row2['city'];
+
             $markers[$i] = $marker;
         }
+
         $con->close();
         return $markers;
     }

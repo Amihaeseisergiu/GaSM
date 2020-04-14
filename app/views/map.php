@@ -65,33 +65,42 @@
 
                 var paperMarkerIcon = L.icon({
                     iconUrl: 'http://localhost:80/proiect/GaSM/app/images/papermarkericon.png',
+                    shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
                     iconSize: [40, 50],
                     iconAnchor: [20, 50],
-                    popupAnchor: [20, 0]
+                    popupAnchor: [20, 0],
+                    shadowSize:   [50, 64],
+                    shadowAnchor: [0, 45]
                 });
                 var plasticMarkerIcon = L.icon({
                     iconUrl: 'http://localhost:80/proiect/GaSM/app/images/plasticmarkericon.png',
+                    shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
                     iconSize: [40, 50],
                     iconAnchor: [20, 50],
-                    popupAnchor: [20, 0]
+                    popupAnchor: [20, 0],
+                    shadowSize:   [50, 64],
+                    shadowAnchor: [0, 45]
                 });
                 var metalMarkerIcon = L.icon({
                     iconUrl: 'http://localhost:80/proiect/GaSM/app/images/metalmarkericon.png',
+                    shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
                     iconSize: [40, 50],
                     iconAnchor: [20, 50],
-                    popupAnchor: [20, 0]
+                    popupAnchor: [20, 0],
+                    shadowSize:   [50, 64],
+                    shadowAnchor: [0, 45]
                 });
 
-                function addMarker(lat, lng, type)
+                function addMarker(marker)
                 {
-                    if(type.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
-                    else if(type.localeCompare('plastic') == 0) markerIcon = plasticMarkerIcon;
-                    else if(type.localeCompare('metal') == 0) markerIcon = metalMarkerIcon;
+                    if(marker.trashType.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
+                    else if(marker.trashType.localeCompare('plastic') == 0) markerIcon = plasticMarkerIcon;
+                    else if(marker.trashType.localeCompare('metal') == 0) markerIcon = metalMarkerIcon;
 
-                    if(type.localeCompare('') != 0)
+                    if(marker.trashType.localeCompare('') != 0)
                     {
-                        const marker = L.marker([lat, lng], {title: type, icon: markerIcon});
-                        marker.addTo(garbageMap);
+                        const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trashType, icon: markerIcon});
+                        mapMarker.addTo(garbageMap);
                     }
                 }
 
@@ -101,7 +110,7 @@
 
                    for(var i = 1; i <= Object.keys(markers).length; i++)
                    {
-                        addMarker(markers[i].latitude, markers[i].longitude, markers[i].trashType);
+                        addMarker(markers[i]);
                    }
                 }
 
@@ -134,7 +143,12 @@
                             ?>;
             if(loggedIn.toString().localeCompare('true') == 0)
             {
-                addMarker(latlng.lat, latlng.lng, currentGarbageType);
+                var marker = {
+                    latitude: latlng.lat,
+                    longitude: latlng.lng,
+                    trashType: currentGarbageType
+                };
+                addMarker(marker);
             }
 
             var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng+"&type=" + currentGarbageType;
