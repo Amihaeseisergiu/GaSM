@@ -41,17 +41,6 @@ const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
 const tiles = L.tileLayer(tileUrl, { attribution });
 tiles.addTo(garbageMap);
 
-function style() {
-    return {
-        fillColor: '#FEB24C',
-        weight: 2,
-        opacity: 1,
-        color: 'white',
-        dashArray: '3',
-        fillOpacity: 0.7
-    };
-}
-
 function getColor(d) {
     return d > 1000 ? '#800026' :
         d > 500  ? '#BD0026' :
@@ -61,6 +50,17 @@ function getColor(d) {
         d > 20   ? '#FEB24C' :
         d > 10   ? '#FED976' :
                     '#FFEDA0';
+}
+
+function style(feature) {
+    return {
+        fillColor: getColor(feature.properties.total),
+        weight: 2,
+        opacity: 1,
+        color: 'white',
+        dashArray: '3',
+        fillOpacity: 0.7
+    };
 }
 
 var geojson;
@@ -74,8 +74,15 @@ info.onAdd = function (map) {
 };
 
 info.update = function (props) {
-    this._div.innerHTML = '<h4>Garbage Stats ' +  (props ?
-        props.name + '</h4>' + props.created_at
+    this._div.innerHTML = '<h4>Garbage Stats ' +  (props ? props.name + '</h4>'
+    + "<div style=\"display: flex; align-items: center; flex-direction: column;\">"
+    + "<b>Total</b> " + props.total + "</br></br>"
+    + "<div style=\"display: flex; align-items: center; flex-direction: column; border: 3px dashed green; padding: 5px 5px 5px 5px;\">"
+    + "<b>Plastic</b> " + props.nr_plastic + "</br>"
+    + "<b>Paper</b> " + props.nr_paper + "</br>"
+    + "<b>Metal</b> " + props.nr_metal + "</br>"
+    + "<b>Glass</b> " + props.nr_glass
+    + "</div></div>"
         : '</h4>Hover over a countie');
 };
 
@@ -129,11 +136,6 @@ function onEachFeature(feature, layer) {
     });
 }
 
-geojson = L.geoJson(countiesData, {
-    style: style,
-    onEachFeature: onEachFeature
-});
-
 function addMarker(marker)
 {
     if(marker.trashType.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
@@ -153,13 +155,101 @@ function selectMarker(garbageType)
     currentGarbageType = garbageType;
 }
 
+function loadStatistics(data)
+{
+    $.ajax({
+        url: 'http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php',
+        type: 'POST',
+        data:'type=markers',
+        success: function(resp)
+        {
+            var markers = JSON.parse(resp);
+            for(var i = 0; i < countiesData.features.length; i++)
+            {
+                countiesData.features[i].properties.total = 0;
+                countiesData.features[i].properties.nr_plastic = 0;
+                countiesData.features[i].properties.nr_paper = 0;
+                countiesData.features[i].properties.nr_metal = 0;
+                countiesData.features[i].properties.nr_glass = 0;
+                for(var j = 0; j < markers.length; j++)
+                {
+                    if(countiesData.features[i].properties.name.localeCompare(markers[j].county) == 0)
+                    {
+                        countiesData.features[i].properties.total++;
+                        switch(markers[j].trashType)
+                        {
+                            case 'plastic':
+                                countiesData.features[i].properties.nr_plastic++;
+                                break;
+                            case 'paper':
+                                countiesData.features[i].properties.nr_paper++;
+                                break;
+                            case 'metal':
+                                countiesData.features[i].properties.nr_metal++;
+                                break;
+                            case 'glass':
+                                countiesData.features[i].properties.nr_glass++;
+                                break;
+                            default: break;
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+function loadMarkers()
+{
+    loadedMarkers = [];
+
+    $.ajax({
+        url: 'http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php',
+        type: 'POST',
+        data:'type=markers',
+        success: function(resp)
+        {
+            var data = JSON.parse(resp);
+            for(var i = 0; i < data.length; i++)
+                addMarker(data[i]);
+        }
+    }); 
+}
+
+function selectMap(mapType)
+{
+    if(mapType.toString().localeCompare('markers') == 0 && currentMapType.toString().localeCompare('markers') != 0)
+    {
+        geojson.remove(garbageMap);
+        info.remove(garbageMap);
+        legend.remove(garbageMap);
+        loadMarkers();
+    }
+    else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
+    {
+        loadStatistics();
+        geojson = L.geoJson(countiesData, {
+            style: style,
+            onEachFeature: onEachFeature
+        }).addTo(garbageMap);
+        info.addTo(garbageMap);
+        legend.addTo(garbageMap);
+        for(var i = 0; i < loadedMarkers.length; i++)
+        {
+            garbageMap.removeLayer(loadedMarkers[i]);
+        }
+    }
+    currentMapType = mapType;
+}
+
 function convertToAddress(coords)
 {
     var defObject = $.Deferred();
     var geocodeService = L.esri.Geocoding.geocodeService();
     geocodeService.reverse().latlng(coords).run(function(error, result) {
         var locationData = {
-            city : result.address.City,
+            city : result.address.City.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+            county: result.address.Region.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             country : getCountryNameIso3(result.address.CountryCode)
         }
         defObject.resolve(locationData);

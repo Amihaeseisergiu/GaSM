@@ -97,17 +97,7 @@
 
     <script src="http://localhost:80/proiect/GaSM/app/javascript/map.js"></script>
     <script>
-        function loadMarkers()
-        {
-            loadedMarkers = [];
-            var markers = JSON.parse(JSON.stringify(<?php echo json_encode($data['markers']); ?>));
-
-            for(var i = 1; i <= Object.keys(markers).length; i++)
-            {
-                addMarker(markers[i]);
-            }
-        }
-
+    
         function onMapClick(e)
         {
             if(currentMapType.toString().localeCompare("markers") == 0)
@@ -141,8 +131,8 @@
                 $.when(locationData).done(function(r) {
                     locationData = r;
 
-                    var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng + "&type=" + currentGarbageType + "&country=" + locationData.country + "&city=" + locationData.city;
-
+                    var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng + "&type=" + currentGarbageType 
+                                    + "&country=" + locationData.country + "&city=" + locationData.city + "&county=" + locationData.county;
                     $.ajax
                     ({
                         url: "http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php",
@@ -152,28 +142,6 @@
                     });
                 })
             }
-        }
-
-        function selectMap(mapType)
-        {
-            if(mapType.toString().localeCompare('markers') == 0 && currentMapType.toString().localeCompare('markers') != 0)
-            {
-                geojson.remove(garbageMap);
-                info.remove(garbageMap);
-                legend.remove(garbageMap);
-                loadMarkers();
-            }
-            else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
-            {
-                geojson.addTo(garbageMap);
-                info.addTo(garbageMap);
-                legend.addTo(garbageMap);
-                for(var i = 0; i < loadedMarkers.length; i++)
-                {
-                    garbageMap.removeLayer(loadedMarkers[i]);
-                }
-            }
-            currentMapType = mapType;
         }
 
         loadMarkers();

@@ -40,6 +40,9 @@ class Marker
             $marker->trashType = $row['trash_type'];
             $marker->userId = $row['user_id'];
             $marker->time = $row['time'];
+            $marker->country = $row['country'];
+            $marker->county = $row['county'];
+            $marker->city = $row['city'];
 
             $query2 = $con->prepare("SELECT * FROM users WHERE id = ?");
             $query2->bind_param('i', $marker->userId);
