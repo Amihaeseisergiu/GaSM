@@ -16,7 +16,7 @@ body
     width: 100%;
     display: flex;
     justify-content: space-around;
-    margin-top: 7em;
+    margin-top: 5em;
     font-family: sans-serif;
 }
 
@@ -84,6 +84,42 @@ body
     border: 5px solid black;
 }
 
+input[type=checkbox]
+{
+    display: none;
+}
+
+input[type=checkbox]:checked + label:before
+{
+    background-color: #0ed145;
+    border-color: #0ed145;
+    color: #ffffff;
+}
+
+.form
+{
+    margin-top: 0.3em;
+}
+
+.garbage
+{
+    font-size: 1.3em;
+}
+
+input[type=checkbox]+ label:before
+{
+    content: "\2714";
+    border: 0.1em solid #000;
+    border-radius: 0.2em;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    padding-left: 0.2em;
+    padding-bottom: 0.3em;
+    vertical-align: bottom;
+    color: transparent;
+}
+
 .box1
 {
     width: 25%;
@@ -124,7 +160,6 @@ body
 .box-text
 {
     color: black;
-    padding-top: 1em;
     font-size: 1.5em;
 }
 
@@ -208,16 +243,32 @@ span
         align-items: center;
     }
 
+    .garbage
+    {
+        display: flex;
+        flex-direction: row;
+    }
+
+    
     .buttons
     {
         width: 40vw;
         order: 2;
         align-self: center;
     }
+
     img
     {
         order: 1;
         width: 100%;
+    }
+
+    .form
+    {
+        flex-direction: column;
+        justify-content:center;
+        align-items: center;
+        font-size: 3.5vw;
     }
 
     #firstButton
