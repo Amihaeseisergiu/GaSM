@@ -21,6 +21,34 @@
     <script src="https://unpkg.com/esri-leaflet-geocoder@2.2.13/dist/esri-leaflet-geocoder.js" integrity="sha512-zdT4Pc2tIrc6uoYly2Wp8jh6EPEWaveqqD3sT0lf5yei19BC1WulGuh5CesB0ldBKZieKGD7Qyf/G0jdSe016A==" crossorigin=""></script>
 
     <script src="http://localhost:80/proiect/GaSM/app/javascript/countrycodes.js"></script>
+    <script src="http://localhost:80/proiect/GaSM/app/javascript/romaniacounties.js"></script>
+
+    <style>
+        .info {
+            padding: 6px 8px;
+            font: 14px/16px Arial, Helvetica, sans-serif;
+            background: white;
+            background: rgba(255,255,255,0.8);
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            border-radius: 5px;
+        }
+        .info h4 {
+            margin: 0 0 5px;
+            color: #777;
+        }
+
+        .legend {
+            line-height: 18px;
+            color: #555;
+        }
+        .legend i {
+            width: 18px;
+            height: 18px;
+            float: left;
+            margin-right: 8px;
+            opacity: 0.7;
+        }
+    </style>
 </head>
 
 <body>
@@ -58,149 +86,97 @@
         <div class="middle">
             <div id="garbageMap">
             </div>
-
-            <script>
-                
-                var garbageMap = L.map('garbageMap', {
-                    center: [45.9776587, 25.3419035],
-                    zoom: 7.2,
-                    zoomSnap: 0
-                });
-
-                const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
-                const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-                const tiles = L.tileLayer(tileUrl, { attribution });
-                tiles.addTo(garbageMap);
-
-                var paperMarkerIcon = L.icon({
-                    iconUrl: 'http://localhost:80/proiect/GaSM/app/images/papermarkericon.png',
-                    shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
-                    iconSize: [40, 50],
-                    iconAnchor: [20, 50],
-                    popupAnchor: [20, 0],
-                    shadowSize:   [50, 64],
-                    shadowAnchor: [0, 45]
-                });
-                var plasticMarkerIcon = L.icon({
-                    iconUrl: 'http://localhost:80/proiect/GaSM/app/images/plasticmarkericon.png',
-                    shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
-                    iconSize: [40, 50],
-                    iconAnchor: [20, 50],
-                    popupAnchor: [20, 0],
-                    shadowSize:   [50, 64],
-                    shadowAnchor: [0, 45]
-                });
-                var metalMarkerIcon = L.icon({
-                    iconUrl: 'http://localhost:80/proiect/GaSM/app/images/metalmarkericon.png',
-                    shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
-                    iconSize: [40, 50],
-                    iconAnchor: [20, 50],
-                    popupAnchor: [20, 0],
-                    shadowSize:   [50, 64],
-                    shadowAnchor: [0, 45]
-                });
-
-                function addMarker(marker)
-                {
-                    if(marker.trashType.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
-                    else if(marker.trashType.localeCompare('plastic') == 0) markerIcon = plasticMarkerIcon;
-                    else if(marker.trashType.localeCompare('metal') == 0) markerIcon = metalMarkerIcon;
-
-                    if(marker.trashType.localeCompare('') != 0)
-                    {
-                        const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trashType, icon: markerIcon});
-                        mapMarker.addTo(garbageMap);
-                    }
-                }
-
-                function loadMarkers()
-                {
-                    var markers = JSON.parse(JSON.stringify(<?php echo json_encode($data['markers']); ?>));
-
-                   for(var i = 1; i <= Object.keys(markers).length; i++)
-                   {
-                        addMarker(markers[i]);
-                   }
-                }
-
-                loadMarkers();
-                
-            </script>
         </div>
 
         <div class="rightSide">
-            <button class="brightGreen2DButton buttons">Replace 1</button>
-            <button class="brightGreen2DButton buttons">Replace 2</button>
+            <button class="brightGreen2DButton buttons" onclick="selectMap('statistics')">Statistics Map</button>
+            <button class="brightGreen2DButton buttons" onclick="selectMap('markers')">Markers Map</button>
             <button class="brightGreen2DButton buttons">Replace 3</button>
         </div>
     </div>
 
+    <script src="http://localhost:80/proiect/GaSM/app/javascript/map.js"></script>
     <script>
-        
-        var currentGarbageType = '';
-
-        function selectMarker(garbageType)
+        function loadMarkers()
         {
-            currentGarbageType = garbageType;
-        }
+            loadedMarkers = [];
+            var markers = JSON.parse(JSON.stringify(<?php echo json_encode($data['markers']); ?>));
 
-        function convertToAddress(coords)
-        {
-            var defObject = $.Deferred();
-            var geocodeService = L.esri.Geocoding.geocodeService();
-            geocodeService.reverse().latlng(coords).run(function(error, result) {
-                var locationData = {
-                    city : result.address.City,
-                    country : getCountryNameIso3(result.address.CountryCode)
-                }
-                defObject.resolve(locationData);
-            });
-
-            return defObject.promise();
+            for(var i = 1; i <= Object.keys(markers).length; i++)
+            {
+                addMarker(markers[i]);
+            }
         }
 
         function onMapClick(e)
         {
-            var latlng = garbageMap.mouseEventToLatLng(e.originalEvent);
-            var loggedIn = <?php echo json_encode($_SESSION['loggedIn']); ?>;
-
-            if(loggedIn.toString().localeCompare('true') == 0)
+            if(currentMapType.toString().localeCompare("markers") == 0)
             {
-                var currentdate = new Date();
-                var marker = {
-                    latitude: latlng.lat,
-                    longitude: latlng.lng,
-                    trashType: currentGarbageType,
-                    userId: parseInt(<?php echo json_encode($_SESSION['userID']); ?>),
-                    time: currentdate.getFullYear() + "-"
-                        + currentdate.getMonth()  + "-" 
-                        + currentdate.getDate() + " "  
-                        + currentdate.getHours() + ":"  
-                        + currentdate.getMinutes() + ":" 
-                        + currentdate.getSeconds(),
-                    userName: <?php echo json_encode($_SESSION['name']); ?>,
-                    userCountry: <?php echo json_encode($_SESSION['country']); ?>,
-                    userCity: <?php echo json_encode($_SESSION['city']); ?>
-                };
-                addMarker(marker);
+                var latlng = garbageMap.mouseEventToLatLng(e.originalEvent);
+                var loggedIn = <?php echo json_encode($_SESSION['loggedIn']); ?>;
+
+                if(loggedIn.toString().localeCompare('true') == 0)
+                {
+                    var currentdate = new Date();
+                    var marker = {
+                        latitude: latlng.lat,
+                        longitude: latlng.lng,
+                        trashType: currentGarbageType,
+                        userId: parseInt(<?php echo json_encode($_SESSION['userID']); ?>),
+                        time: currentdate.getFullYear() + "-"
+                            + currentdate.getMonth()  + "-" 
+                            + currentdate.getDate() + " "  
+                            + currentdate.getHours() + ":"  
+                            + currentdate.getMinutes() + ":" 
+                            + currentdate.getSeconds(),
+                        userName: <?php echo json_encode($_SESSION['name']); ?>,
+                        userCountry: <?php echo json_encode($_SESSION['country']); ?>,
+                        userCity: <?php echo json_encode($_SESSION['city']); ?>
+                    };
+                    addMarker(marker);
+                }
+
+                var locationData = convertToAddress(latlng);
+                
+                $.when(locationData).done(function(r) {
+                    locationData = r;
+
+                    var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng + "&type=" + currentGarbageType + "&country=" + locationData.country + "&city=" + locationData.city;
+
+                    $.ajax
+                    ({
+                        url: "http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php",
+                        type : "POST",
+                        cache : false,
+                        data : urlString,
+                    });
+                })
             }
-
-            var locationData = convertToAddress(latlng);
-            
-            $.when(locationData).done(function(r) {
-                locationData = r;
-
-                var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng + "&type=" + currentGarbageType + "&country=" + locationData.country + "&city=" + locationData.city;
-
-                $.ajax
-                ({
-                    url: "http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php",
-                    type : "POST",
-                    cache : false,
-                    data : urlString,
-                });
-            })
         }
+
+        function selectMap(mapType)
+        {
+            if(mapType.toString().localeCompare('markers') == 0 && currentMapType.toString().localeCompare('markers') != 0)
+            {
+                geojson.remove(garbageMap);
+                info.remove(garbageMap);
+                legend.remove(garbageMap);
+                loadMarkers();
+            }
+            else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
+            {
+                geojson.addTo(garbageMap);
+                info.addTo(garbageMap);
+                legend.addTo(garbageMap);
+                for(var i = 0; i < loadedMarkers.length; i++)
+                {
+                    garbageMap.removeLayer(loadedMarkers[i]);
+                }
+            }
+            currentMapType = mapType;
+        }
+
+        loadMarkers();
 
         garbageMap.on('click', onMapClick);
         
