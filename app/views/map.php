@@ -23,6 +23,10 @@
     <script src="http://localhost:80/proiect/GaSM/app/javascript/countrycodes.js"></script>
     <script src="http://localhost:80/proiect/GaSM/app/javascript/romaniacounties.js"></script>
 
+    <link rel="stylesheet" href="http://localhost:80/proiect/GaSM/app/css/MarkerCluster.css" />
+	<link rel="stylesheet" href="http://localhost:80/proiect/GaSM/app/css/MarkerCluster.Default.css" />
+	<script src="http://localhost:80/proiect/GaSM/app/javascript/leaflet.markercluster-src.js"></script>
+
     <style>
         .info {
             padding: 6px 8px;

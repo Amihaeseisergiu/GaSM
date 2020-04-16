@@ -35,6 +35,7 @@ var metalMarkerIcon = L.icon({
 var currentGarbageType = '';
 var currentMapType = 'markers';
 var loadedMarkers = [];
+var markersCluster;
 
 const attribution = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
 const tileUrl = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
@@ -145,7 +146,8 @@ function addMarker(marker)
     if(marker.trashType.localeCompare('') != 0)
     {
         const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trashType, icon: markerIcon});
-        mapMarker.addTo(garbageMap);
+        //mapMarker.addTo(garbageMap);
+		markersCluster.addLayer(mapMarker);
         loadedMarkers.push(mapMarker);
     }
 }
@@ -202,6 +204,7 @@ function loadStatistics(data)
 function loadMarkers()
 {
     loadedMarkers = [];
+    markersCluster = L.markerClusterGroup();
 
     $.ajax({
         url: 'http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php',
@@ -212,8 +215,11 @@ function loadMarkers()
             var data = JSON.parse(resp);
             for(var i = 0; i < data.length; i++)
                 addMarker(data[i]);
+        
+            garbageMap.addLayer(markersCluster);
         }
     }); 
+
 }
 
 function selectMap(mapType)
@@ -234,10 +240,7 @@ function selectMap(mapType)
         }).addTo(garbageMap);
         info.addTo(garbageMap);
         legend.addTo(garbageMap);
-        for(var i = 0; i < loadedMarkers.length; i++)
-        {
-            garbageMap.removeLayer(loadedMarkers[i]);
-        }
+        garbageMap.removeLayer(markersCluster);
     }
     currentMapType = mapType;
 }
