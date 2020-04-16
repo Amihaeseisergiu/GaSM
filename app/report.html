@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Report</title>
+    </head>
+    <body style="background-color: #e7e7e7;">
+        
+    <h1 style="display:flex; justify-content:center; align-items:center; background-color: #cacbc8; margin-top:0em; font-size:3em; padding-bottom:1em; padding-top: 0.5em;">Monthly Report Bucuresti</h1><div style="display: flex; flex-direction:column; justify-content:center; align-items:center;"><div style="width: 80%; border: 5px solid black; height: 400px; margin-bottom: 3em;" id="chartContainer"></div><div style="width: 50%; border: 5px solid black; height: 300px;" id="pieChart"></div></div><script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script><script>    var dateArrayPlastic = ["2020-03-27", "2020-04-15", "2020-03-16", "2020-03-25", "2020-04-05", "2020-04-02", "2020-03-23", "2020-03-20", "2020-04-07", "2020-03-18", "2020-03-22", "2020-04-08", "2020-03-26", "2020-04-04", "2020-03-24", "2020-04-06", "2020-04-13"];
+
+    var quantitiesPlastic = [4,1,1,1,1,2,1,1,1,1,2,1,1,1,1,1,1];
+
+    var dpsPlastic = [];
+    for (var i = 0; i < dateArrayPlastic.length; i++) {
+        dpsPlastic.push({
+            x: new Date(dateArrayPlastic[i]),
+            y: quantitiesPlastic[i]
+        });
+    }
+
+    dpsPlastic.sort(function(a, b) {
+        if (a['x'] > b['x']) {
+            return 1;
+        }
+        if (b['x'] > a['x']) {
+            return -1;
+        }
+        return 0;
+    });
+
+    var dateArrayPaper = ["2020-03-26", "2020-04-05", "2020-03-23", "2020-03-19", "2020-03-16", "2020-04-13", "2020-04-03", "2020-03-21", "2020-03-27", "2020-03-25", "2020-03-22", "2020-03-17"];
+
+    var quantitiesPaper = [1,1,1,3,1,2,1,3,2,2,1,1];
+
+    var dpsPaper = [];
+    for (var i = 0; i < dateArrayPaper.length; i++) {
+        dpsPaper.push({
+            x: new Date(dateArrayPaper[i]),
+            y: quantitiesPaper[i]
+        });
+    }
+
+    dpsPaper.sort(function(a, b) {
+        if (a['x'] > b['x']) {
+            return 1;
+        }
+        if (b['x'] > a['x']) {
+            return -1;
+        }
+        return 0;
+    });
+
+    var dateArrayGlass = ["2020-04-15", "2020-03-19", "2020-04-09", "2020-03-16", "2020-03-20", "2020-03-21", "2020-04-07", "2020-03-18", "2020-03-25", "2020-03-24", "2020-04-13", "2020-03-17", "2020-03-27", "2020-03-26"];
+
+    var quantitiesGlass = [1,3,3,4,2,1,2,2,4,1,1,1,2,2];
+
+    var dpsGlass = [];
+    for (var i = 0; i < dateArrayGlass.length; i++) {
+        dpsGlass.push({
+            x: new Date(dateArrayGlass[i]),
+            y: quantitiesGlass[i]
+        });
+    }
+
+    dpsGlass.sort(function(a, b) {
+        if (a['x'] > b['x']) {
+            return 1;
+        }
+        if (b['x'] > a['x']) {
+            return -1;
+        }
+        return 0;
+    });
+
+    var dateArrayMetal = ["2020-03-26", "2020-03-24", "2020-04-05", "2020-03-20", "2020-04-11", "2020-03-27", "2020-03-16", "2020-03-21", "2020-03-23", "2020-03-25", "2020-03-18", "2020-04-07", "2020-03-17", "2020-04-06", "2020-03-22", "2020-04-01", "2020-04-15"];
+
+
+
+    var quantitiesMetal = [2,1,2,3,2,1,1,1,4,1,1,1,1,1,1,1,1];
+    var dpsMetal = [];
+    for (var i = 0; i < dateArrayMetal.length; i++) {
+        dpsMetal.push({
+            x: new Date(dateArrayMetal[i]),
+            y: quantitiesMetal[i]
+        });
+    }
+
+    dpsMetal.sort(function(a, b) {
+        if (a['x'] > b['x']) {
+            return 1;
+        }
+        if (b['x'] > a['x']) {
+            return -1;
+        }
+        return 0;
+    });
+
+    var chart1 = new CanvasJS.Chart("chartContainer", {
+        backgroundColor: "white",
+        fileName: "LineChart",
+        title: {
+            text: "Garbage distribution"
+        },
+        axisX:{
+            tickColor: "red",
+            tickLength: 5,
+            tickThickness: 2
+        },
+        axisY:{
+        tickLength: 15,
+        tickColor: "DarkSlateBlue" ,
+        tickThickness: 5
+        },
+        zoomEnabled: true,
+        data: [{
+                showInLegend: true,
+                name: "series1",
+                legendText: "Plastic",
+                visible: true,
+                type: "line",
+                dataPoints: dpsPlastic
+            },
+            {
+                showInLegend: true,
+                name: "series2",
+                legendText: "Paper",
+                visible: true,
+                type: "line",
+                dataPoints: dpsPaper
+            },
+            {
+                showInLegend: true,
+                name: "series3",
+                legendText: "Glass",
+                visible: true,
+                type: "line",
+                dataPoints: dpsGlass
+            },
+            {
+                showInLegend: true,
+                name: "series4",
+                legendText: "Metal",
+                visible: true,
+                type: "line",
+                dataPoints: dpsMetal
+            }
+        ]
+    });
+    chart1.render();
+    var allPlastic = 0;
+    for (var i = 0; i < dateArrayPlastic.length; i++) {
+        allPlastic = allPlastic + quantitiesPlastic[i];
+    }
+    var allPaper = 0;
+    for (var i = 0; i < dateArrayPaper.length; i++) {
+        allPaper = allPaper + quantitiesPaper[i];
+    }
+    var allGlass = 0;
+    for (var i = 0; i < dateArrayGlass.length; i++) {
+        allGlass = allGlass + quantitiesGlass[i];
+    }
+    var allMetal = 0;
+    for (var i = 0; i < dateArrayMetal.length; i++) {
+        allMetal = allMetal + quantitiesMetal[i];
+    }
+    var chart2 = new CanvasJS.Chart("pieChart", {
+        theme: "light2",
+        title: {
+            text: "Garbage distribution",
+            horizontalAlign: "left",
+            fileName: "PieChart",
+            verticalAlign: "center"
+        },
+        data: [{
+            type: "pie",
+            showInLegend: true,
+            toolTipContent: "{y} - #percent %",
+            legendText: "{indexLabel}",
+            dataPoints: [{
+                    y: allPlastic,
+                    indexLabel: "Plastic"
+                },
+                {
+                    y: allMetal,
+                    indexLabel: "Metal"
+                },
+                {
+                    y: allPaper,
+                    indexLabel: "Paper"
+                },
+                {
+                    y: allGlass,
+                    indexLabel: "Glass"
+                }
+            ]
+        }]
+    });
+    chart2.render();</script></body>
+    </html>

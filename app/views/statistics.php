@@ -86,9 +86,18 @@ foreach ($data['metals'] as $metal) {
 ?>
 <?php
 if (isset($_GET['downloadHTML'])) {
-    $divs = '<div style = "display : flex; flex-direction:column;" > </div>
-    <div id = "chartContainer" style= "height:400px; width: 100%;"> 
-    </div><div id = "pieChart" style= "height:400px; width: 100%;"> </div>';
+    $doc = new DOMDocument();
+    $doc->loadHTML('<!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Report</title>
+    </head>
+    <body>
+        
+    </body>
+    </html>');
     $str = file_get_contents('../app/chartscript/charts.php');
     $str = str_replace('<?php echo $pls; ?>', $pls, $str);
     $str = str_replace('<?php echo $pap; ?>', $pap, $str);
@@ -106,9 +115,56 @@ if (isset($_GET['downloadHTML'])) {
                             else echo \'false\'; ?>', 'true', $str);
     $str = str_replace('<?php if ($data[\'garbageToShow\'][\'metal\'] === true) echo \'true\';
                             else echo \'false\'; ?>', 'true', $str);
-    $str = $divs . $str;
-    file_put_contents(__DIR__ . '../../report.html', $str);
-     echo '<a href="http://localhost/proiect/GaSM/app/report.html" download >Download file converted to HTML(output.html)</a>';
+    $header = $doc->createElement('h1');
+    $header->setAttribute('style', 'display:flex; justify-content:center; align-items:center; background-color: #cacbc8; margin-top:0em; font-size:3em; padding-bottom:1em; padding-top: 0.5em;');
+    if ($data['timeFilter'] === "AllTime") {
+        $data['timeFilter'] = "All Time";
+    }
+    if ($_SESSION['city'] != 'none') {
+        $nodText2 = $doc->createTextNode($data['timeFilter'] . ' Report ' . $_SESSION['city']);
+    } else {
+        $nodText2 = $doc->createTextNode($data['timeFilter'] . ' Report');
+    }
+    $header->appendChild($nodText2);
+    $divNode = $doc->createElement('div');
+    $divNode->setAttribute('style', 'display: flex; flex-direction:column; justify-content:center; align-items:center;');
+    $bodyContent = $doc->getElementsByTagName('body');
+    $firstScript = $doc->createElement('script');
+    $firstScript->setAttribute('src', 'https://canvasjs.com/assets/script/canvasjs.min.js');
+    $secondScript = $doc->createElement('script');
+    $nodText = $doc->createTextNode($str);
+    $secondScript->appendChild($nodText);
+    $list = $doc->createElement('ol');
+    //To be continued...
+    foreach ($bodyContent as $body) {
+        $body->setAttribute('style', 'background-color: #e7e7e7;');
+        $body->appendChild($header);
+        $body->appendChild($divNode);
+        $body->appendChild($firstScript);
+        $body->appendChild($secondScript);
+    }
+    $childDivNode1 = $doc->createElement('div');
+    $childDivNode1->setAttribute('style', 'width: 80%; border: 5px solid black; height: 400px; margin-bottom: 3em;');
+    $childDivNode1->setAttribute('id', 'chartContainer');
+    $divNode->appendChild($childDivNode1);
+    $childDivNode2 = $doc->createElement('div');
+    $childDivNode2->setAttribute('style', 'width: 50%; border: 5px solid black; height: 300px;');
+    $childDivNode2->setAttribute('id', 'pieChart');
+    $divNode->appendChild($childDivNode2);
+    $htmlAsString = $doc->saveHTML();
+    file_put_contents(__DIR__ . '../../report.html', $htmlAsString);
+    $file = __DIR__ . '../../report.html';
+    if (file_exists($file)) {
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($file));
+        readfile($file);
+        exit;
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -150,13 +206,13 @@ if (isset($_GET['downloadHTML'])) {
     <div class="main1">
         <form class="buttons" method="GET">
             <button class="D3Button button" type="submit" id="firstButton" value="Download file" name="downloadCSV">
-                    Download CSV
+                CSV Raport
             </button>
             <button class="D3Button button" type="submit" id="secondButton" value="Download file" name="downloadPDF">
-                    Download PDF
+                PDF Raport
             </button>
             <button class="D3Button button" type="submit" id="thirdButton" value="Download file" name="downloadHTML">
-                    Download HTML
+                HTML Raport
             </button>
         </form>
         <div class="chartAndButton">
@@ -201,13 +257,13 @@ if (isset($_GET['downloadHTML'])) {
                         $shownGarbageTypes = $shownGarbageTypes . "metal_";
                     }
                     if ($_GET["filter"] === "Last Day") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByDay/" . $shownGarbageTypes);
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/Daily/" . $shownGarbageTypes);
                     } else if ($_GET["filter"] === "Last Week") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByWeek/" . $shownGarbageTypes);
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/Weekly/" . $shownGarbageTypes);
                     } else if ($_GET["filter"] === "Last Month") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/filterByMonth/" . $shownGarbageTypes);
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/Monthly/" . $shownGarbageTypes);
                     } else {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/all/" . $shownGarbageTypes);
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/All Time/" . $shownGarbageTypes);
                     }
                 }
             }
@@ -221,8 +277,8 @@ if (isset($_GET['downloadHTML'])) {
             </h3>
             <div class="changes">
                 <div class="box-firstchange">
-                    <div class="uparrow"> </div>
-                    <span> +3% Efficiency</span>
+                    <div class= "<?php echo $data['changes'][0]['arrow']?>"> </div>
+                    <span> <?php echo $data['changes'][0]['diff']; ?> </span>
                 </div>
                 <div class="box-secondchange">
                     <div class="uparrow"></div>
@@ -249,7 +305,10 @@ if (isset($_GET['downloadHTML'])) {
             </div>
         </div>
     </div>
-    <?php require_once('../app/chartscript/charts.php'); ?>
+    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script>
+        <?php require_once('../app/chartscript/charts.php'); ?>
+    </script>
 </body>
 
 </html>

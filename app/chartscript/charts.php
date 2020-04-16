@@ -1,5 +1,3 @@
-<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-<script type="text/javascript">
     var dateArrayPlastic = [<?php echo $pls; ?>];
 
     var quantitiesPlastic = [<?php echo $plsQuantity; ?>];
@@ -95,6 +93,17 @@
         title: {
             text: "Garbage distribution"
         },
+        axisX:{
+            tickColor: "red",
+            tickLength: 5,
+            tickThickness: 2
+        },
+        axisY:{
+        tickLength: 15,
+        tickColor: "DarkSlateBlue" ,
+        tickThickness: 5
+        },
+        zoomEnabled: true,
         data: [{
                 showInLegend: true,
                 name: "series1",
@@ -183,4 +192,3 @@
         }]
     });
     chart2.render();
-</script>
