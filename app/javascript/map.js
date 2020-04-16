@@ -248,6 +248,7 @@ function convertToAddress(coords)
     var geocodeService = L.esri.Geocoding.geocodeService();
     geocodeService.reverse().latlng(coords).run(function(error, result) {
         var locationData = {
+            neighborhood : result.address.Neighborhood.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             city : result.address.City.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             county: result.address.Region.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
             country : getCountryNameIso3(result.address.CountryCode)

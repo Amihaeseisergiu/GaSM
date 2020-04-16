@@ -132,7 +132,8 @@
                     locationData = r;
 
                     var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng + "&type=" + currentGarbageType 
-                                    + "&country=" + locationData.country + "&city=" + locationData.city + "&county=" + locationData.county;
+                                    + "&country=" + locationData.country + "&city=" + locationData.city
+                                     + "&county=" + locationData.county + "&neighborhood=" + locationData.neighborhood;
                     $.ajax
                     ({
                         url: "http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php",
