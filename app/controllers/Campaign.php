@@ -177,8 +177,23 @@ class Campaign extends Controller
         }
         else //nu s-a apasat butonul dar s-a ajuns aici prin link 
         {
-            $arrayCampaignsTable=$aCampaign->getAllCampaigns();
-            $this->view('allcampaigns',$arrayCampaignsTable);
+            if($aCampaign->doesItExist($idCampanie))
+            {
+                $fullDetails=$aCampaign->getFullDetailsOfACampaign($idCampanie);
+                $allComments=$aCampaign->getCommentsOfACampaign($idCampanie);
+                $resultArray=array();
+                array_push($resultArray,$fullDetails);
+                array_push($resultArray,$allComments);
+                //print_r($resultArray);
+    
+                $this->view('individualCampaign',$resultArray); //voi trimite toate atributele campaniei cu id-ul ala din tabelul campaigns
+    
+            }
+            else
+            {
+                $this->view('campaignNotFound');  //daca se da un url cu un index inexistent
+            }
+
             
         }
     }

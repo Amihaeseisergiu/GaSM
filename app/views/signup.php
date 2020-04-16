@@ -52,7 +52,7 @@
     <input required title="max 50 alphanumeric chars" max="50" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="county" name="County" placeholder="County*">
     <input required title="max 50 alphanumeric chars" max="50" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="city" name="City" placeholder="City*">
     
-    <button   class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
+    <button  class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
     <?php
       if(isset($data['mesaj'])) echo '<p class="error">' . $data['mesaj'] .'</p>';
     ?>

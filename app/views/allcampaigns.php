@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start a campaign!</title>
+    <title>All campaigns</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/upperPage.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/campaign.css">
     <!--<link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/signup.css">-->
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/inputButtons.css">
 </head>
-<body>
+<body class="bodyClass">
     <div class="top">      <!--top part-->
         <div>
             <img src="http://localhost:80/proiect/GaSM/app/images/logo.jpg" alt="Logo">
@@ -114,7 +114,7 @@ $counter=0;
    return false;
    });</script>';
 ///////////////////////M A J O R T E S T ////////////////////////////////////////
-echo '<script type="text/javascript">$(\'#details' .  $row['id'] .'\').submit(function(e){
+/*echo '<script type="text/javascript">$(\'#details' .  $row['id'] .'\').submit(function(e){
     e.preventDefault();
     var oneComment = $(\'#details\').val();
     $.ajax({
@@ -129,6 +129,7 @@ echo '<script type="text/javascript">$(\'#details' .  $row['id'] .'\').submit(fu
       });
    return false;
    });</script>';
+   */
 
 //////////////////////////////////////////////////////////////////////////////////////////////
   if(($counter%2==1 && $row['id']>2)||($counter+1==sizeof($data)-1))//daca suntem la elementul 3(0,1,2,3) si id-ul e mai mare de 2, sau urm element e capatul sirului($fostulIndex)

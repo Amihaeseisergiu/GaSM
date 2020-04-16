@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Start a campaign!</title>
+    <title>Campaign Details</title>
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/upperPage.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/campaign.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/inputButtons.css">
@@ -46,12 +46,15 @@
  <?php  
 
         echo '<h3 class="campaignNameText">' . $data[0]['name'] . '</h3>';
-        echo '<h3 class="campaignDescText">' . $data[0]['description'] . '</h3>';
+        echo '<h3 class="campaignDescText"><p>Description:</p><p>' . $data[0]['description'] . '</p></h3>';
         echo '<h3 class="campaignDescText">No. of likes:' . $data[0]['likes'] . '</h3>';
 
-        foreach($data[1] as $comment)
-        echo '<h3 class="campaignDescText">Comment:' . $comment . '</h3>';    //$data[1][0]
-        
+        //print_r($data[1]);
+        for($i=0;$i+1<sizeof($data[1]);$i=$i+2)
+        {
+          echo '<h3 class="campaignDescText">Author:' . $data[1][$i+1] . '</h3>';  //numele
+          echo '<h3 class="campaignDescText">Comment:' . $data[1][$i] . '</h3>';    //$data[1][0], comentariul postat de el 
+        }
   
 
   ?>

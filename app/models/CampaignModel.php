@@ -196,7 +196,7 @@ public function doesItExist($idCampaign)
   {
     $con=mysqli_connect("Localhost", "root" ,"", "tw");
 
-    $query = $con->prepare("SELECT * from comments where id_campaign=?");
+    $query = $con->prepare("SELECT * from comments join users on comments.id_user=users.id where id_campaign=?");
     $query->bind_param("i",$idCampaign);
 
     $query->execute(); //nu mai avem de bind-uit parametri
@@ -209,6 +209,7 @@ public function doesItExist($idCampaign)
     while($row=$result->fetch_assoc())
     {
         array_push($array,$row['comment']);
+        array_push($array,$row['name']);
     }
     return $array;
 

@@ -8,6 +8,19 @@ input:invalid {
   background-color: #8b0606;
 }
 
+
+.greyContainerInside
+{
+
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+    align-items:flex-start;
+    padding:0em;
+    background-color:#e7e7e7;
+    border-radius:2em;
+}
+
 .greenContainer
 {
     background-color:#0ed145;
