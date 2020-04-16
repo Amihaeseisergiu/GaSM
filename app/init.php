@@ -22,5 +22,7 @@ if(!isset($_SESSION['userID']))
  if(!isset($_SESSION['name']))
  $_SESSION['name']="none";
 
+ if(!isset($_SESSION['county']))
+ $_SESSION['county']="none";
  
 ?>

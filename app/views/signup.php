@@ -48,8 +48,9 @@
     <input required  max="16" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="name" name="Name" placeholder="Name*" >
     <input required title="320 chars max" max="320" class="inputBox" type="email" id="email" name="Email" placeholder="Email*" >
     <input required title="max 16 alphanumeric chars" max="16" pattern="[a-zA-Z\d]+" class="inputBox" type="password" id="pw" name="Password" placeholder="Password*" >
-    <input required title="max 16 chars" max="16" pattern="[a-zA-Z]+" class="inputBox" type="text" id="country" name="Country" placeholder="Country*">
-    <input required title="max 30 alphanumeric chars" max="30" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="city" name="City" placeholder="City*">
+    <input required title="max 50 chars" max="50" pattern="[a-zA-Z]+" class="inputBox" type="text" id="country" name="Country" placeholder="Country*">
+    <input required title="max 50 alphanumeric chars" max="50" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="county" name="County" placeholder="County*">
+    <input required title="max 50 alphanumeric chars" max="50" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="city" name="City" placeholder="City*">
     
     <button   class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
     <?php

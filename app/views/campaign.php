@@ -25,13 +25,13 @@
             
                 
            
-                <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/map.html'" class="D3Button">
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Map'" class="D3Button">
                     Map
                 </button>
             
 
             
-                <button onclick= "location.href = 'http://localhost/proiect/GaSM/app/statistics.php'" class="D3Button">
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Statistics'" class="D3Button">
                     Statistics
                 </button>
             
@@ -40,24 +40,24 @@
 
 <div class="greenContainer"> <!--strart campaign part-->
 
-
-  <form class="greyContainer">
+<div class="greyContainer">
+  <form action="http://localhost/proiect/GaSM/public/Campaign" method="post" class="greyContainer">
 
     <h1 class="textHCampaign">Start a campaign!</h1>
 
-    <input class="inputBox" type="text" id="name" name="Name" placeholder="Name">
-    <input class="inputBox" type="email" id="email" name="Email" placeholder="Email">
-    <input class="inputBox" type="text" id="location" name="Location" placeholder="Location">
+    <input max="25" title="max 25 alphanumeric chars" required pattern="[a-zA-Z\d ]+$" class="inputBox" type="text" id="name" name="Name" placeholder="Name">
+    <input max="50" title="max 50 alphanumeric chars" required pattern="[a-zA-Z\d ]+$" class="inputBox" type="text" id="location" name="Location" placeholder="Location">
+    <input max="250" title="max 250 alphanumeric and ,.?: etc chars" required pattern='[A-Za-z0-9 .,!?:\[\]()"-+]+' class="inputBox" type="text" id="description" name="Description" placeholder="Description">
 
-    <script>   /* script JS pentru a redirecta pe pagina indexLoggedIn dupa apasarea butonului de Start Campaign ce are ca tip submit */
-    function foo() {
-        window.location = "./indexLoggedIn.html";
-        return false;
-     }
-    </script>
-    <button onclick= "return foo();" class="submitButton" type="submit" id="startCampaignB" name="StartCampaign">Start Campaign!</button>
-
+    
+    <button  class="submitButton" type="submit" id="startCampaignB" name="StartCampaign">Start Campaign!</button>
   </form>
+
+
+    <form action="http://localhost/proiect/GaSM/public/Campaign" method="post" class="greyContainer">
+    <button  class="submitButton" type="submit" id="viewAllCampaigns" name="ViewAllCampaigns">View all campaigns</button>
+    </form>    
+</div>  
 
 
 </div>

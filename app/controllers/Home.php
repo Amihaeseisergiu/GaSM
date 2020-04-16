@@ -15,6 +15,7 @@ class Home extends Controller
              $anUser->email=$_POST['Email'];
              $anUser->password=$_POST['Password'];
              $anUser->country=$_POST['Country'];
+             $anUser->county=$_POST['County'];
              $anUser->city=$_POST['City'];
 
              if($anUser->validateSignupInput()) 
@@ -84,6 +85,7 @@ class Home extends Controller
                 $_SESSION['userID']=-1;
                 $_SESSION['privileges']="none";
                 $_SESSION['country']="none";
+                $_SESSION['county']="none";
                 $_SESSION['city']="none";
                 $_SESSION['name']="none";
                 $this->view('index');
@@ -97,6 +99,7 @@ class Home extends Controller
          echo $_SESSION['userID'];
          echo $_SESSION['privileges'];
          echo $_SESSION['country'];
+         echo $_SESSION['county'];
          echo $_SESSION['city'];
          echo $_SESSION['name'];
     }  

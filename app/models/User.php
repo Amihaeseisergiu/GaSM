@@ -7,6 +7,7 @@ class User
     public $name;
     public $email;
     public $country;
+    public $county;
     public $city;
     public $password;
     public $privileges;
@@ -29,6 +30,7 @@ class User
         $_SESSION['privileges']=$row['privileges'];  //salvam in session-uri user id-ul,name-ul,tara,orasul si privilegiile userului logat
         $_SESSION['userID']=$row['id'];
         $_SESSION['country']=$row['country'];
+        $_SESSION['county']=$row['county'];
         $_SESSION['city']=$row['city'];
         $_SESSION['name']=$row['name'];
         $con->close();
@@ -47,8 +49,8 @@ public function storeIntoDB() //am sa verific eventual daca exista sau nu numele
 
     $this->privileges="user";
 
-    $query = $con->prepare("INSERT INTO users(name,pw,email,country,city,privileges) values(?,?,?,?,?,?)");  //facem prepare, nu dam valoare la id ca e auto_increment
-    $query->bind_param("ssssss",$this->name,$this->password,$this->email,$this->country,$this->city,$this->privileges);  //s de la String, bind-uim parametrii
+    $query = $con->prepare("INSERT INTO users(name,pw,email,country,county,city,privileges) values(?,?,?,?,?,?,?)");  //facem prepare, nu dam valoare la id ca e auto_increment
+    $query->bind_param("sssssss",$this->name,$this->password,$this->email,$this->country,$this->county,$this->city,$this->privileges);  //s de la String, bind-uim parametrii
 
 
     $query->execute(); //executam query-ul
@@ -94,6 +96,9 @@ public function validateSignupInput()
     if(!preg_match("/^[a-zA-Z]+$/",$this->country))  //doar litere la country
      return false;
 
+     if(!preg_match("/^[a-zA-Z\d]+$/",$this->county))
+     return false;
+
     if(!preg_match("/^[a-zA-Z\d]+$/",$this->city))
      return false;
 
@@ -106,10 +111,13 @@ public function validateSignupInput()
     if(strlen($this->password)>16)
      return false; 
 
-    if(strlen($this->country)>16)
+    if(strlen($this->country)>50)  //50 caractere pt city si pt country
      return false; 
 
-    if(strlen($this->city)>30)
+     if(strlen($this->county)>50)
+     return false; 
+
+    if(strlen($this->city)>50)
      return false; 
 
     if(strlen($this->email)>320)  //lungimea max permisa pt o adresa de email

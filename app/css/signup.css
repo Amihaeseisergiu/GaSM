@@ -20,6 +20,7 @@ input:invalid {
     
 }
 
+
 .greyContainer
 {
 
@@ -132,23 +133,9 @@ input:invalid {
   font-size:6vw;
 }
 
- .inputBox
+.greyContainer
 {
-  width:50vw;
-  font-size:1.3em;
-  
-}
-
-.submitButton
-{
-
-  width:50vw;
-  font-size:1.3em;
-  padding:0.5em;
-  padding-top:0.8em;
-  padding-bottom:0.8em;
-  margin-top:1em;
- 
+  padding:1em;
 }
 
 
@@ -161,7 +148,7 @@ input:invalid {
 .greyContainer
 {
 
- padding:5em;
+ padding:1em;
 
 }
  .textH
@@ -169,26 +156,7 @@ input:invalid {
   font-size: 10vw;
  }
 
- .inputBox
-{
-  width:50vw;
-  height:5vh;
-  font-size:1.3em;
-  
-}
 
-.submitButton
-{
-
-  width:50vw;
-  height:7vh;
-  font-size:1.3em;
-  padding:0.5em;
-  padding-top:0.8em;
-  padding-bottom:0.8em;
-  margin-top:1em;
- 
-}
 
 
 }
@@ -199,7 +167,7 @@ input:invalid {
 .greyContainer
 {
 
-    padding:4em;
+    padding:1em;
 
 }
  .textH
@@ -212,24 +180,7 @@ input:invalid {
   font-size:7vw;
 }
 
- .inputBox
-{
-  width:45vw;
-  height:5vh;
-  font-size:1.3em;
-  
-}
 
-.submitButton
-{
-
-  width:45vw;
-  height:7vh;
-  font-size:1.3em;
-  padding:0.5em;
-  padding-top:0.8em;
-  padding-bottom:0.8em;
-  margin-top:1em;
  
 }
 
@@ -237,53 +188,28 @@ input:invalid {
 {
   .greyContainer
   {
-    padding:2em;
+    padding:1em;
   }
 
   .textH{
     font-size: 15vw;
   }
 
-  .inputBox
-  {
-    height:7vh;
-    width:50vw;
-  }
 
-  .submitButton
-  {
-    width:50vw;
-  }
 }
 
 @media screen and (max-width: 185px)
 {
   .greyContainer
   {
-    padding:2em;
+    padding:1em;
   }
 
   .textH{
     font-size: 16vw;
   }
 
-  .inputBox
-  {
-    height:7vh;
-    width:50vw;
-    padding:0.3em;
-    font-size: 1em;
-  }
 
-  .submitButton
-  {
-    width:50vw;
-    padding:0.3em;
-    padding-top:0.5em;
-    padding-bottom:0.5em;
-    font-size: 1em;
-  }
 
 }
 
-}
