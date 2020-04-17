@@ -167,7 +167,6 @@ class Marker
     {
         $markersByRegion = array();
         $con = mysqli_connect("Localhost", "root", "", "tw");
-        $con = mysqli_connect("Localhost", "root", "", "tw");
         if ($filter == "Weekly") {
             $query = $con->prepare("SELECT * FROM markers
             WHERE county = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
@@ -197,5 +196,46 @@ class Marker
             }
         }
         return $markersByRegion;
+    }
+
+    public function getCSVString($filter = '')
+    {
+        $con = mysqli_connect("Localhost", "root", "", "tw");
+        if ($_SESSION['userID'] == -1) {
+            if ($filter == "Weekly") {
+                $query = $con->prepare("SELECT * FROM markers
+                WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
+            } else if ($filter == "Monthly") {
+                $query = $con->prepare("SELECT * FROM markers
+                WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
+            } else if ($filter == "Daily") {
+                $query = $con->prepare("SELECT * FROM markers
+                WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
+            } else {
+                $query = $con->prepare("SELECT * from markers");
+            }
+        } else {
+            if ($filter == "Weekly") {
+                $query = $con->prepare("SELECT * FROM markers
+                WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY and country = ? and city = ?");
+            } else if ($filter == "Monthly") {
+                $query = $con->prepare("SELECT * FROM markers
+                WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY and country = ? and city = ?");
+            } else if ($filter == "Daily") {
+                $query = $con->prepare("SELECT * FROM markers
+                WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY and country = ? and city = ?");
+            } else {
+                $query = $con->prepare("SELECT * from markers where country = ? and city = ?");
+            }
+            $query->bind_param("ss",  $_SESSION['country'], $_SESSION['city']);
+        }
+        $query->execute();
+        $CSVString = '';
+        $result = $query->get_result();
+        for ($i = 1; $i <= $result->num_rows; $i++) {
+            $row = $result->fetch_assoc();
+            $CSVString = $CSVString . $row['id'] . ', ' . $row['latitude'] . ', ' . $row['longitude'] . ', ' . $row['trash_type'] . ', ' . $row['user_id'] . ', ' . $row['time'] . ', ' . $row['country'] . ', ' . $row['county'] . ', ' . $row['city'] . "\r\n";
+        }
+        return $CSVString;
     }
 }

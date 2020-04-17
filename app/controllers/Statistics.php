@@ -180,7 +180,8 @@ class Statistics extends Controller
         usort($markersByRegion, function ($a, $b) {
             return $a['quantity'] - $b['quantity'];
         });
+        $CSVString = $marker->getCSVString($filter);
         array_push($changes, array("arrow" => $arrow, "diff" => $dif));
-        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty, 'markersByRegion' => $markersByRegion]);
+        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty, 'markersByRegion' => $markersByRegion, 'CSVString' =>$CSVString]);
     }
 }
