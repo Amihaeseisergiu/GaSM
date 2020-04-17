@@ -44,7 +44,7 @@ require_once('../app/php/initCSV.php');
             <button class="D3Button button" type="submit" id="firstButton" value="Download file" name="downloadCSV">
                 CSV Report
             </button>
-            <button class="D3Button button" type="submit" id="secondButton" value="Download file" name="downloadPDF">
+            <button class="D3Button button" id="secondButton" value="Download file" name="downloadPDF">
                 PDF Report
             </button>
             <button class="D3Button button" type="submit" id="thirdButton" value="Download file" name="downloadHTML">
@@ -144,6 +144,10 @@ require_once('../app/php/initCSV.php');
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script>
         <?php require_once('../app/php/charts.php'); ?>
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script>
+        <?php require_once('../app/php/initPDF.php'); ?>
     </script>
 </body>
 
