@@ -8,19 +8,7 @@ class Campaign extends Controller
         $aCampaign=$this->model('CampaignModel');
         
 
-        if(isset($_POST['ViewAllCampaigns']))
-        {
-            $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie);
-            
-             if(!empty($arrayCampaignsTable))
-             {
-                 array_push($arrayCampaignsTable,$idCampanie);
-                 $this->view('allcampaigns',$arrayCampaignsTable);    
-            }
-             else $this->view('nocampaignsyet'); //inseamna ca nu exista campanii inca in bd
-        }
-        
-        else if(isset($_POST['StartCampaign']))
+       if(isset($_POST['StartCampaign']))
         {
             $aCampaign->name=$_POST['Name'];
             $aCampaign->location=$_POST['Location'];
@@ -100,28 +88,17 @@ class Campaign extends Controller
     {
         $aCampaign=$this->model('CampaignModel');
 
-         if (isset($_POST['Like']))
-        {
-            $aCampaign->addLike($idCampanie);
+        $aCampaign->addLike($idCampanie);
             
-            //if($idCampanie)
-            $arrayCampaignsTable=$aCampaign->getAllCampaigns();
-            $this->view('allcampaigns',$arrayCampaignsTable);
-        }
-        else //nu s-a apasat butonul dar s-a ajuns aici prin link 
-        {
-            $arrayCampaignsTable=$aCampaign->getAllCampaigns();
-            $this->view('allcampaigns',$arrayCampaignsTable);
-            
-        }
+        //if($idCampanie)
+        $arrayCampaignsTable=$aCampaign->getAllCampaigns();
+      
     }
 
     public function comment($idCampanie='')
     {
         $aCampaign=$this->model('CampaignModel');
-
-        if (isset($_POST['Comment']))
-        {
+        
             $commentContent=$_POST['CommentContent'];
 
             if($aCampaign->isCommentValid($commentContent))
@@ -149,13 +126,9 @@ class Campaign extends Controller
             }
             
         }
-        else //nu s-a apasat butonul dar s-a ajuns aici prin link 
-        {
-            $arrayCampaignsTable=$aCampaign->getAllCampaigns();
-            $this->view('allcampaigns',$arrayCampaignsTable);
-            
-        }
-    }
+    
+        //var_dump($_POST);
+    
 
     public function details($idCampanie='')
     {

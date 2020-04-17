@@ -168,6 +168,20 @@ input:invalid {
 
   }
 
+  .submitButton
+{
+
+
+  font-size:1em;
+  
+}
+
+.inputBox
+{
+  
+  font-size:1em;
+}
+
 
  }
 
@@ -250,8 +264,8 @@ input:invalid {
 
     .greyContainerAllCampaigns
     {
-        padding-left:1em;
-        padding-right:1em;
+        padding-left:2em;
+        padding-right:2em;
     
     }
 

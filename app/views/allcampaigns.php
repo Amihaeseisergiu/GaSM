@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All campaigns</title>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/upperPage.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/campaign.css">
     <!--<link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/signup.css">-->
@@ -71,39 +70,58 @@ $counter=0;
     
   </form>  
 
-  <form id="like' . $row['id'] . '"name="likeForm" action="http://localhost/proiect/GaSM/public/Campaign/like/' . $row['id'] . '" method="post" class="greyContainerAllCampaigns">    
-    <button  class="submitButton" type="submit" id="like" name="Like">Like</button>
+  <form id="like"  name="likeForm" method="post" class="greyContainerAllCampaigns">    
+    <button  class="submitButton" type="button" id="like' . $row['id'] . '" name="Like">Like</button>
     </form>
 
-  <form id="comment' . $row['id'] . '" name="commentForm" action="http://localhost/proiect/GaSM/public/Campaign/comment/' . $row['id'] . '" method="post" class="greyContainerAllCampaigns">
-    <input max="250" title="max 250 alphanumeric and ,.?: etc chars" required pattern='.' \'[A-Za-z0-9 .,!?:\[\]()"-+]+\' ' .'class="inputBox" type="text" id="comment" name="CommentContent" placeholder="write here">
-    <button  class="submitButton" type="submit" id="commentB" name="Comment">Comment</button>
+  <form id="commentForm' . $row['id'] . '" name="commentForm"  enctype="multipart/form-data" method="post"  class="greyContainerAllCampaigns">
+    <input id="comment' . $row['id'] . '" name="CommentContent" max="250" title="max 250 alphanumeric and ,.?: etc chars" required pattern='.' \'[A-Za-z0-9 .,!?:\[\]()"-+]+\' ' .'class="inputBox" type="text"  placeholder="write here">
+    <button  id="commentB' . $row['id'] . '" class="submitButton" type="button"  name="Comment">Comment</button>
   </form>';
 ////////////////////////////////////////////////////////////////////////////////////////////////
   // script pt a nu da refresh la like
-  echo '<script type="text/javascript">$(\'#like' .  $row['id'] .'\').submit(function(e){  
-    e.preventDefault();
-    var oneLike = $(\'#like\').val();
-    $.ajax({
-     type: \'POST\',
-     url: "http://localhost/proiect/GaSM/public/Campaign/index/' . $row['id'] . '",
-     data: { 
-       data: oneLike   
-     },
-      success: function(msg){
-      alert(\'You liked this campaign!\');
-         }
-      });
-   return false;
-   });</script>';
+  echo '<script type="text/javascript">
+              document.getElementById("like' . $row['id'] . '").addEventListener("click", likeFunction);
+                 
+              function likeFunction() {
 
-   //script pt a nu da refresh la comment
+                fetch(\'http://localhost:80/proiect/GaSM/public/Campaign/like/'. $row['id'] . '\', {
+                  method: \'POST\',
+                  headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}});
+                
+                alert ("You liked this campaign!");
+                return false;
+              }
+  
+              document.getElementById("commentB' . $row['id'] . '").addEventListener("click", commentFunction);
+              
+              function commentFunction() {
+
+                fetch(\'http://localhost:80/proiect/GaSM/public/Campaign/comment/'. $row['id'] . '\', {
+                  method: \'POST\',
+                  body : new FormData(document.getElementById("commentForm' . $row['id'] . '")),
+                  headers: {\'Content-Type\':\'multipart/form-data\'}
+                  
+                
+                });
+                
+                alert ("You left a comment!");
+              }
+
+        </script>';
+
+        //var_dump($_POST);
+
+//                        http://localhost:80/proiect/GaSM/public/Campaign/comment/'. $row['id'] . '\
+// body : new FormData(document.getElementById("comment' . $row['id'] . '")),
+
+   /*//script pt a nu da refresh la comment
    echo '<script type="text/javascript">$(\'#comment' .  $row['id'] .'\').submit(function(e){
     e.preventDefault();
     var oneComment = $(\'#CommentContent\').val();
     $.ajax({
      type: \'POST\',
-     url: "http://localhost/proiect/GaSM/public/Campaign/index/' . $row['id'] . '",
+     url: "http://localhost/proiect/GaSM/public/Campaign/comment/' . $row['id'] . '",
      data: { 
        data: oneComment   
      },
@@ -124,7 +142,12 @@ $counter=0;
        data: oneComment   
      },
       success: function(msg){
+        var newdiv = document.createElement(\'div\');
+        //newdiv.id = dynamicInput[counter];
+        newdiv.innerHTML = "Entry <br><input type=\'text\' name=\'myInputs[]\'> <input type=\'button\' value=\'-\' onClick=\'removeInput(this);\'>";
+        document.getElementById(\'formulario\').appendChild(newdiv);
       alert(\'fabulos test.\');
+      
          }
       });
    return false;
