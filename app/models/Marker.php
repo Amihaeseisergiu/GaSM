@@ -135,7 +135,7 @@ class Marker
         if ($filter == "Weekly") {
             $query = $con->prepare("SELECT * FROM markers
             WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
-        } else if ($filter == "Wonthly") {
+        } else if ($filter == "Monthly") {
             $query = $con->prepare("SELECT * FROM markers
             WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
         } else if ($filter == "Daily") {
@@ -163,28 +163,39 @@ class Marker
         return $markersByCounty;
     }
 
-    public function getMarkersByRegion()
+    public function getMarkersByRegion($filter = '')
     {
         $markersByRegion = array();
         $con = mysqli_connect("Localhost", "root", "", "tw");
-        $query = $con->prepare("SELECT * from markers where county = ?");
+        $con = mysqli_connect("Localhost", "root", "", "tw");
+        if ($filter == "Weekly") {
+            $query = $con->prepare("SELECT * FROM markers
+            WHERE county = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
+        } else if ($filter == "Monthly") {
+            $query = $con->prepare("SELECT * FROM markers
+            WHERE county = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
+        } else if ($filter == "Daily") {
+            $query = $con->prepare("SELECT * FROM markers
+            WHERE county = ? and time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
+        } else {
+            $query = $con->prepare("SELECT * from markers where county = ?");
+        }
         $query->bind_param("s",  $_SESSION['county']);
         $query->execute();
-        /*$result = $query->get_result();
+        $result = $query->get_result();
         for ($i = 1; $i <= $result->num_rows; $i++) {
             $row = $result->fetch_assoc();
             $ok = 0;
-            for ($j = 0; $j < count($markersByCounty); $j++) {
-                if ($markersByCounty[$j]['county'] == $row['county']) {
-                    $markersByCounty[$j]['quantity']++;
+            for ($j = 0; $j < count($markersByRegion); $j++) {
+                if ($markersByRegion[$j]['city'] == $row['city']) {
+                    $markersByRegion[$j]['quantity']++;
                     $ok = 1;
                 }
             }
             if ($ok == 0) {
-                array_push($markersByCounty, array("county" => $row['county'], "quantity" => 1));
+                array_push($markersByRegion, array("city" => $row['city'], "quantity" => 1));
             }
         }
-
-        return $markersByCounty;*/
+        return $markersByRegion;
     }
 }

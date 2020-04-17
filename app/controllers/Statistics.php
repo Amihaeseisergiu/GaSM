@@ -170,11 +170,17 @@ class Statistics extends Controller
             $arrow = 'uparrow';
         }
         $markersByCounty = $marker->getMarkersByCounty($filter);
-        usort($markersByCounty, function($a, $b) {
+        usort($markersByCounty, function ($a, $b) {
             return $a['quantity'] - $b['quantity'];
         });
-        $marker->getMarkersByRegion();
+        $markersByRegion = array();
+        if ($_SESSION['userID'] != -1) {
+            $markersByRegion = $marker->getMarkersByRegion($filter);
+        }
+        usort($markersByRegion, function ($a, $b) {
+            return $a['quantity'] - $b['quantity'];
+        });
         array_push($changes, array("arrow" => $arrow, "diff" => $dif));
-        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty]);
+        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty, 'markersByRegion' => $markersByRegion]);
     }
 }
