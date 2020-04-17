@@ -71,15 +71,7 @@ class Statistics extends Controller
         }
 
 
-        if ($filter == "Weekly") {
-            $Pmarkers = $marker->getPrecedentTrash("weekly");
-        } else if ($filter == "Monthly") {
-            $Pmarkers = $marker->getPrecedentTrash("monthly");
-        } else if ($filter == "Daily") {
-            $Pmarkers = $marker->getPrecedentTrash("daily");
-        } else {
-            $Pmarkers = $marker->getTrash();
-        }
+        $Pmarkers = $marker->getPrecedentTrash($filter);
         $Pplastics = array();
         $Ppapers = array();
         $Pmetals = array();
@@ -177,9 +169,19 @@ class Statistics extends Controller
             $dif = '- ' . $dif . ' Reports';
             $arrow = 'uparrow';
         }
-        $markersByCounty = $marker->getMarkersByCounty();
-        asort($markersByCounty);
+        $markersByCounty = $marker->getMarkersByCounty($filter);
+        usort($markersByCounty, function ($a, $b) {
+            return $a['quantity'] - $b['quantity'];
+        });
+        $markersByRegion = array();
+        if ($_SESSION['userID'] != -1) {
+            $markersByRegion = $marker->getMarkersByRegion($filter);
+        }
+        usort($markersByRegion, function ($a, $b) {
+            return $a['quantity'] - $b['quantity'];
+        });
+        $CSVString = $marker->getCSVString($filter);
         array_push($changes, array("arrow" => $arrow, "diff" => $dif));
-        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty]);
+        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty, 'markersByRegion' => $markersByRegion, 'CSVString' =>$CSVString]);
     }
 }
