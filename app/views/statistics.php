@@ -145,7 +145,7 @@ require_once('../app/php/initCSV.php');
     <script>
         <?php require_once('../app/php/charts.php'); ?>
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.5.3/jspdf.min.js"></script>
+    <script src="http://localhost/proiect/GaSM/app/javascript/jspdf.min.js"></script>
     <script>
         <?php require_once('../app/php/initPDF.php'); ?>
     </script>
