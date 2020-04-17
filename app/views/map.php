@@ -11,7 +11,6 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin="" />
     <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js" integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew==" crossorigin=""></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     
     <!-- Load Esri Leaflet from CDN -->
     <script src="https://unpkg.com/esri-leaflet@2.2.3/dist/esri-leaflet.js" integrity="sha512-YZ6b5bXRVwipfqul5krehD9qlbJzc6KOGXYsDjU9HHXW2gK57xmWl2gU6nAegiErAqFXhygKIsWPKbjLPXVb2g==" crossorigin=""></script>
@@ -131,22 +130,25 @@
                     addMarker(marker);
                 }
 
-                var locationData = convertToAddress(latlng);
-                
-                $.when(locationData).done(function(r) {
-                    locationData = r;
-
+                var geocodeService = L.esri.Geocoding.geocodeService();
+                geocodeService.reverse().latlng(latlng).run(function(error, result) {
+                    var locationData = {
+                        neighborhood : result.address.Neighborhood.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                        city : result.address.City.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                        county: result.address.Region.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                        country : getCountryNameIso3(result.address.CountryCode)
+                    }
+                    
                     var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng + "&type=" + currentGarbageType 
                                     + "&country=" + locationData.country + "&city=" + locationData.city
                                      + "&county=" + locationData.county + "&neighborhood=" + locationData.neighborhood;
-                    $.ajax
-                    ({
-                        url: "http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php",
-                        type : "POST",
-                        cache : false,
-                        data : urlString,
+
+                    fetch('http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php', {
+                        method: 'POST',
+                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+                        body: urlString
                     });
-                })
+                });
             }
         }
 

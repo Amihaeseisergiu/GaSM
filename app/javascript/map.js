@@ -146,7 +146,6 @@ function addMarker(marker)
     if(marker.trashType.localeCompare('') != 0)
     {
         const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trashType, icon: markerIcon});
-        //mapMarker.addTo(garbageMap);
 		markersCluster.addLayer(mapMarker);
         loadedMarkers.push(mapMarker);
     }
@@ -157,15 +156,42 @@ function selectMarker(garbageType)
     currentGarbageType = garbageType;
 }
 
-function loadStatistics(data)
+function loadMarkers()
 {
-    $.ajax({
-        url: 'http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php',
-        type: 'POST',
-        data:'type=markers',
-        success: function(resp)
-        {
-            var markers = JSON.parse(resp);
+    loadedMarkers = [];
+    markersCluster = L.markerClusterGroup();
+
+    fetch('http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: 'type=markers'
+    }).then(response => response.json())
+    .then(data => {
+        for(var i = 0; i < data.length; i++)
+                addMarker(data[i]);
+        
+            garbageMap.addLayer(markersCluster);
+    });
+}
+
+function selectMap(mapType)
+{
+    if(mapType.toString().localeCompare('markers') == 0 && currentMapType.toString().localeCompare('markers') != 0)
+    {
+        geojson.remove(garbageMap);
+        info.remove(garbageMap);
+        legend.remove(garbageMap);
+        loadMarkers();
+    }
+    else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
+    {
+        fetch('http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php', {
+        method: 'POST',
+        headers: {'Content-Type':'application/x-www-form-urlencoded'},
+        body: 'type=markers'
+        }).then(response => response.json())
+        .then(data => {
+            var markers = data;
             for(var i = 0; i < countiesData.features.length; i++)
             {
                 countiesData.features[i].properties.total = 0;
@@ -197,67 +223,14 @@ function loadStatistics(data)
                     }
                 }
             }
-        }
-    });
-}
-
-function loadMarkers()
-{
-    loadedMarkers = [];
-    markersCluster = L.markerClusterGroup();
-
-    $.ajax({
-        url: 'http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php',
-        type: 'POST',
-        data:'type=markers',
-        success: function(resp)
-        {
-            var data = JSON.parse(resp);
-            for(var i = 0; i < data.length; i++)
-                addMarker(data[i]);
-        
-            garbageMap.addLayer(markersCluster);
-        }
-    }); 
-
-}
-
-function selectMap(mapType)
-{
-    if(mapType.toString().localeCompare('markers') == 0 && currentMapType.toString().localeCompare('markers') != 0)
-    {
-        geojson.remove(garbageMap);
-        info.remove(garbageMap);
-        legend.remove(garbageMap);
-        loadMarkers();
-    }
-    else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
-    {
-        loadStatistics();
-        geojson = L.geoJson(countiesData, {
-            style: style,
-            onEachFeature: onEachFeature
-        }).addTo(garbageMap);
-        info.addTo(garbageMap);
-        legend.addTo(garbageMap);
-        garbageMap.removeLayer(markersCluster);
+            geojson = L.geoJson(countiesData, {
+                style: style,
+                onEachFeature: onEachFeature
+            }).addTo(garbageMap);
+            info.addTo(garbageMap);
+            legend.addTo(garbageMap);
+            garbageMap.removeLayer(markersCluster);
+        });
     }
     currentMapType = mapType;
-}
-
-function convertToAddress(coords)
-{
-    var defObject = $.Deferred();
-    var geocodeService = L.esri.Geocoding.geocodeService();
-    geocodeService.reverse().latlng(coords).run(function(error, result) {
-        var locationData = {
-            neighborhood : result.address.Neighborhood.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-            city : result.address.City.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-            county: result.address.Region.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-            country : getCountryNameIso3(result.address.CountryCode)
-        }
-        defObject.resolve(locationData);
-    });
-
-    return defObject.promise();
 }
