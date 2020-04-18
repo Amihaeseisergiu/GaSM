@@ -107,7 +107,15 @@ class Campaign extends Controller
                {
                   $aCampaign->addComment($idCampanie, $commentContent);
     
-                  $arrayCampaignsTable=$aCampaign->getAllCampaigns();
+                  if($idCampanie%2==1)
+                    {
+                        $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie-1);
+                        array_push($arrayCampaignsTable,$idCampanie-1);
+                    }    
+                    else {
+                           $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie-2);
+                           array_push($arrayCampaignsTable,$idCampanie-2);
+                         }  
                   $this->view('allcampaigns',$arrayCampaignsTable);
                }
                 else  //n-are voie sa puna comentarii daca nu e logat

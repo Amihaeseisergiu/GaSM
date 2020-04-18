@@ -41,21 +41,40 @@
 <div class="greenContainerAllCampaigns"> <!--individual campaign part, ar trebui sa am un contor si daca max(id)>atunci sa am un buton cu next page-->
                              <!--greenContainerAllCampaigns lasa spatiu in jos daca e putin scris-->
 
-<div class="greyContainer">
-
+    
+  </form>
  <?php  
+
+        echo '<div class="greyContainerOneCampaign">';
+        
 
         echo '<h3 class="campaignNameText">' . $data[0]['name'] . '</h3>';
         echo '<h3 class="campaignDescText"><p>Description:</p><p>' . $data[0]['description'] . '</p></h3>';
         echo '<h3 class="campaignDescText">No. of likes:' . $data[0]['likes'] . '</h3>';
 
-        //print_r($data[1]);
+        //print_r($data[0]);
         for($i=0;$i+1<sizeof($data[1]);$i=$i+2)
         {
+          echo '<div class="commentBox">';  
+
           echo '<h3 class="campaignDescText">Author:' . $data[1][$i+1] . '</h3>';  //numele
           echo '<h3 class="campaignDescText">Comment:' . $data[1][$i] . '</h3>';    //$data[1][0], comentariul postat de el 
+
+          echo '</div>';
         }
-  
+
+        if($data[0]['id']%2==1)
+        echo '<form  id="back" name="backToCampaignList" action="http://localhost/proiect/GaSM/public/Campaign/index/'. $data[0]['id'] .'" method="post" class="greyContainerAllCampaigns">
+            <button  class="controlButton" type="submit" id="details" name="startYourCampaign">Back</button>';
+        else 
+            {   
+              $index=($data[0]['id'])-1;
+    
+              echo '<form  id="back" name="backToCampaignList" action="http://localhost/proiect/GaSM/public/Campaign/index/'. $index .'" method="post" class="greyContainerAllCampaigns">
+                <button  class="controlButton" type="submit" id="details" name="startYourCampaign">Back</button>';
+
+            }
+       echo '</div>';  //inchidem divul greyContainer  
 
   ?>
      

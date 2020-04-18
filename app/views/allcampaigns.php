@@ -45,6 +45,11 @@
   
     <h1 class="textHCampaign">All campaigns</h1>
 
+    <form  id="back" name="backToCreateCampaign" action="http://localhost/proiect/GaSM/public/Campaign/" method="post" class="greyContainerAllCampaigns">
+    <button  class="controlButton" type="submit" id="details" name="startYourCampaign">Start yours!</button>
+    
+  </form>
+
  <?php
 
  foreach($data as $row)
@@ -74,9 +79,9 @@ $counter=0;
     <button  class="submitButton" type="button" id="like' . $row['id'] . '" name="Like">Like</button>
     </form>
 
-  <form id="commentForm' . $row['id'] . '" name="commentForm"  enctype="multipart/form-data" method="post"  class="greyContainerAllCampaigns">
+  <form id="commentForm' . $row['id'] . '" name="commentForm"  method="post"  class="greyContainerAllCampaigns">
     <input id="comment' . $row['id'] . '" name="CommentContent" max="250" title="max 250 alphanumeric and ,.?: etc chars" required pattern='.' \'[A-Za-z0-9 .,!?:\[\]()"-+]+\' ' .'class="inputBox" type="text"  placeholder="write here">
-    <button  id="commentB' . $row['id'] . '" class="submitButton" type="button"  name="Comment">Comment</button>
+    <button  id="commentB' . $row['id'] . '" class="submitButton" type="submit"  name="Comment">Comment</button>
   </form>';
 ////////////////////////////////////////////////////////////////////////////////////////////////
   // script pt a nu da refresh la like
@@ -92,8 +97,36 @@ $counter=0;
                 alert ("You liked this campaign!");
                 return false;
               }
+
+              </script>';      
   
-              document.getElementById("commentB' . $row['id'] . '").addEventListener("click", commentFunction);
+            echo '<script>
+
+            let button' . $row['id'] .' = document.getElementById(\'commentB' . $row['id'] . '\'); 
+            button' . $row['id'] .'.addEventListener(\'click\', (event) => { event.preventDefault();
+              let xhr = new XMLHttpRequest();
+        
+              // logic for handling the response of the server
+              xhr.onreadystatechange = function() {
+                  if (4 !== this.readyState) {
+                      // not yet ready
+                      return;
+                  }
+                  if (200 !== this.status) {
+                      //handle error response
+                      return;
+                  }
+                  // Handle something
+              }
+          
+              xhr.open(\'POST\', \'http://localhost:80/proiect/GaSM/public/Campaign/comment/' . $row['id'] .'\');
+              xhr.send(new FormData(document.getElementById(\'commentForm' . $row['id'] . '\')));
+              alert ("You left a comment!");
+            });
+            
+        </script>';
+
+              /*document.getElementById("commentB' . $row['id'] . '").addEventListener("click", commentFunction);
               
               function commentFunction() {
 
@@ -108,57 +141,18 @@ $counter=0;
                 alert ("You left a comment!");
               }
 
-        </script>';
+        </script>';*/
 
         //var_dump($_POST);
 
 //                        http://localhost:80/proiect/GaSM/public/Campaign/comment/'. $row['id'] . '\
 // body : new FormData(document.getElementById("comment' . $row['id'] . '")),
 
-   /*//script pt a nu da refresh la comment
-   echo '<script type="text/javascript">$(\'#comment' .  $row['id'] .'\').submit(function(e){
-    e.preventDefault();
-    var oneComment = $(\'#CommentContent\').val();
-    $.ajax({
-     type: \'POST\',
-     url: "http://localhost/proiect/GaSM/public/Campaign/comment/' . $row['id'] . '",
-     data: { 
-       data: oneComment   
-     },
-      success: function(msg){
-      alert(\'Comment sent.\');
-         }
-      });
-   return false;
-   });</script>';
-///////////////////////M A J O R T E S T ////////////////////////////////////////
-/*echo '<script type="text/javascript">$(\'#details' .  $row['id'] .'\').submit(function(e){
-    e.preventDefault();
-    var oneComment = $(\'#details\').val();
-    $.ajax({
-     type: \'POST\',
-     url: "http://localhost/proiect/GaSM/app/controllers/test.php",
-     data: { 
-       data: oneComment   
-     },
-      success: function(msg){
-        var newdiv = document.createElement(\'div\');
-        //newdiv.id = dynamicInput[counter];
-        newdiv.innerHTML = "Entry <br><input type=\'text\' name=\'myInputs[]\'> <input type=\'button\' value=\'-\' onClick=\'removeInput(this);\'>";
-        document.getElementById(\'formulario\').appendChild(newdiv);
-      alert(\'fabulos test.\');
-      
-         }
-      });
-   return false;
-   });</script>';
-   */
-
 //////////////////////////////////////////////////////////////////////////////////////////////
   if(($counter%2==1 && $row['id']>2)||($counter+1==sizeof($data)-1))//daca suntem la elementul 3(0,1,2,3) si id-ul e mai mare de 2, sau urm element e capatul sirului($fostulIndex)
   {
     echo '<form action="http://localhost/proiect/GaSM/public/Campaign/index/' . $row['id']. '" method="post" class="greyContainerAllCampaigns">    
-        <button  class="submitButton" type="prevPage" id="prevPage" name="PreviousPage"><</button>
+        <button  class="controlButton" type="prevPage" id="prevPage" name="PreviousPage"><</button>
         </form>  ';
   } 
     $counter++;
@@ -167,7 +161,7 @@ $counter=0;
     
                      
     echo '<form action="http://localhost/proiect/GaSM/public/Campaign/index/' . $row['id']. '" method="post" class="greyContainerAllCampaigns">    
-            <button  class="submitButton" type="nextPage" id="nextPage" name="NextPage">></button>
+            <button  class="controlButton" type="nextPage" id="nextPage" name="NextPage">></button>
           </form>  ';
     break;
                    } 

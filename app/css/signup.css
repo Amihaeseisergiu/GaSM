@@ -4,6 +4,10 @@
   font-size:1.1em;
 }
 
+input:valid {
+  outline: 4px solid  #0ed145;
+}
+
 input:invalid {
   background-color: #8b0606;
 }

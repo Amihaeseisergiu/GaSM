@@ -7,12 +7,24 @@
 input:invalid {
   background-color: #8b0606;
 }
+
+input:valid {
+  outline: 4px solid  #0ed145;
+}
 .bodyClass
 {
     background-color:#0ed145;
     
 }
-
+.commentBox
+{
+  background-color:gray;
+  width:80%;
+  padding:0.5em;
+  margin:0.25em;
+  position:center;
+  justify-content:center;
+}
 .greenContainer
 {
     background-color:#0ed145;
@@ -48,7 +60,17 @@ input:invalid {
   background-color:#e7e7e7;
   border-radius:2em;
 }
+.greyContainerOneCampaign
+{
 
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    padding:2em;
+    background-color:#e7e7e7;
+    border-radius:2em;
+}
 .greyContainerAllCampaigns
 {
 
@@ -129,6 +151,32 @@ input:invalid {
 
 }
 
+.controlButton
+{
+
+  width:30vw;
+  font-size:1.5em;
+  padding:0.5em;
+  padding-top:0.8em;
+  padding-bottom:0.8em;
+  margin-top:1em;
+  border:0;
+  box-sizing: content-box; /* pt a avea acelasi width ca inputBox-urile*/
+  outline:none;/* chestia cu albastru la click*/
+
+  background-color:black;
+  color:white;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+
+}
+.controlButton:hover
+{
+    background-color:white;
+    color:black;
+    outline:none; /* chestia cu albastru cand apesi */
+    transition-duration:0.8s ;
+}
+
 .submitButton:hover
 {
     background-color:white;
@@ -174,6 +222,10 @@ input:invalid {
 
   font-size:1em;
   
+}
+
+.controlButton{
+  font-size:1em;
 }
 
 .inputBox
