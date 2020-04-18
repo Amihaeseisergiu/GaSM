@@ -5,22 +5,14 @@ class Statistics extends Controller
     public function index($filter = '', $shownGarbageTypes = '')
     {
         $marker = $this->model('Marker');
-        if ($filter == "Weekly") {
-            $markers = $marker->getTrash("weekly");
-        } else if ($filter == "Monthly") {
-            $markers = $marker->getTrash("monthly");
-        } else if ($filter == "Daily") {
-            $markers = $marker->getTrash("daily");
-        } else {
-            $markers = $marker->getTrash();
-        }
+        $markers = $marker->getTrash($filter);
         $plastics = array();
         $papers = array();
         $metals = array();
         $glasses = array();
         foreach ($markers as $marker) {
             $time = substr($marker->time, 0, strpos($marker->time, ' '));
-            if ($filter == 'Daily') {
+            if ($filter == 'Today') {
                 $time = date("Y-m-d H:i:00", strtotime($marker->time));
             }
             if ($marker->trashType == 'plastic') {
@@ -78,7 +70,7 @@ class Statistics extends Controller
         $Pglasses = array();
         foreach ($Pmarkers as $marker) {
             $time = substr($marker->time, 0, strpos($marker->time, ' '));
-            if ($filter == 'Daily') {
+            if ($filter == 'Today') {
                 $time = date("Y-m-d H:i:00", strtotime($marker->time));
             }
             if ($marker->trashType == 'plastic') {

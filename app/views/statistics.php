@@ -53,7 +53,7 @@ require_once('../app/php/initCSV.php');
         </form>
         <div class="chartAndButton">
             <div id="chartContainer"></div>
-            <form method="get" class="form" style="position:relative; margin-top:1em; display:flex;">
+            <div class="form" style="position:relative; margin-top:1em; display:flex;">
                 <div class="garbage">
                     <input type="checkbox" id="garbage1" name="plastic" value="Plastic">
                     <label for="garbage1" style="margin-right: 0.5em;"> Plastic </label>
@@ -67,17 +67,16 @@ require_once('../app/php/initCSV.php');
                     <input type="checkbox" id="garbage4" name="metal" value="Metal">
                     <label for="garbage4" style="margin-right: 0.5em;"> Metal </label>
                 </div>
-                <input list="filters" name="filter" style="padding: 0.5em;">
-                <datalist id="filters">
-                    <option value="All Time">
-                    <option value="Last Day">
-                    <option value="Last Week">
-                    <option value="Last Month">
-                </datalist>
-                <button type="submit" name="dateFilter" id="filterButton" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em; margin-left:0.5em; padding-top:0.3em; padding-bottom:0.3em; color:black; font-size:1em; font-weight:bold;">Filter</button>
-            </form>
+                <select id="filters">
+                    <option value="Today">Today</option>
+                    <option value="Last Week">Last Week</option>
+                    <option value="Last Month">Last Month</option>
+                    <option value="All Time">All Time</option>
+                </select>
+                <button onclick="changeChart()" name="dateFilter" id="filterButton" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em; margin-left:0.5em; padding-top:0.3em; padding-bottom:0.3em; color:black; font-size:1em; font-weight:bold;">Filter</button>
+            </div>
             <?php
-            if (isset($_GET["dateFilter"])) {
+            /*  if (isset($_GET["dateFilter"])) {
                 if (isset($_GET["filter"])) {
                     $shownGarbageTypes = "";
                     if (isset($_GET["plastic"])) {
@@ -93,16 +92,16 @@ require_once('../app/php/initCSV.php');
                         $shownGarbageTypes = $shownGarbageTypes . "metal_";
                     }
                     if ($_GET["filter"] === "Last Day") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/Daily/" . $shownGarbageTypes);
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/Today/" . $shownGarbageTypes);
                     } else if ($_GET["filter"] === "Last Week") {
                         header("Location: http://localhost/proiect/GaSM/public/Statistics/Weekly/" . $shownGarbageTypes);
                     } else if ($_GET["filter"] === "Last Month") {
                         header("Location: http://localhost/proiect/GaSM/public/Statistics/Monthly/" . $shownGarbageTypes);
                     } else {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/All Time/" . $shownGarbageTypes);
+                        header("Location: http://localhost/proiect/GaSM/public/Statistics/AllTime/" . $shownGarbageTypes);
                     }
                 }
-            }
+            }*/
             ?>
         </div>
     </div>
@@ -141,13 +140,87 @@ require_once('../app/php/initCSV.php');
             </div>
         </div>
     </div>
+    <div id="demo"></div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
     <script>
-        <?php require_once('../app/php/charts.php'); ?>
+        <?php require_once('../app/php/initChart.php'); ?>
     </script>
     <script src="http://localhost/proiect/GaSM/app/javascript/jspdf.min.js"></script>
     <script>
         <?php require_once('../app/php/initPDF.php'); ?>
+    </script>
+    <script>
+        function changeChart() {
+            filter = document.getElementById('filters').value;
+            fetch('http://localhost:80/proiect/GaSM/app/api/DataBaseFetch.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({"filter" : filter})
+                }).then(response => response.text())
+                .then(data => {
+                    
+                });
+
+            var chart1 = new CanvasJS.Chart("chartContainer", {
+                backgroundColor: "white",
+                fileName: "LineChart",
+                title: {
+                    text: "Garbage distribution"
+                },
+                axisX: {
+                    tickColor: "red",
+                    tickLength: 5,
+                    tickThickness: 2
+                },
+                axisY: {
+                    tickLength: 15,
+                    tickColor: "DarkSlateBlue",
+                    tickThickness: 5
+                },
+                zoomEnabled: true,
+                data: [{
+                        showInLegend: true,
+                        name: "series1",
+                        legendText: "Plastic",
+                        visible: <?php if ($data['garbageToShow']['plastic'] === true) echo 'true';
+                                    else echo 'false'; ?>,
+                        type: "line",
+                        dataPoints: dpsPlastic
+                    },
+                    {
+                        showInLegend: true,
+                        name: "series2",
+                        legendText: "Paper",
+                        visible: <?php if ($data['garbageToShow']['paper'] === true) echo 'true';
+                                    else echo 'false'; ?>,
+                        type: "line",
+                        dataPoints: dpsPaper
+                    },
+                    {
+                        showInLegend: true,
+                        name: "series3",
+                        legendText: "Glass",
+                        visible: <?php if ($data['garbageToShow']['glass'] === true) echo 'true';
+                                    else echo 'false'; ?>,
+                        type: "line",
+                        dataPoints: dpsGlass
+                    },
+                    {
+                        showInLegend: true,
+                        name: "series4",
+                        legendText: "Metal",
+                        visible: <?php if ($data['garbageToShow']['metal'] === true) echo 'true';
+                                    else echo 'false'; ?>,
+                        type: "line",
+                        dataPoints: dpsMetal
+                    }
+                ]
+            });
+            chart1.render();
+        }
     </script>
 </body>
 

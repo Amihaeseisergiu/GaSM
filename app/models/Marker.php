@@ -2,37 +2,41 @@
 
 class Marker
 {
+    public $id;
     public $latitude;
     public $longitude;
     public $trashType;
     public $userId;
     public $time;
+    public $country;
+    public $county;
+    public $city;
 
     public function getTrash($filter = '')
     {
         $con = mysqli_connect("Localhost", "root", "", "tw");
         $markers = array();
         if ($_SESSION['userID'] == -1) {
-            if ($filter == "weekly") {
+            if ($filter == "Weekly") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
-            } else if ($filter == "monthly") {
+            } else if ($filter == "Monthly") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
-            } else if ($filter == "daily") {
+            } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
             } else {
                 $query = $con->prepare("SELECT * from markers");
             }
         } else {
-            if ($filter == "weekly") {
+            if ($filter == "Weekly") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY and country = ? and city = ?");
-            } else if ($filter == "monthly") {
+            } else if ($filter == "Wonthly") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY and country = ? and city = ?");
-            } else if ($filter == "daily") {
+            } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY and country = ? and city = ?");
             } else {
@@ -79,7 +83,7 @@ class Marker
             } else if ($filter == "Monthly") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() - INTERVAL 31 DAY AND time >= CURDATE() - INTERVAL 62 DAY");
-            } else if ($filter == "Daily") {
+            } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 1 DAY");
             } else {
@@ -92,7 +96,7 @@ class Marker
             } else if ($filter == "Monthly") {
                 $query = $con->prepare("SELECT * FROM markers
                WHERE time <= CURDATE() - INTERVAL 31 DAY AND time >= CURDATE() - INTERVAL 62 DAY and country = ? and city = ?");
-            } else if ($filter == "Daily") {
+            } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() + INTERVAL 1 DAY and country = ? and city = ?");
             } else {
@@ -138,7 +142,7 @@ class Marker
         } else if ($filter == "Monthly") {
             $query = $con->prepare("SELECT * FROM markers
             WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
-        } else if ($filter == "Daily") {
+        } else if ($filter == "Today") {
             $query = $con->prepare("SELECT * FROM markers
             WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
         } else {
@@ -173,7 +177,7 @@ class Marker
         } else if ($filter == "Monthly") {
             $query = $con->prepare("SELECT * FROM markers
             WHERE county = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
-        } else if ($filter == "Daily") {
+        } else if ($filter == "Today") {
             $query = $con->prepare("SELECT * FROM markers
             WHERE county = ? and time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
         } else {
@@ -208,7 +212,7 @@ class Marker
             } else if ($filter == "Monthly") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
-            } else if ($filter == "Daily") {
+            } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
             } else {
@@ -221,7 +225,7 @@ class Marker
             } else if ($filter == "Monthly") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY and country = ? and city = ?");
-            } else if ($filter == "Daily") {
+            } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY and country = ? and city = ?");
             } else {
