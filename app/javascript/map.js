@@ -139,13 +139,13 @@ function onEachFeature(feature, layer) {
 
 function addMarker(marker)
 {
-    if(marker.trashType.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
-    else if(marker.trashType.localeCompare('plastic') == 0) markerIcon = plasticMarkerIcon;
-    else if(marker.trashType.localeCompare('metal') == 0) markerIcon = metalMarkerIcon;
+    if(marker.trash_type.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
+    else if(marker.trash_type.localeCompare('plastic') == 0) markerIcon = plasticMarkerIcon;
+    else if(marker.trash_type.localeCompare('metal') == 0) markerIcon = metalMarkerIcon;
 
-    if(marker.trashType.localeCompare('') != 0)
+    if(marker.trash_type.localeCompare('') != 0)
     {
-        const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trashType, icon: markerIcon});
+        const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trash_type, icon: markerIcon});
 		markersCluster.addLayer(mapMarker);
         loadedMarkers.push(mapMarker);
     }
@@ -161,11 +161,7 @@ function loadMarkers()
     loadedMarkers = [];
     markersCluster = L.markerClusterGroup();
 
-    fetch('http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php', {
-        method: 'POST',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: 'type=markers'
-    }).then(response => response.json())
+    fetch('http://localhost:80/proiect/GaSM/app/api/markers/read/getAll.php').then(response => response.json())
     .then(data => {
         for(var i = 0; i < data.length; i++)
                 addMarker(data[i]);
@@ -185,11 +181,7 @@ function selectMap(mapType)
     }
     else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
     {
-        fetch('http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php', {
-            method: 'POST',
-            headers: {'Content-Type':'application/x-www-form-urlencoded'},
-            body: 'type=markers'
-        }).then(response => response.json())
+        fetch('http://localhost:80/proiect/GaSM/app/api/markers/read/getAll.php').then(response => response.json())
         .then(data => {
             var markers = data;
             for(var i = 0; i < countiesData.features.length; i++)
@@ -204,7 +196,7 @@ function selectMap(mapType)
                     if(countiesData.features[i].properties.name.localeCompare(markers[j].county) == 0)
                     {
                         countiesData.features[i].properties.total++;
-                        switch(markers[j].trashType)
+                        switch(markers[j].trash_type)
                         {
                             case 'plastic':
                                 countiesData.features[i].properties.nr_plastic++;

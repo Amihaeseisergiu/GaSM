@@ -115,7 +115,7 @@
                     var marker = {
                         latitude: latlng.lat,
                         longitude: latlng.lng,
-                        trashType: currentGarbageType,
+                        trash_type: currentGarbageType,
                         userId: parseInt(<?php echo json_encode($_SESSION['userID']); ?>),
                         time: currentdate.getFullYear() + "-"
                             + currentdate.getMonth()  + "-" 
@@ -143,10 +143,20 @@
                                     + "&country=" + locationData.country + "&city=" + locationData.city
                                      + "&county=" + locationData.county + "&neighborhood=" + locationData.neighborhood;
 
-                    fetch('http://localhost:80/proiect/GaSM/app/controllers/DatabaseInsert.php', {
+                    var marker = {
+                        "latitude": latlng.lat,
+                        "longitude": latlng.lng,
+                        "trashType": currentGarbageType,
+                        "country": locationData.country,
+                        "city": locationData.city,
+                        "county": locationData.county,
+                        "neighborhood": locationData.neighborhood
+                    }
+
+                    fetch('http://localhost:80/proiect/GaSM/app/api/markers/write/insert.php', {
                         method: 'POST',
-                        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-                        body: urlString
+                        headers: {'Content-Type':'application/json'},
+                        body: JSON.stringify(marker)
                     });
                 });
             }
