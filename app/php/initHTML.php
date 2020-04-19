@@ -12,7 +12,7 @@ if (isset($_GET['downloadHTML'])) {
         
     </body>
     </html>');
-    $str = file_get_contents('../app/php/charts.php');
+    $str = file_get_contents('../app/php/initChart.php');
     $str = str_replace('<?php echo $pls; ?>', $pls, $str);
     $str = str_replace('<?php echo $pap; ?>', $pap, $str);
     $str = str_replace('<?php echo $gls; ?>', $gls, $str);
@@ -96,6 +96,7 @@ if (isset($_GET['downloadHTML'])) {
     $divRegion->appendChild($hdr2);
     $divRegion->appendChild($list2);
     $contor = 0;
+    if(count($data['markersByRegion']) != 0){
     foreach ($data['markersByRegion'] as $region) {
         $listEl = $doc->createElement('div');
         if ($contor <= 5) {
@@ -108,6 +109,7 @@ if (isset($_GET['downloadHTML'])) {
         $listEl->appendChild($txt);
         $list2->appendChild($listEl);
     }
+}
     $divCountryAndRegion = $doc->createElement('div');
     $divCountryAndRegion->setAttribute('style','display: flex; justify-content: space-around;');
     $divCountryAndRegion->appendChild($divCountry);
@@ -128,4 +130,3 @@ if (isset($_GET['downloadHTML'])) {
         exit;
     }
 }
-?>

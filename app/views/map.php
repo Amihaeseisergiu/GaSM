@@ -163,7 +163,6 @@
         }
 
         loadMarkers();
-
         garbageMap.on('click', onMapClick);
         
     </script>

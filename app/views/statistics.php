@@ -158,10 +158,12 @@ require_once('../app/php/initCSV.php');
                         'Content-Type': 'application/json',
                         'Accept': 'application/json'
                     },
-                    body: JSON.stringify({"filter" : filter})
+                    body: JSON.stringify({
+                        "filter": filter
+                    })
                 }).then(response => response.text())
                 .then(data => {
-                    
+
                 });
 
             var chart1 = new CanvasJS.Chart("chartContainer", {

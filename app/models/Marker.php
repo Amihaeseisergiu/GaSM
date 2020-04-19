@@ -26,10 +26,9 @@ class Marker
         return $query;
     }
 
-    public function getTrash($filter = '')
+    public function getTrash($filter = '', $city, $country)
     {
-        session_start();
-        if ($_SESSION['userID'] == -1) {
+        if ($city == 'none') {
             if ($filter == "Last Week") {
                 $query = $this->con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
@@ -55,45 +54,17 @@ class Marker
             } else {
                 $query = $this->con->prepare("SELECT * from tw.markers where country = ? and city = ?");
             }
-            $query->bindParam(1,  $_SESSION['country'], PDO::PARAM_STR, 50);
-            $query->bindParam(2,  $_SESSION['city'], PDO::PARAM_STR, 50);
+            $query->bindParam(1,  $country, PDO::PARAM_STR, 50);
+            $query->bindParam(2,  $city, PDO::PARAM_STR, 50);
         }
         $query->execute();
         return $query;
-
-       /* $result = $query->get_result();
-
-        for ($i = 1; $i <= $result->num_rows; $i++) {
-            $row = $result->fetch_assoc();
-            $marker = array();
-            $marker->latitude = $row['latitude'];
-            $marker->longitude = $row['longitude'];
-            $marker->trashType = $row['trash_type'];
-            $marker->userId = $row['user_id'];
-            $marker->time = $row['time'];
-
-            $query2 = $con->prepare("SELECT * FROM users WHERE id = ?");
-            $query2->bind_param('i', $marker->userId);
-            $query2->execute();
-            $row2 = $query2->get_result()->fetch_assoc();
-
-            $marker->userName = $row2['name'];
-            $marker->userCountry = $row2['country'];
-            $marker->userCity = $row2['city'];
-
-            $markers[$i] = $marker;
-        }
-
-        $con->close();
-        return $markers;*/
     }
 
-    public function getPrecedentTrash($filter = '')
+    public function getPrecedentTrash($filter = '', $city, $country)
     {
         $con = $this->con;
-        $markers = array();
-        session_start();
-        if ($_SESSION['userID'] == -1) {
+        if ($city == 'none') {
             if ($filter == "Last Week") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() - INTERVAL 7 DAY AND time >= CURDATE() - INTERVAL 14 DAY");
@@ -104,7 +75,7 @@ class Marker
                 $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 1 DAY");
             } else {
-                $query = $con->prepare("SELECT * from markers");
+                $query = $con->prepare("SELECT * from tw.markers");
             }
         } else {
             if ($filter == "Last Week") {
@@ -119,41 +90,15 @@ class Marker
             } else {
                 $query = $con->prepare("SELECT * from tw.markers where country = ? and city = ?");
             }
-            $query->bindParam(1,  $_SESSION['country'], PDO::PARAM_STR, 50);
-            $query->bindParam(2,  $_SESSION['city'], PDO::PARAM_STR, 50);
+            $query->bindParam(1,  $country, PDO::PARAM_STR, 50);
+            $query->bindParam(2,  $city, PDO::PARAM_STR, 50);
         }
         $query->execute();
         return $query;
-     /*   $result = $query->get_result();
-
-        for ($i = 1; $i <= $result->num_rows; $i++) {
-            $row = $result->fetch_assoc();
-            $marker = array();
-            $marker->latitude = $row['latitude'];
-            $marker->longitude = $row['longitude'];
-            $marker->trashType = $row['trash_type'];
-            $marker->userId = $row['user_id'];
-            $marker->time = $row['time'];
-
-            $query2 = $con->prepare("SELECT * FROM users WHERE id = ?");
-            $query2->bind_param('i', $marker->userId);
-            $query2->execute();
-            $row2 = $query2->get_result()->fetch_assoc();
-
-            $marker->userName = $row2['name'];
-            $marker->userCountry = $row2['country'];
-            $marker->userCity = $row2['city'];
-
-            $markers[$i] = $marker;
-        }
-
-        $con->close();
-        return $markers;*/
     }
 
     public function getMarkersByCounty($filter = '')
     {
-        $markersByCounty = array();
         $con = $this->con;
         if ($filter == "Last Week") {
             $query = $con->prepare("SELECT * FROM tw.markers
@@ -169,67 +114,34 @@ class Marker
         }
         $query->execute();
         return $query;
-
-       /* $result = $query->get_result();
-        for ($i = 1; $i <= $result->num_rows; $i++) {
-            $row = $result->fetch_assoc();
-            $ok = 0;
-            for ($j = 0; $j < count($markersByCounty); $j++) {
-                if ($markersByCounty[$j]['county'] == $row['county']) {
-                    $markersByCounty[$j]['quantity']++;
-                    $ok = 1;
-                }
-            }
-            if ($ok == 0) {
-                array_push($markersByCounty, array("county" => $row['county'], "quantity" => 1));
-            }
-        }
-
-        return $markersByCounty;*/
     }
 
-    public function getMarkersByRegion($filter = '')
+    public function getMarkersByRegion($filter = '', $county)
     {
-        $markersByRegion = array();
-        session_start();
         $con = $this->con;
-        if ($filter == "Weekly") {
-            $query = $con->prepare("SELECT * FROM tw.markers
+        if ($county != 'none') {
+            if ($filter == "Last Week") {
+                $query = $con->prepare("SELECT * FROM tw.markers
             WHERE county = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
-        } else if ($filter == "Monthly") {
-            $query = $con->prepare("SELECT * FROM tw.markers
+            } else if ($filter == "Last Month") {
+                $query = $con->prepare("SELECT * FROM tw.markers
             WHERE county = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
-        } else if ($filter == "Today") {
-            $query = $con->prepare("SELECT * FROM tw.markers
+            } else if ($filter == "Today") {
+                $query = $con->prepare("SELECT * FROM tw.markers
             WHERE county = ? and time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
-        } else {
-            $query = $con->prepare("SELECT * from tw.markers where county = ?");
-        }
-        $query->bindParam(1,  $_SESSION['county'], PDO::PARAM_STR, 50);
-        $query->execute();
-        return $query;
-       /* $result = $query->get_result();
-        for ($i = 1; $i <= $result->num_rows; $i++) {
-            $row = $result->fetch_assoc();
-            $ok = 0;
-            for ($j = 0; $j < count($markersByRegion); $j++) {
-                if ($markersByRegion[$j]['city'] == $row['city']) {
-                    $markersByRegion[$j]['quantity']++;
-                    $ok = 1;
-                }
+            } else {
+                $query = $con->prepare("SELECT * from tw.markers where county = ?");
             }
-            if ($ok == 0) {
-                array_push($markersByRegion, array("city" => $row['city'], "quantity" => 1));
-            }
+            $query->bindParam(1,  $county, PDO::PARAM_STR, 50);
+            $query->execute();
+            return $query;
         }
-        return $markersByRegion;*/
     }
 
-    public function getCSVString($filter = '')
+    public function getCSVString($filter = '', $country, $city)
     {
         $con = $this->con;
-        session_start();
-        if ($_SESSION['userID'] == -1) {
+        if ($city == 'none') {
             if ($filter == "Weekly") {
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
@@ -240,7 +152,7 @@ class Marker
                 $query = $con->prepare("SELECT * FROM markers
                 WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
             } else {
-                $query = $con->prepare("SELECT * from markers");
+                $query = $con->prepare("SELECT * from tw.markers");
             }
         } else {
             if ($filter == "Weekly") {
@@ -255,19 +167,11 @@ class Marker
             } else {
                 $query = $con->prepare("SELECT * from tw.markers where country = ? and city = ?");
             }
-            $query->bindParam(1,  $_SESSION['country'], PDO::PARAM_STR, 50);
-            $query->bindParam(2,  $_SESSION['city'], PDO::PARAM_STR, 50);
+            $query->bindParam(1,  $country, PDO::PARAM_STR, 50);
+            $query->bindParam(2,  $city, PDO::PARAM_STR, 50);
         }
         $query->execute();
         return $query;
-
-        /*$CSVString = '';
-        $result = $query->get_result();
-        for ($i = 1; $i <= $result->num_rows; $i++) {
-            $row = $result->fetch_assoc();
-            $CSVString = $CSVString . $row['id'] . ', ' . $row['latitude'] . ', ' . $row['longitude'] . ', ' . $row['trash_type'] . ', ' . $row['user_id'] . ', ' . $row['time'] . ', ' . $row['country'] . ', ' . $row['county'] . ', ' . $row['city'] . "\r\n";
-        }
-        return $CSVString;*/
     }
 
     public function insert($marker)
@@ -276,8 +180,7 @@ class Marker
         $userId = $_SESSION['userID'];
 
         $con = $this->con;
-        if($userId > 0)
-        {
+        if ($userId > 0) {
             $query = $con->prepare("INSERT INTO tw.markers(`latitude`,
             `longitude`, `trash_type`, `user_id`, `time`, `country`, `county`, `city`, `neighborhood`) 
             VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)");

@@ -13,7 +13,7 @@ if(isset($_GET['filter']))
 
     $marker = new Marker($db);
 
-    $result = $marker->getCSVString($_GET['filter']);
+    $result = $marker->getCSVString($_GET['filter'], $_GET['country'], $_GET['city']);
     $num = $result->rowCount();
 
     if($num > 0)
