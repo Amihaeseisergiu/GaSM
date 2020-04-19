@@ -186,9 +186,9 @@ function selectMap(mapType)
     else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
     {
         fetch('http://localhost:80/proiect/GaSM/app/controllers/DatabaseFetch.php', {
-        method: 'POST',
-        headers: {'Content-Type':'application/x-www-form-urlencoded'},
-        body: 'type=markers'
+            method: 'POST',
+            headers: {'Content-Type':'application/x-www-form-urlencoded'},
+            body: 'type=markers'
         }).then(response => response.json())
         .then(data => {
             var markers = data;
