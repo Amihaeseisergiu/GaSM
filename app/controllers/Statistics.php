@@ -236,7 +236,7 @@ class Statistics extends Controller
         if ($_SESSION['userID'] != -1) {
             $curl = curl_init();
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "http://localhost:80/proiect/GaSM/api/app/markers/read/getByRegion.php?filter=" . $filter . '&county=' . $_SESSION['county'] . '&country=' . $_SESSION['country'],
+                CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getByRegion.php?filter=" . $filter . '&county=' . $_SESSION['county'] . '&country=' . $_SESSION['country'],
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT => 30,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -262,7 +262,7 @@ class Statistics extends Controller
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://localhost:80/proiect/GaSM/api/app/markers/read/getCSV.php?filter=" . $filter . '&country=' . $_SESSION['country'] . '&city=' . $_SESSION['city'],
+            CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getCSV.php?filter=" . $filter . '&country=' . $_SESSION['country'] . '&city=' . $_SESSION['city'],
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
