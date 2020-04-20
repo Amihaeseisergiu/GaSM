@@ -53,7 +53,7 @@ require_once('../app/php/initCSV.php');
         </form>
         <div class="chartAndButton">
             <div id="chartContainer"></div>
-            <div class="form" style="position:relative; margin-top:1em; display:flex;">
+            <form class="form" style="position:relative; margin-top:1em; display:flex;" method="GET">
                 <div class="garbage">
                     <input type="checkbox" id="garbage1" name="plastic" value="Plastic">
                     <label for="garbage1" style="margin-right: 0.5em;"> Plastic </label>
@@ -67,41 +67,39 @@ require_once('../app/php/initCSV.php');
                     <input type="checkbox" id="garbage4" name="metal" value="Metal">
                     <label for="garbage4" style="margin-right: 0.5em;"> Metal </label>
                 </div>
-                <select id="filters">
+                <select  name="filters" id="filters">
                     <option value="Today">Today</option>
                     <option value="Last Week">Last Week</option>
                     <option value="Last Month">Last Month</option>
                     <option value="All Time">All Time</option>
                 </select>
-                <button onclick="changeChart()" name="dateFilter" id="filterButton" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em; margin-left:0.5em; padding-top:0.3em; padding-bottom:0.3em; color:black; font-size:1em; font-weight:bold;">Filter</button>
-            </div>
+                <button type="submit" name="dateFilter" id="filterButton" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em; margin-left:0.5em; padding-top:0.3em; padding-bottom:0.3em; color:black; font-size:1em; font-weight:bold;">Filter</button>
+            </form>
             <?php
-            /*  if (isset($_GET["dateFilter"])) {
-                if (isset($_GET["filter"])) {
-                    $shownGarbageTypes = "";
-                    if (isset($_GET["plastic"])) {
-                        $shownGarbageTypes = $shownGarbageTypes . "plastic_";
-                    }
-                    if (isset($_GET["paper"])) {
-                        $shownGarbageTypes = $shownGarbageTypes . "paper_";
-                    }
-                    if (isset($_GET["glass"])) {
-                        $shownGarbageTypes = $shownGarbageTypes . "glass_";
-                    }
-                    if (isset($_GET["metal"])) {
-                        $shownGarbageTypes = $shownGarbageTypes . "metal_";
-                    }
-                    if ($_GET["filter"] === "Last Day") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/Today/" . $shownGarbageTypes);
-                    } else if ($_GET["filter"] === "Last Week") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/Weekly/" . $shownGarbageTypes);
-                    } else if ($_GET["filter"] === "Last Month") {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/Monthly/" . $shownGarbageTypes);
-                    } else {
-                        header("Location: http://localhost/proiect/GaSM/public/Statistics/AllTime/" . $shownGarbageTypes);
-                    }
+            if (isset($_GET["dateFilter"])) {
+                $shownGarbageTypes = '';
+                if (isset($_GET["plastic"])) {
+                    $shownGarbageTypes = $shownGarbageTypes . "plastic_";
                 }
-            }*/
+                if (isset($_GET["paper"])) {
+                    $shownGarbageTypes = $shownGarbageTypes . "paper_";
+                }
+                if (isset($_GET["glass"])) {
+                    $shownGarbageTypes = $shownGarbageTypes . "glass_";
+                }
+                if (isset($_GET["metal"])) {
+                    $shownGarbageTypes = $shownGarbageTypes . "metal_";
+                }
+                if ($_GET["filters"] === "Today") {
+                    header("Location: http://localhost/proiect/GaSM/public/Statistics/Today/" . $shownGarbageTypes);
+                } else if ($_GET["filters"] === "Last Week") {
+                    header("Location: http://localhost/proiect/GaSM/public/Statistics/Last Week/" . $shownGarbageTypes);
+                } else if ($_GET["filters"] === "Last Month") {
+                    header("Location: http://localhost/proiect/GaSM/public/Statistics/Last Month/" . $shownGarbageTypes);
+                } else {
+                    header("Location: http://localhost/proiect/GaSM/public/Statistics/All Time/" . $shownGarbageTypes);
+                }
+            }
             ?>
         </div>
     </div>
@@ -148,81 +146,6 @@ require_once('../app/php/initCSV.php');
     <script src="http://localhost/proiect/GaSM/app/javascript/jspdf.min.js"></script>
     <script>
         <?php require_once('../app/php/initPDF.php'); ?>
-    </script>
-    <script>
-        function changeChart() {
-            filter = document.getElementById('filters').value;
-            fetch('http://localhost:80/proiect/GaSM/app/api/DataBaseFetch.php', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        "filter": filter
-                    })
-                }).then(response => response.text())
-                .then(data => {
-
-                });
-
-            var chart1 = new CanvasJS.Chart("chartContainer", {
-                backgroundColor: "white",
-                fileName: "LineChart",
-                title: {
-                    text: "Garbage distribution"
-                },
-                axisX: {
-                    tickColor: "red",
-                    tickLength: 5,
-                    tickThickness: 2
-                },
-                axisY: {
-                    tickLength: 15,
-                    tickColor: "DarkSlateBlue",
-                    tickThickness: 5
-                },
-                zoomEnabled: true,
-                data: [{
-                        showInLegend: true,
-                        name: "series1",
-                        legendText: "Plastic",
-                        visible: <?php if ($data['garbageToShow']['plastic'] === true) echo 'true';
-                                    else echo 'false'; ?>,
-                        type: "line",
-                        dataPoints: dpsPlastic
-                    },
-                    {
-                        showInLegend: true,
-                        name: "series2",
-                        legendText: "Paper",
-                        visible: <?php if ($data['garbageToShow']['paper'] === true) echo 'true';
-                                    else echo 'false'; ?>,
-                        type: "line",
-                        dataPoints: dpsPaper
-                    },
-                    {
-                        showInLegend: true,
-                        name: "series3",
-                        legendText: "Glass",
-                        visible: <?php if ($data['garbageToShow']['glass'] === true) echo 'true';
-                                    else echo 'false'; ?>,
-                        type: "line",
-                        dataPoints: dpsGlass
-                    },
-                    {
-                        showInLegend: true,
-                        name: "series4",
-                        legendText: "Metal",
-                        visible: <?php if ($data['garbageToShow']['metal'] === true) echo 'true';
-                                    else echo 'false'; ?>,
-                        type: "line",
-                        dataPoints: dpsMetal
-                    }
-                ]
-            });
-            chart1.render();
-        }
     </script>
 </body>
 

@@ -13,7 +13,7 @@ if(isset($_GET['filter']))
 
     $marker = new Marker($db);
 
-    $result = $marker->getMarkersByCounty($_GET['filter']);
+    $result = $marker->getMarkersByCounty($_GET['filter'], $_GET['country']);
     $num = $result->rowCount();
 
     if($num > 0)
@@ -35,12 +35,12 @@ if(isset($_GET['filter']))
 
         echo json_encode($markersByCounty);
     }
-    else
+  /*  else
     {
         echo json_encode(
             array('message' => 'No Markers Found')
         );
-    }
+    }*/
 }
 
 ?>

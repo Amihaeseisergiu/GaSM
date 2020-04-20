@@ -6,7 +6,6 @@ class Statistics extends Controller
     {
 
         $curl = curl_init();
-
         curl_setopt_array($curl, array(
             CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getTrash.php?filter=" . $filter . '&country=' . $_SESSION['country'] . '&city=' . $_SESSION['city'],
             CURLOPT_RETURNTRANSFER => true,
@@ -17,7 +16,7 @@ class Statistics extends Controller
                 "cache-control: no-cache"
             ),
         ));
-      //  echo curl_exec($curl);
+        //  echo curl_exec($curl);
         $markers = curl_exec($curl);
         $markers = json_decode($markers, true);
         $err = curl_error($curl);
@@ -27,7 +26,7 @@ class Statistics extends Controller
         $papers = array();
         $metals = array();
         $glasses = array();
-        if (!array_key_exists('message',$markers)) {
+        if (!array_key_exists('message', $markers)) {
             foreach ($markers as $marker) {
                 $time = substr($marker['time'], 0, strpos($marker['time'], ' '));
                 if ($filter == 'Today') {
@@ -95,7 +94,7 @@ class Statistics extends Controller
         ));
 
         $Pmarkers = curl_exec($curl);
-        $Pmarkers = json_decode($Pmarkers, true); //because of true, it's in an array
+        $Pmarkers = json_decode($Pmarkers, true);
         $err = curl_error($curl);
 
         curl_close($curl);
@@ -104,7 +103,7 @@ class Statistics extends Controller
         $Ppapers = array();
         $Pmetals = array();
         $Pglasses = array();
-        if (!array_key_exists('message',$Pmarkers)) {
+        if (!array_key_exists('message', $Pmarkers)) {
             foreach ($Pmarkers as $marker) {
                 $time = substr($marker['time'], 0, strpos($marker['time'], ' '));
                 if ($filter == 'Today') {
@@ -187,8 +186,16 @@ class Statistics extends Controller
                 $shownGarbage['metal'] = false;
             }
         }
-        $nrOfCurrentReports = count($markers);
-        $nrOfPrecedentReports = count($Pmarkers);
+        if (!array_key_exists('message', $Pmarkers)) {
+            $nrOfPrecedentReports = count($Pmarkers);
+        } else {
+            $nrOfPrecedentReports = 0;
+        }
+        if (!array_key_exists('message', $markers)) {
+            $nrOfCurrentReports = count($markers);
+        } else {
+            $nrOfCurrentReports = 0;
+        }
         $changes = array();
         if ($nrOfCurrentReports > $nrOfPrecedentReports) {
             $dif = $nrOfCurrentReports - $nrOfPrecedentReports;
@@ -199,33 +206,12 @@ class Statistics extends Controller
             $dif = '- ' . $dif . ' Reports';
             $arrow = 'uparrow';
         }
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getByCounty.php?filter=" . $filter,
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "cache-control: no-cache"
-            ),
-        ));
-
-        $markersByCounty = curl_exec($curl);
-        $markersByCounty = json_decode($markersByCounty, true); //because of true, it's in an array
-        $err = curl_error($curl);
-
-        curl_close($curl);
-        usort($markersByCounty, function ($a, $b) {
-            return $a['quantity'] - $b['quantity'];
-        });
-
-        $markersByRegion = array();
+        $markersByCounty = array();
         if ($_SESSION['userID'] != -1) {
             $curl = curl_init();
+
             curl_setopt_array($curl, array(
-                CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getByRegion.php?filter=" . $filter . '&county=' . $_SESSION['county'],
+                CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getByCounty.php?filter=" . $filter . '&country=' . $_SESSION['country'],
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_TIMEOUT => 30,
                 CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -234,22 +220,49 @@ class Statistics extends Controller
                     "cache-control: no-cache"
                 ),
             ));
-           // echo curl_exec($curl);
-            $markersByRegion = curl_exec($curl);
-            $markersByRegion = json_decode($markersByRegion, true); //because of true, it's in an array
+
+            $markersByCounty = curl_exec($curl);
+            $markersByCounty = json_decode($markersByCounty, true);
             $err = curl_error($curl);
 
             curl_close($curl);
+            if ($markersByCounty != null) {
+                usort($markersByCounty, function ($a, $b) {
+                    return $a['quantity'] - $b['quantity'];
+                });
+            }
         }
-        usort($markersByRegion, function ($a, $b) {
-            return $a['quantity'] - $b['quantity'];
-        });
+        $markersByRegion = array();
+        if ($_SESSION['userID'] != -1) {
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => "http://localhost:80/proiect/GaSM/api/app/markers/read/getByRegion.php?filter=" . $filter . '&county=' . $_SESSION['county'] . '&country=' . $_SESSION['country'],
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "GET",
+                CURLOPT_HTTPHEADER => array(
+                    "cache-control: no-cache"
+                ),
+            ));
+            // echo curl_exec($curl);
+            $markersByRegion = curl_exec($curl);
+            $markersByRegion = json_decode($markersByRegion, true);
+            $err = curl_error($curl);
+
+            curl_close($curl);
+            if ($markersByRegion != null) {
+                usort($markersByRegion, function ($a, $b) {
+                    return $a['quantity'] - $b['quantity'];
+                });
+            }
+        }
 
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getCSV.php?filter=" . $filter . '&country=' . $_SESSION['country'] . '&city=' . $_SESSION['city'],
+            CURLOPT_URL => "http://localhost:80/proiect/GaSM/api/app/markers/read/getCSV.php?filter=" . $filter . '&country=' . $_SESSION['country'] . '&city=' . $_SESSION['city'],
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_TIMEOUT => 30,
             CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -263,7 +276,6 @@ class Statistics extends Controller
         $err = curl_error($curl);
 
         curl_close($curl);
-
 
         array_push($changes, array("arrow" => $arrow, "diff" => $dif));
         $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty, 'markersByRegion' => $markersByRegion, 'CSVString' => $CSVString]);

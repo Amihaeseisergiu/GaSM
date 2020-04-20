@@ -29,10 +29,10 @@ class Marker
     public function getTrash($filter = '', $city, $country)
     {
         if ($city == 'none') {
-            if ($filter == "Last Week") {
+            if ($filter == "LastWeek") {
                 $query = $this->con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
-            } else if ($filter == "Last Month") {
+            } else if ($filter == "LastMonth") {
                 $query = $this->con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
             } else if ($filter == "Today") {
@@ -42,10 +42,10 @@ class Marker
                 $query = $this->con->prepare("SELECT * from tw.markers");
             }
         } else {
-            if ($filter == "Last Week") {
+            if ($filter == "LastWeek") {
                 $query = $this->con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY and country = ? and city = ?");
-            } else if ($filter == "Last Month") {
+            } else if ($filter == "LastMonth") {
                 $query = $this->con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY and country = ? and city = ?");
             } else if ($filter == "Today") {
@@ -65,10 +65,10 @@ class Marker
     {
         $con = $this->con;
         if ($city == 'none') {
-            if ($filter == "Last Week") {
+            if ($filter == "LastWeek") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() - INTERVAL 7 DAY AND time >= CURDATE() - INTERVAL 14 DAY");
-            } else if ($filter == "Last Month") {
+            } else if ($filter == "LastMonth") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() - INTERVAL 31 DAY AND time >= CURDATE() - INTERVAL 62 DAY");
             } else if ($filter == "Today") {
@@ -78,10 +78,10 @@ class Marker
                 $query = $con->prepare("SELECT * from tw.markers");
             }
         } else {
-            if ($filter == "Last Week") {
+            if ($filter == "LastWeek") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                  WHERE time <= CURDATE() - INTERVAL 7 DAY AND time >= CURDATE() - INTERVAL 14 DAY and country = ? and city = ?");
-            } else if ($filter == "Last Month") {
+            } else if ($filter == "LastMonth") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                WHERE time <= CURDATE() - INTERVAL 31 DAY AND time >= CURDATE() - INTERVAL 62 DAY and country = ? and city = ?");
             } else if ($filter == "Today") {
@@ -97,42 +97,46 @@ class Marker
         return $query;
     }
 
-    public function getMarkersByCounty($filter = '')
+    public function getMarkersByCounty($filter = '', $country)
     {
-        $con = $this->con;
-        if ($filter == "Last Week") {
-            $query = $con->prepare("SELECT * FROM tw.markers
-            WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
-        } else if ($filter == "Last Month") {
-            $query = $con->prepare("SELECT * FROM tw.markers
-            WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
-        } else if ($filter == "Today") {
-            $query = $con->prepare("SELECT * FROM tw.markers
-            WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
-        } else {
-            $query = $con->prepare("SELECT * from tw.markers");
+        if ($country != 'none') {
+            $con = $this->con;
+            if ($filter == "LastWeek") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE country = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
+            } else if ($filter == "LastMonth") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE country = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
+            } else if ($filter == "Today") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE country = ? and time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
+            } else {
+                $query = $con->prepare("SELECT * from tw.markers WHERE country = ?");
+            }
+            $query->bindParam(1,  $country, PDO::PARAM_STR, 50);
+            $query->execute();
+            return $query;
         }
-        $query->execute();
-        return $query;
     }
 
-    public function getMarkersByRegion($filter = '', $county)
+    public function getMarkersByRegion($filter = '', $county, $country)
     {
         $con = $this->con;
         if ($county != 'none') {
-            if ($filter == "Last Week") {
+            if ($filter == "LastWeek") {
                 $query = $con->prepare("SELECT * FROM tw.markers
-            WHERE county = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
-            } else if ($filter == "Last Month") {
+            WHERE county = ? and country = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
+            } else if ($filter == "LastMonth") {
                 $query = $con->prepare("SELECT * FROM tw.markers
-            WHERE county = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
+            WHERE county = ?  and country = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
             } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM tw.markers
-            WHERE county = ? and time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
+            WHERE county = ? and country = ? and time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
             } else {
-                $query = $con->prepare("SELECT * from tw.markers where county = ?");
+                $query = $con->prepare("SELECT * from tw.markers where county = ?  and country = ? ");
             }
             $query->bindParam(1,  $county, PDO::PARAM_STR, 50);
+            $query->bindParam(2,  $country, PDO::PARAM_STR, 50);
             $query->execute();
             return $query;
         }
@@ -142,23 +146,23 @@ class Marker
     {
         $con = $this->con;
         if ($city == 'none') {
-            if ($filter == "Weekly") {
-                $query = $con->prepare("SELECT * FROM markers
+            if ($filter == "LastWeek") {
+                $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
-            } else if ($filter == "Monthly") {
-                $query = $con->prepare("SELECT * FROM markers
+            } else if ($filter == "LastMonth") {
+                $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY");
             } else if ($filter == "Today") {
-                $query = $con->prepare("SELECT * FROM markers
+                $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY");
             } else {
                 $query = $con->prepare("SELECT * from tw.markers");
             }
         } else {
-            if ($filter == "Weekly") {
+            if ($filter == "LastWeek") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY and country = ? and city = ?");
-            } else if ($filter == "Monthly") {
+            } else if ($filter == "LastMonth") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY and country = ? and city = ?");
             } else if ($filter == "Today") {

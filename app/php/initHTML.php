@@ -34,6 +34,12 @@ if (isset($_GET['downloadHTML'])) {
     if ($data['timeFilter'] === "AllTime" || $data['timeFilter'] == '') {
         $data['timeFilter'] = "All Time";
     }
+    if ($data['timeFilter'] === "LastMonth") {
+        $data['timeFilter'] = "Last Month";
+    }
+    if ($data['timeFilter'] === "LastWeek") {
+        $data['timeFilter'] = "Last Week";
+    }
     if ($_SESSION['city'] != 'none') {
         $nodText2 = $doc->createTextNode($data['timeFilter'] . ' Report ' . $_SESSION['city']);
     } else {
@@ -53,17 +59,19 @@ if (isset($_GET['downloadHTML'])) {
     $txt = $doc->createTextNode('Country Level');
     $hdr->appendChild($txt);
     $contor = 1;
-    foreach ($data['markersByCounty'] as $county) {
-        $listEl = $doc->createElement('div');
-        if ($contor <= 5) {
-            $listEl->setAttribute('style', 'background-color: #0ed145;');
-        } else if ($contor > count($data['markersByCounty']) - 5) {
-            $listEl->setAttribute('style', 'background-color: #e03131;');
+    if ($data['markersByCounty'] != null) {
+        foreach ($data['markersByCounty'] as $county) {
+            $listEl = $doc->createElement('div');
+            if ($contor <= 5) {
+                $listEl->setAttribute('style', 'background-color: #0ed145;');
+            } else if ($contor > count($data['markersByCounty']) - 5) {
+                $listEl->setAttribute('style', 'background-color: #e03131;');
+            }
+            $contor++;
+            $txt = $doc->createTextNode($county['county'] . ' : ' . $county['quantity']);
+            $listEl->appendChild($txt);
+            $list->appendChild($listEl);
         }
-        $contor++;
-        $txt = $doc->createTextNode($county['county'] . ' : ' . $county['quantity']);
-        $listEl->appendChild($txt);
-        $list->appendChild($listEl);
     }
     foreach ($bodyContent as $body) {
         $body->setAttribute('style', 'background-color: #e7e7e7;');
@@ -95,23 +103,23 @@ if (isset($_GET['downloadHTML'])) {
     $list2 = $doc->createElement('div');
     $divRegion->appendChild($hdr2);
     $divRegion->appendChild($list2);
-    $contor = 0;
-    if(count($data['markersByRegion']) != 0){
-    foreach ($data['markersByRegion'] as $region) {
-        $listEl = $doc->createElement('div');
-        if ($contor <= 5) {
-            $listEl->setAttribute('style', 'background-color: #0ed145;');
-        } else if ($contor > count($data['markersByRegion']) - 5) {
-            $listEl->setAttribute('style', 'background-color: #e03131;');
+    $contor = 1;
+    if ($data['markersByRegion'] != null) {
+        foreach ($data['markersByRegion'] as $region) {
+            $listEl = $doc->createElement('div');
+            if ($contor <= 5) {
+                $listEl->setAttribute('style', 'background-color: #0ed145;');
+            } else if ($contor > count($data['markersByRegion']) - 5) {
+                $listEl->setAttribute('style', 'background-color: #e03131;');
+            }
+            $contor++;
+            $txt = $doc->createTextNode($region['city'] . ' : ' . $region['quantity']);
+            $listEl->appendChild($txt);
+            $list2->appendChild($listEl);
         }
-        $contor++;
-        $txt = $doc->createTextNode($region['city'] . ' : ' . $region['quantity']);
-        $listEl->appendChild($txt);
-        $list2->appendChild($listEl);
     }
-}
     $divCountryAndRegion = $doc->createElement('div');
-    $divCountryAndRegion->setAttribute('style','display: flex; justify-content: space-around;');
+    $divCountryAndRegion->setAttribute('style', 'display: flex; justify-content: space-around;');
     $divCountryAndRegion->appendChild($divCountry);
     $divCountryAndRegion->appendChild($divRegion);
     $body->appendChild($divCountryAndRegion);
