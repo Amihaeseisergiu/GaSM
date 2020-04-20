@@ -1,0 +1,3 @@
+Options -Indexes        
+#asta configureaza sa nu poti accesa http://localhost/tw-appTest/Lab2%20PHP/mvc/app/ de ex
+# ci doar http://localhost/tw-appTest/Lab2%20PHP/mvc/public/
