@@ -28,7 +28,7 @@ class Marker
 
     public function getTrash($filter = '', $city, $country)
     {
-        if ($city == 'none') {
+        if ($city == 'none' || $city == '') {
             if ($filter == "LastWeek") {
                 $query = $this->con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");
@@ -64,7 +64,7 @@ class Marker
     public function getPrecedentTrash($filter = '', $city, $country)
     {
         $con = $this->con;
-        if ($city == 'none') {
+        if ($city == 'none' || $city == '') {
             if ($filter == "LastWeek") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() - INTERVAL 7 DAY AND time >= CURDATE() - INTERVAL 14 DAY");
@@ -145,7 +145,7 @@ class Marker
     public function getCSVString($filter = '', $country, $city)
     {
         $con = $this->con;
-        if ($city == 'none') {
+        if ($city == 'none' || $city == '') {
             if ($filter == "LastWeek") {
                 $query = $con->prepare("SELECT * FROM tw.markers
                 WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY");

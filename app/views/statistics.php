@@ -114,8 +114,8 @@ require_once('../app/php/initCSV.php');
                     <span> <?php echo $data['changes'][0]['diff']; ?> </span>
                 </div>
                 <div class="box-secondchange">
-                    <div class="uparrow"></div>
-                    <span> -5% Congestion </span>
+                    <div class="<?php echo $data['changes'][1]['arrow'] ?>"></div>
+                    <span> <?php echo $data['changes'][1]['diff']; ?> </span>
                 </div>
                 <div class="box-thirdchange">
                     <div class="downarrow"></div>

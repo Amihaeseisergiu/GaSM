@@ -13,7 +13,12 @@ if(isset($_GET['filter']))
 
     $marker = new Marker($db);
 
-    $result = $marker->getPrecedentTrash($_GET['filter'], $_GET['city'], $_GET['country']);
+    if(array_key_exists('city', $_GET)){
+        $result = $marker->getPrecedentTrash($_GET['filter'], $_GET['city'], $_GET['country']);
+        }
+        else {
+            $result = $marker->getPrecedentTrash($_GET['filter'], '', '');
+        }
     $num = $result->rowCount();
 
     if($num > 0)

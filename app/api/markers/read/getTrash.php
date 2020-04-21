@@ -11,8 +11,12 @@ if(isset($_GET['filter']))
     $database = new Database();
     $db = $database->connect();
     $marker = new Marker($db);
-
+    if(array_key_exists('city', $_GET)){
     $result = $marker->getTrash($_GET['filter'], $_GET['city'], $_GET['country']);
+    }
+    else {
+        $result = $marker->getTrash($_GET['filter'], '', '');
+    }
     $num = $result->rowCount();
     
     if($num > 0)

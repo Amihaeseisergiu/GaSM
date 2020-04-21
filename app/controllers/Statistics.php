@@ -22,12 +22,14 @@ class Statistics extends Controller
         $err = curl_error($curl);
 
         curl_close($curl);
+        $markerCoordinates = array();
         $plastics = array();
         $papers = array();
         $metals = array();
         $glasses = array();
         if (!array_key_exists('message', $markers)) {
             foreach ($markers as $marker) {
+                array_push($markerCoordinates, array("longitude" => $marker['longitude'], 'latitude' => $marker['latitude']));
                 $time = substr($marker['time'], 0, strpos($marker['time'], ' '));
                 if ($filter == 'Today') {
                     $time = date("Y-m-d H:i:00", strtotime($marker['time']));
@@ -99,7 +101,54 @@ class Statistics extends Controller
 
         curl_close($curl);
 
-        $Pplastics = array();
+        $PmarkerCoordinates = array();
+        if (!array_key_exists('message', $Pmarkers)) {
+            foreach ($Pmarkers as $Pmarker) {
+                array_push($PmarkerCoordinates, array("longitude" => $Pmarker['longitude'], "latitude" => $Pmarker['latitude']));
+            }
+        }
+
+        function distance($lat1, $lon1, $lat2, $lon2, $unit)
+        {
+            if (($lat1 == $lat2) && ($lon1 == $lon2)) {
+                return 0;
+            } else {
+                $theta = $lon1 - $lon2;
+                $dist = sin(deg2rad($lat1)) * sin(deg2rad($lat2)) +  cos(deg2rad($lat1)) * cos(deg2rad($lat2)) * cos(deg2rad($theta));
+                $dist = acos($dist);
+                $dist = rad2deg($dist);
+                $miles = $dist * 60 * 1.1515;
+                $unit = strtoupper($unit);
+
+                if ($unit == "K") {
+                    return ($miles * 1.609344);
+                } else if ($unit == "N") {
+                    return ($miles * 0.8684);
+                } else {
+                    return $miles;
+                }
+            }
+        }
+        $averageCurrentMarkerDistance = 0;
+        if (count($markerCoordinates) > 0) {
+            for ($i = 0; $i < count($markerCoordinates) - 1; $i++) {
+                for ($j = $i + 1; $j < count($markerCoordinates); $j++) {
+                    $averageCurrentMarkerDistance = $averageCurrentMarkerDistance + distance($markerCoordinates[$i]['latitude'], $markerCoordinates[$i]['longitude'], $markerCoordinates[$j]['latitude'], $markerCoordinates[$j]['longitude'], 'K');
+                }
+            }
+            $averageCurrentMarkerDistance = $averageCurrentMarkerDistance / count($markerCoordinates);
+        }
+        $averagePrecedentMarkerDistance = 0;
+        if (count($PmarkerCoordinates) > 0) {
+            for ($i = 0; $i < count($PmarkerCoordinates) - 1; $i++) {
+                for ($j = $i + 1; $j < count($PmarkerCoordinates); $j++) {
+                    $averagePrecedentMarkerDistance = $averagePrecedentMarkerDistance + distance($PmarkerCoordinates[$i]['latitude'], $PmarkerCoordinates[$i]['longitude'], $PmarkerCoordinates[$j]['latitude'], $PmarkerCoordinates[$j]['longitude'], 'K');
+                }
+            }
+            $averagePrecedentMarkerDistance = $averagePrecedentMarkerDistance / count($PmarkerCoordinates);
+        }
+
+        /* $Pplastics = array();
         $Ppapers = array();
         $Pmetals = array();
         $Pglasses = array();
@@ -155,7 +204,7 @@ class Statistics extends Controller
                     }
                 }
             }
-        }
+        }*/
 
 
         if ($shownGarbageTypes === "") {
@@ -188,10 +237,12 @@ class Statistics extends Controller
         }
         if (!array_key_exists('message', $Pmarkers)) {
             $nrOfPrecedentReports = count($Pmarkers);
+            //echo count($Pmarkers);
         } else {
             $nrOfPrecedentReports = 0;
         }
         if (!array_key_exists('message', $markers)) {
+            //echo count($markers);
             $nrOfCurrentReports = count($markers);
         } else {
             $nrOfCurrentReports = 0;
@@ -201,11 +252,41 @@ class Statistics extends Controller
             $dif = $nrOfCurrentReports - $nrOfPrecedentReports;
             $dif = '+ ' . $dif . ' Reports';
             $arrow = 'downarrow';
-        } else {
+        } else if ($nrOfCurrentReports < $nrOfPrecedentReports) {
             $dif = $nrOfPrecedentReports - $nrOfCurrentReports;
             $dif = '- ' . $dif . ' Reports';
             $arrow = 'uparrow';
+        } else {
+            $dif = 0;
+            $dif = $dif . ' Reports';
+            $arrow = 'uparrow';
         }
+
+        array_push($changes, array("arrow" => $arrow, "diff" => $dif));
+
+        if ($averageCurrentMarkerDistance != 0) {
+            $dif = (1 - $averagePrecedentMarkerDistance / $averageCurrentMarkerDistance) * 100;
+
+            $dif = number_format($dif, 0);
+            if ($dif[0] == '-') {
+                $dif = substr($dif, 1);
+            }
+        }
+        else {
+            $dif = '100';
+        }
+        if ($averageCurrentMarkerDistance > $averagePrecedentMarkerDistance) {
+            $dif = '+ ' . $dif . '% Congestion';
+            $arrow = 'downarrow';
+        } else if ($averageCurrentMarkerDistance < $averagePrecedentMarkerDistance) {
+            $dif = '- ' . $dif . '% Congestion';
+            $arrow = 'uparrow';
+        } else {
+            $dif = $dif . '% Congestion';
+            $arrow = 'uparrow';
+        }
+        array_push($changes, array("arrow" => $arrow, "diff" => $dif));
+
         $markersByCounty = array();
         if ($_SESSION['userID'] != -1) {
             $curl = curl_init();
@@ -258,26 +339,6 @@ class Statistics extends Controller
             }
         }
 
-
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getCSV.php?filter=" . $filter . '&country=' . $_SESSION['country'] . '&city=' . $_SESSION['city'],
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_TIMEOUT => 30,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => "GET",
-            CURLOPT_HTTPHEADER => array(
-                "cache-control: no-cache"
-            ),
-        ));
-        $CSVString = curl_exec($curl);
-        $CSVString = json_decode($CSVString, true);
-        $err = curl_error($curl);
-
-        curl_close($curl);
-
-        array_push($changes, array("arrow" => $arrow, "diff" => $dif));
-        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty, 'markersByRegion' => $markersByRegion, 'CSVString' => $CSVString]);
+        $this->view('statistics', ['plastics' => $plastics, 'papers' => $papers, 'glasses' => $glasses, 'metals' => $metals, 'garbageToShow' => $shownGarbage, 'timeFilter' => $filter, 'changes' => $changes, 'markersByCounty' => $markersByCounty, 'markersByRegion' => $markersByRegion]);
     }
 }

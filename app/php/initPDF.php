@@ -1,17 +1,17 @@
 <?php
 if ($data['timeFilter'] != 'Last Month' && $data['timeFilter'] != 'Last Week' && $data['timeFilter'] != 'Today') {
-    $data['timeFilter'] = 'All Time';
+    $timeFlt = 'All Time';
 }
 if ($data['timeFilter'] == 'LastMonth') {
-    $data['timeFilter'] = 'Last Month';
+    $timeFlt = 'Last Month';
 }
 if ($data['timeFilter'] == 'LastWeek') {
-    $data['timeFilter'] = 'Last Week';
+    $timeFlt = 'Last Week';
 }
 if ($_SESSION['city'] != 'none') {
-    $timeFlt = $data['timeFilter'] . ' Report ' . $_SESSION['city'];
+    $timeFlt = $timeFlt . ' Report ' . $_SESSION['city'];
 } else {
-    $timeFlt = $data['timeFilter'] . ' Report';
+    $timeFlt = $timeFlt . ' Report';
 }
 
 $cleanestCounties = 'Cleanest Counties: \r\n\r\n';
