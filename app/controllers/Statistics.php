@@ -131,21 +131,61 @@ class Statistics extends Controller
         }
         $averageCurrentMarkerDistance = 0;
         if (count($markerCoordinates) > 0) {
-            for ($i = 0; $i < count($markerCoordinates) - 1; $i++) {
-                for ($j = $i + 1; $j < count($markerCoordinates); $j++) {
-                    $averageCurrentMarkerDistance = $averageCurrentMarkerDistance + distance($markerCoordinates[$i]['latitude'], $markerCoordinates[$i]['longitude'], $markerCoordinates[$j]['latitude'], $markerCoordinates[$j]['longitude'], 'K');
+            if (count($markerCoordinates) <= 1000) {
+                $total = count($markerCoordinates);
+                for ($i = 0; $i < count($markerCoordinates) - 1; $i++) {
+                    for ($j = $i + 1; $j < count($markerCoordinates); $j++) {
+                        $averageCurrentMarkerDistance = $averageCurrentMarkerDistance + distance($markerCoordinates[$i]['latitude'], $markerCoordinates[$i]['longitude'], $markerCoordinates[$j]['latitude'], $markerCoordinates[$j]['longitude'], 'K');
+                    }
+                }
+            } else {
+                $total = 1000;
+                $auxMarkers = $markerCoordinates;
+                $randomMarkerCoordinates = array();
+                for ($i = 0; $i < 1000; $i++) {
+                    $index = array_rand($auxMarkers);
+                    array_push($randomMarkerCoordinates, $auxMarkers[(int) $index]);
+                    array_splice($auxMarkers, (int) $index, 1);
+                }
+
+                for ($i = 0; $i < 999; $i++) {
+                    for ($j = $i + 1; $j < 1000; $j++) {
+                        $averageCurrentMarkerDistance = $averageCurrentMarkerDistance + distance($randomMarkerCoordinates[$i]['latitude'], $randomMarkerCoordinates[$i]['longitude'], $randomMarkerCoordinates[$j]['latitude'], $randomMarkerCoordinates[$j]['longitude'], 'K');
+                    }
                 }
             }
-            $averageCurrentMarkerDistance = $averageCurrentMarkerDistance / count($markerCoordinates);
+            $averageCurrentMarkerDistance = $averageCurrentMarkerDistance / $total;
         }
         $averagePrecedentMarkerDistance = 0;
+        echo 'z';
         if (count($PmarkerCoordinates) > 0) {
-            for ($i = 0; $i < count($PmarkerCoordinates) - 1; $i++) {
-                for ($j = $i + 1; $j < count($PmarkerCoordinates); $j++) {
-                    $averagePrecedentMarkerDistance = $averagePrecedentMarkerDistance + distance($PmarkerCoordinates[$i]['latitude'], $PmarkerCoordinates[$i]['longitude'], $PmarkerCoordinates[$j]['latitude'], $PmarkerCoordinates[$j]['longitude'], 'K');
+            echo 'a';
+            if (count($PmarkerCoordinates) <= 1000) {
+                echo 'a';
+                $total = count($PmarkerCoordinates);
+                for ($i = 0; $i < count($PmarkerCoordinates) - 1; $i++) {
+                    for ($j = $i + 1; $j < count($PmarkerCoordinates); $j++) {
+                        $averagePrecedentMarkerDistance = $averagePrecedentMarkerDistance + distance($PmarkerCoordinates[$i]['latitude'], $PmarkerCoordinates[$i]['longitude'], $PmarkerCoordinates[$j]['latitude'], $PmarkerCoordinates[$j]['longitude'], 'K');
+                    }
+                }
+            } else {
+                echo 'b';
+                $total = 1000;
+                $auxMarkers = $PmarkerCoordinates;
+                $randomMarkerCoordinates = array();
+                for ($i = 0; $i < 1000; $i++) {
+                    $index = array_rand($auxMarkers);
+                    array_push($randomMarkerCoordinates, $auxMarkers[(int) $index]);
+                    array_splice($auxMarkers, (int) $index, 1);
+                }
+
+                for ($i = 0; $i < 999; $i++) {
+                    for ($j = $i + 1; $j < 1000; $j++) {
+                        $averagePrecedentMarkerDistance = $averagePrecedentMarkerDistance + distance($randomMarkerCoordinates[$i]['latitude'], $randomMarkerCoordinates[$i]['longitude'], $randomMarkerCoordinates[$j]['latitude'], $randomMarkerCoordinates[$j]['longitude'], 'K');
+                    }
                 }
             }
-            $averagePrecedentMarkerDistance = $averagePrecedentMarkerDistance / count($PmarkerCoordinates);
+            $averagePrecedentMarkerDistance = $averagePrecedentMarkerDistance / $total;
         }
 
         /* $Pplastics = array();
@@ -271,10 +311,12 @@ class Statistics extends Controller
             if ($dif[0] == '-') {
                 $dif = substr($dif, 1);
             }
-        }
-        else {
+        } else if ($averagePrecedentMarkerDistance == 0) {
+            $dif = '0';
+        } else {
             $dif = '100';
         }
+       // echo $averageCurrentMarkerDistance . ' ' . $averagePrecedentMarkerDistance;
         if ($averageCurrentMarkerDistance > $averagePrecedentMarkerDistance) {
             $dif = '+ ' . $dif . '% Congestion';
             $arrow = 'downarrow';

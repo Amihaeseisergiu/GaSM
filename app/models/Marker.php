@@ -73,7 +73,7 @@ class Marker
                 WHERE time <= CURDATE() - INTERVAL 31 DAY AND time >= CURDATE() - INTERVAL 62 DAY");
             } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM tw.markers
-                WHERE time <= CURDATE() AND time >= CURDATE() - INTERVAL 1 DAY");
+                WHERE time < CURDATE() AND time >= CURDATE() - INTERVAL 1 DAY");
             } else {
                 $query = $con->prepare("SELECT * from tw.markers");
             }
@@ -86,7 +86,7 @@ class Marker
                WHERE time <= CURDATE() - INTERVAL 31 DAY AND time >= CURDATE() - INTERVAL 62 DAY and country = ? and city = ?");
             } else if ($filter == "Today") {
                 $query = $con->prepare("SELECT * FROM tw.markers
-                WHERE time <= CURDATE() AND time >= CURDATE() + INTERVAL 1 DAY and country = ? and city = ?");
+                WHERE time < CURDATE() AND time >= CURDATE() - INTERVAL 1 DAY and country = ? and city = ?");
             } else {
                 $query = $con->prepare("SELECT * from tw.markers where country = ? and city = ?");
             }
