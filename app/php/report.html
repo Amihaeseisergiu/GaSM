@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Report</title>
+    </head>
+    <body style="background-color: #e7e7e7;">
+        
+    <h1 style="display:flex; justify-content:center; align-items:center; background-color: #cacbc8; margin-top:0em; font-size:3em; padding-bottom:1em; padding-top: 0.5em;">Last Month Report Iasi</h1><div style="display: flex; flex-direction:column; justify-content:center; align-items:center;"><div style="width: 1500px; border: 5px solid black; height: 400px; margin-bottom: 3em;" id="chartContainer"></div><div style="width: 650px; border: 5px solid black; height: 300px;" id="pieChart"></div></div><script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script><script>    var dateArrayPlastic = [{"time":"2020-03-24T00:00:00.000Z","quantity":3},{"time":"2020-03-25T00:00:00.000Z","quantity":2},{"time":"2020-03-26T00:00:00.000Z","quantity":3},{"time":"2020-03-27T00:00:00.000Z","quantity":3},{"time":"2020-03-28T00:00:00.000Z","quantity":2},{"time":"2020-04-02T00:00:00.000Z","quantity":1},{"time":"2020-04-03T00:00:00.000Z","quantity":2},{"time":"2020-04-04T00:00:00.000Z","quantity":5},{"time":"2020-04-05T00:00:00.000Z","quantity":2},{"time":"2020-04-07T00:00:00.000Z","quantity":2},{"time":"2020-04-08T00:00:00.000Z","quantity":2},{"time":"2020-04-09T00:00:00.000Z","quantity":1},{"time":"2020-04-10T00:00:00.000Z","quantity":3},{"time":"2020-04-11T00:00:00.000Z","quantity":3},{"time":"2020-04-12T00:00:00.000Z","quantity":1},{"time":"2020-04-13T00:00:00.000Z","quantity":2},{"time":"2020-04-14T00:00:00.000Z","quantity":2},{"time":"2020-04-15T00:00:00.000Z","quantity":1},{"time":"2020-04-16T00:00:00.000Z","quantity":1},{"time":"2020-04-17T00:00:00.000Z","quantity":9},{"time":"2020-04-20T00:00:00.000Z","quantity":2},{"time":"2020-04-21T00:00:00.000Z","quantity":3},{"time":"2020-04-22T00:00:00.000Z","quantity":3},{"time":"2020-04-23T00:00:00.000Z","quantity":8}];
+
+    var quantitiesPlastic = 66;
+
+    var dpsPlastic = [];
+    for (var i = 0; i < dateArrayPlastic.length; i++) {
+        dpsPlastic.push({
+            x: new Date(dateArrayPlastic[i]["time"]),
+            y: dateArrayPlastic[i]["quantity"]
+        });
+    }
+
+    dpsPlastic.sort(function(a, b) {
+        if (a['x'] > b['x']) {
+            return 1;
+        }
+        if (b['x'] > a['x']) {
+            return -1;
+        }
+        return 0;
+    });
+
+    var dateArrayPaper = [{"time":"2020-03-24T00:00:00.000Z","quantity":4},{"time":"2020-03-25T00:00:00.000Z","quantity":3},{"time":"2020-03-26T00:00:00.000Z","quantity":6},{"time":"2020-03-27T00:00:00.000Z","quantity":5},{"time":"2020-03-28T00:00:00.000Z","quantity":1},{"time":"2020-04-02T00:00:00.000Z","quantity":1},{"time":"2020-04-03T00:00:00.000Z","quantity":1},{"time":"2020-04-04T00:00:00.000Z","quantity":2},{"time":"2020-04-05T00:00:00.000Z","quantity":1},{"time":"2020-04-06T00:00:00.000Z","quantity":1},{"time":"2020-04-07T00:00:00.000Z","quantity":1},{"time":"2020-04-08T00:00:00.000Z","quantity":3},{"time":"2020-04-09T00:00:00.000Z","quantity":1},{"time":"2020-04-10T00:00:00.000Z","quantity":4},{"time":"2020-04-12T00:00:00.000Z","quantity":1},{"time":"2020-04-13T00:00:00.000Z","quantity":4},{"time":"2020-04-14T00:00:00.000Z","quantity":3},{"time":"2020-04-15T00:00:00.000Z","quantity":2},{"time":"2020-04-16T00:00:00.000Z","quantity":6},{"time":"2020-04-17T00:00:00.000Z","quantity":9},{"time":"2020-04-18T00:00:00.000Z","quantity":2},{"time":"2020-04-19T00:00:00.000Z","quantity":2},{"time":"2020-04-20T00:00:00.000Z","quantity":1},{"time":"2020-04-21T00:00:00.000Z","quantity":4},{"time":"2020-04-22T00:00:00.000Z","quantity":8},{"time":"2020-04-23T00:00:00.000Z","quantity":1}];
+
+    var quantitiesPaper = 77;
+
+    var dpsPaper = [];
+    for (var i = 0; i < dateArrayPaper.length; i++) {
+        dpsPaper.push({
+            x: new Date(dateArrayPaper[i]["time"]),
+            y: dateArrayPaper[i]["quantity"]
+        });
+    }
+
+    dpsPaper.sort(function(a, b) {
+        if (a['x'] > b['x']) {
+            return 1;
+        }
+        if (b['x'] > a['x']) {
+            return -1;
+        }
+        return 0;
+    });
+
+    var dateArrayGlass = [{"time":"2020-03-25T00:00:00.000Z","quantity":3},{"time":"2020-03-26T00:00:00.000Z","quantity":3},{"time":"2020-03-27T00:00:00.000Z","quantity":2},{"time":"2020-03-28T00:00:00.000Z","quantity":2},{"time":"2020-04-02T00:00:00.000Z","quantity":2},{"time":"2020-04-04T00:00:00.000Z","quantity":2},{"time":"2020-04-06T00:00:00.000Z","quantity":2},{"time":"2020-04-07T00:00:00.000Z","quantity":1},{"time":"2020-04-09T00:00:00.000Z","quantity":2},{"time":"2020-04-10T00:00:00.000Z","quantity":1},{"time":"2020-04-11T00:00:00.000Z","quantity":1},{"time":"2020-04-12T00:00:00.000Z","quantity":2},{"time":"2020-04-13T00:00:00.000Z","quantity":1},{"time":"2020-04-14T00:00:00.000Z","quantity":2},{"time":"2020-04-16T00:00:00.000Z","quantity":2},{"time":"2020-04-17T00:00:00.000Z","quantity":2},{"time":"2020-04-18T00:00:00.000Z","quantity":2},{"time":"2020-04-20T00:00:00.000Z","quantity":3},{"time":"2020-04-23T00:00:00.000Z","quantity":2}];
+
+    var quantitiesGlass = 37;
+
+    var dpsGlass = [];
+    for (var i = 0; i < dateArrayGlass.length; i++) {
+        dpsGlass.push({
+            x: new Date(dateArrayGlass[i]["time"]),
+            y: dateArrayGlass[i]["quantity"]
+        });
+    }
+
+    dpsGlass.sort(function(a, b) {
+        if (a['x'] > b['x']) {
+            return 1;
+        }
+        if (b['x'] > a['x']) {
+            return -1;
+        }
+        return 0;
+    });
+
+    var dateArrayMetal = [{"time":"2020-03-24T00:00:00.000Z","quantity":2},{"time":"2020-03-25T00:00:00.000Z","quantity":3},{"time":"2020-03-26T00:00:00.000Z","quantity":3},{"time":"2020-03-27T00:00:00.000Z","quantity":2},{"time":"2020-03-28T00:00:00.000Z","quantity":1},{"time":"2020-04-02T00:00:00.000Z","quantity":2},{"time":"2020-04-04T00:00:00.000Z","quantity":1},{"time":"2020-04-05T00:00:00.000Z","quantity":1},{"time":"2020-04-06T00:00:00.000Z","quantity":1},{"time":"2020-04-07T00:00:00.000Z","quantity":1},{"time":"2020-04-08T00:00:00.000Z","quantity":5},{"time":"2020-04-09T00:00:00.000Z","quantity":1},{"time":"2020-04-10T00:00:00.000Z","quantity":1},{"time":"2020-04-11T00:00:00.000Z","quantity":3},{"time":"2020-04-12T00:00:00.000Z","quantity":2},{"time":"2020-04-13T00:00:00.000Z","quantity":2},{"time":"2020-04-14T00:00:00.000Z","quantity":1},{"time":"2020-04-16T00:00:00.000Z","quantity":20},{"time":"2020-04-17T00:00:00.000Z","quantity":9},{"time":"2020-04-18T00:00:00.000Z","quantity":2},{"time":"2020-04-19T00:00:00.000Z","quantity":2},{"time":"2020-04-20T00:00:00.000Z","quantity":3},{"time":"2020-04-21T00:00:00.000Z","quantity":2},{"time":"2020-04-22T00:00:00.000Z","quantity":9},{"time":"2020-04-23T00:00:00.000Z","quantity":2}];
+
+
+
+    var quantitiesMetal = 81;
+    var dpsMetal = [];
+    for (var i = 0; i < dateArrayMetal.length; i++) {
+        dpsMetal.push({
+            x: new Date(dateArrayMetal[i]["time"]),
+            y: dateArrayMetal[i]["quantity"]
+        });
+    }
+
+    dpsMetal.sort(function(a, b) {
+        if (a['x'] > b['x']) {
+            return 1;
+        }
+        if (b['x'] > a['x']) {
+            return -1;
+        }
+        return 0;
+    });
+
+    var chart1 = new CanvasJS.Chart("chartContainer", {
+        backgroundColor: "white",
+        fileName: "LineChart",
+        title: {
+            text: "Garbage distribution"
+        },
+        axisX:{
+            tickColor: "red",
+            tickLength: 5,
+            tickThickness: 2
+        },
+        axisY:{
+        tickLength: 15,
+        tickColor: "DarkSlateBlue" ,
+        tickThickness: 5
+        },
+        zoomEnabled: true,
+        data: [{
+                showInLegend: true,
+                name: "series1",
+                legendText: "Plastic",
+                visible: true,
+                type: "line",
+                dataPoints: dpsPlastic
+            },
+            {
+                showInLegend: true,
+                name: "series2",
+                legendText: "Paper",
+                visible: true,
+                type: "line",
+                dataPoints: dpsPaper
+            },
+            {
+                showInLegend: true,
+                name: "series3",
+                legendText: "Glass",
+                visible: true,
+                type: "line",
+                dataPoints: dpsGlass
+            },
+            {
+                showInLegend: true,
+                name: "series4",
+                legendText: "Metal",
+                visible: true,
+                type: "line",
+                dataPoints: dpsMetal
+            }
+        ]
+    });
+    chart1.render();
+    var allPlastic = 0;
+    for (var i = 0; i < dateArrayPlastic.length; i++) {
+        allPlastic = allPlastic + quantitiesPlastic[i];
+    }
+    var allPaper = 0;
+    for (var i = 0; i < dateArrayPaper.length; i++) {
+        allPaper = allPaper + quantitiesPaper[i];
+    }
+    var allGlass = 0;
+    for (var i = 0; i < dateArrayGlass.length; i++) {
+        allGlass = allGlass + quantitiesGlass[i];
+    }
+    var allMetal = 0;
+    for (var i = 0; i < dateArrayMetal.length; i++) {
+        allMetal = allMetal + quantitiesMetal[i];
+    }
+    var chart2 = new CanvasJS.Chart("pieChart", {
+        theme: "light2",
+        title: {
+            text: "Garbage distribution",
+            horizontalAlign: "left",
+            fileName: "PieChart",
+            verticalAlign: "center"
+        },
+        data: [{
+            type: "pie",
+            showInLegend: true,
+            toolTipContent: "{y} - #percent %",
+            legendText: "{indexLabel}",
+            dataPoints: [{
+                    y: quantitiesPlastic,
+                    indexLabel: "Plastic"
+                },
+                {
+                    y: quantitiesPaper,
+                    indexLabel: "Paper"
+                },
+                {
+                    y: quantitiesGlass,
+                    indexLabel: "Glass"
+                },
+                {
+                    y: quantitiesMetal,
+                    indexLabel: "Metal"
+                }
+            ]
+        }]
+    });
+    chart2.render();</script><div style="display: flex; justify-content: space-around;"><div style="width: 25%; text-align: center; border: 2px solid black; background-color: white; margin-top:2em; font-family: sens-serif;"><h2 style="background-color: #cacbc8; padding-top: 1em; padding-bottom: 1em; margin-bottom: 0em; margin-top: 0em; font-size: 1.5em;">Country Level</h2><div style="display: flex; justify-content:center; flex-direction:column; font: bold;"><div style="background-color: #0ed145;">Constanta : 1</div><div style="background-color: #0ed145;">Ialomita : 2</div><div style="background-color: #0ed145;">Tulcea : 2</div><div style="background-color: #0ed145;">Satu Mare : 3</div><div style="background-color: #0ed145;">Giurgiu : 3</div><div>Braila : 4</div><div>Galati : 5</div><div>Botosani : 5</div><div>Prahova : 6</div><div>Caras-Severin : 6</div><div>Sibiu : 6</div><div>Calarasi : 6</div><div>Maramures : 6</div><div>Salaj : 7</div><div>Bihor : 7</div><div>Covasna : 8</div><div>Dolj : 8</div><div>Arad : 9</div><div>Vaslui : 9</div><div>Mehedinti : 9</div><div>Olt : 9</div><div>Teleorman : 9</div><div>Bistrita-Nasaud : 9</div><div>Gorj : 10</div><div>Arges : 10</div><div>Dambovita : 10</div><div>Harghita : 11</div><div>Mures : 12</div><div>Valcea : 12</div><div>Vrancea : 12</div><div>Timis : 12</div><div>Brasov : 12</div><div>Buzau : 13</div><div>Suceava : 15</div><div>Alba : 15</div><div>Hunedoara : 15</div><div>Bacau : 16</div><div style="background-color: #e03131;">Ilfov : 19</div><div style="background-color: #e03131;">Neamt : 41</div><div style="background-color: #e03131;">Cluj : 76</div><div style="background-color: #e03131;">Bucuresti : 102</div><div style="background-color: #e03131;">Iasi : 378</div></div></div><div style="width: 25%; text-align: center; border: 2px solid black; background-color: white; margin-top:2em; font-family: sens-serif;"><h2 style="background-color: #cacbc8; padding-top: 1em; padding-bottom: 1em; margin-bottom: 0em; margin-top: 0em; font-size: 1.5em;">County Level</h2><div><div style="background-color: #0ed145;">Oteleni : 1</div><div style="background-color: #0ed145;">Siretel : 1</div><div style="background-color: #0ed145;">Movileni : 1</div><div style="background-color: #0ed145;">Letcani : 1</div><div style="background-color: #0ed145;">Gropnita : 1</div><div>Sinesti : 1</div><div>Cristesti : 1</div><div>Ruginoasa : 1</div><div>Tatarusi : 1</div><div>Harmanesti : 1</div><div>Podu Iloaiei : 1</div><div>Rediu : 1</div><div>Horlesti : 1</div><div>Targu Frumos : 1</div><div>Costesti : 1</div><div>Tansa : 1</div><div>Miroslovesti : 1</div><div>Halaucesti : 1</div><div>Lungani : 2</div><div>Erbiceni : 2</div><div>Baltati : 2</div><div>Dumesti : 2</div><div>Valea Lupului : 2</div><div>Braesti : 2</div><div>Popesti : 2</div><div>Madarjac : 2</div><div>Deleni : 2</div><div>Strunga : 2</div><div>Bals : 2</div><div>Mogosesti-Siret : 2</div><div>Cucuteni : 3</div><div>Ciurea : 3</div><div>Stolniceni-Prajescu : 3</div><div>Tomesti : 3</div><div>Butea : 3</div><div>Ceplenita : 3</div><div>Belcesti : 3</div><div>Tibana : 3</div><div>Lespezi : 4</div><div>Coarnele Caprei : 4</div><div>Voinesti : 4</div><div>Ion Neculce : 4</div><div style="background-color: #e03131;">Barnova : 6</div><div style="background-color: #e03131;">Pascani : 9</div><div style="background-color: #e03131;">Mogosesti : 9</div><div style="background-color: #e03131;">Miroslava : 11</div><div style="background-color: #e03131;">Iasi : 261</div></div></div></div></body>
+    </html>

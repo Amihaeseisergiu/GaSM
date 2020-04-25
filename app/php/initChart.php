@@ -1,12 +1,12 @@
-    var dateArrayPlastic = [<?php echo $pls; ?>];
+    var dateArrayPlastic = <?php echo $pls; ?>;
 
-    var quantitiesPlastic = [<?php echo $plsQuantity; ?>];
+    var quantitiesPlastic = <?php echo $plsQuantity; ?>;
 
     var dpsPlastic = [];
     for (var i = 0; i < dateArrayPlastic.length; i++) {
         dpsPlastic.push({
-            x: new Date(dateArrayPlastic[i]),
-            y: quantitiesPlastic[i]
+            x: new Date(dateArrayPlastic[i]["time"]),
+            y: dateArrayPlastic[i]["quantity"]
         });
     }
 
@@ -20,15 +20,15 @@
         return 0;
     });
 
-    var dateArrayPaper = [<?php echo $pap; ?>];
+    var dateArrayPaper = <?php echo $pap; ?>;
 
-    var quantitiesPaper = [<?php echo $papQuantity; ?>];
+    var quantitiesPaper = <?php echo $papQuantity; ?>;
 
     var dpsPaper = [];
     for (var i = 0; i < dateArrayPaper.length; i++) {
         dpsPaper.push({
-            x: new Date(dateArrayPaper[i]),
-            y: quantitiesPaper[i]
+            x: new Date(dateArrayPaper[i]["time"]),
+            y: dateArrayPaper[i]["quantity"]
         });
     }
 
@@ -42,15 +42,15 @@
         return 0;
     });
 
-    var dateArrayGlass = [<?php echo $gls; ?>];
+    var dateArrayGlass = <?php echo $gls; ?>;
 
-    var quantitiesGlass = [<?php echo $glsQuantity; ?>];
+    var quantitiesGlass = <?php echo $glsQuantity; ?>;
 
     var dpsGlass = [];
     for (var i = 0; i < dateArrayGlass.length; i++) {
         dpsGlass.push({
-            x: new Date(dateArrayGlass[i]),
-            y: quantitiesGlass[i]
+            x: new Date(dateArrayGlass[i]["time"]),
+            y: dateArrayGlass[i]["quantity"]
         });
     }
 
@@ -64,16 +64,16 @@
         return 0;
     });
 
-    var dateArrayMetal = [<?php echo $mtl; ?>];
+    var dateArrayMetal = <?php echo $mtl; ?>;
 
 
 
-    var quantitiesMetal = [<?php echo $mtlQuantity; ?>];
+    var quantitiesMetal = <?php echo $mtlQuantity; ?>;
     var dpsMetal = [];
     for (var i = 0; i < dateArrayMetal.length; i++) {
         dpsMetal.push({
-            x: new Date(dateArrayMetal[i]),
-            y: quantitiesMetal[i]
+            x: new Date(dateArrayMetal[i]["time"]),
+            y: dateArrayMetal[i]["quantity"]
         });
     }
 
@@ -173,20 +173,20 @@
             toolTipContent: "{y} - #percent %",
             legendText: "{indexLabel}",
             dataPoints: [{
-                    y: allPlastic,
+                    y: quantitiesPlastic,
                     indexLabel: "Plastic"
                 },
                 {
-                    y: allMetal,
-                    indexLabel: "Metal"
-                },
-                {
-                    y: allPaper,
+                    y: quantitiesPaper,
                     indexLabel: "Paper"
                 },
                 {
-                    y: allGlass,
+                    y: quantitiesGlass,
                     indexLabel: "Glass"
+                },
+                {
+                    y: quantitiesMetal,
+                    indexLabel: "Metal"
                 }
             ]
         }]

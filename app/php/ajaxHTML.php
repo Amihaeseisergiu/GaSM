@@ -1,5 +1,64 @@
 <?php
-if (isset($_GET['downloadHTML'])) {
+
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
+
+$json = file_get_contents("php://input");
+$data = json_decode($json, true);
+
+if ($data['timeFilter'] === "All Time" || $data['timeFilter'] == '') {
+    $data['timeFilter'] = "AllTime";
+}
+
+$curl = curl_init();
+$markersByCounty = array();
+curl_setopt_array($curl, array(
+    CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getByCounty.php?filter=" . $data['timeFilter'] . '&country=' . $data['country'],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_HTTPHEADER => array(
+        "cache-control: no-cache"
+    ),
+));
+
+$markersByCounty = curl_exec($curl);
+$markersByCounty = json_decode($markersByCounty, true);
+$err = curl_error($curl);
+
+curl_close($curl);
+if ($markersByCounty != null) {
+    usort($markersByCounty, function ($a, $b) {
+        return $a['quantity'] - $b['quantity'];
+    });
+}
+
+$markersByRegion = array();
+
+$curl = curl_init();
+curl_setopt_array($curl, array(
+    CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getByRegion.php?filter=" . $data['timeFilter'] . '&county=' . $data['county'] . '&country=' . $data['country'],
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "GET",
+    CURLOPT_HTTPHEADER => array(
+        "cache-control: no-cache"
+    ),
+));
+// echo curl_exec($curl);
+$markersByRegion = curl_exec($curl);
+$markersByRegion = json_decode($markersByRegion, true);
+$err = curl_error($curl);
+
+curl_close($curl);
+if ($markersByRegion != null) {
+    usort($markersByRegion, function ($a, $b) {
+        return $a['quantity'] - $b['quantity'];
+    });
+}
+if (isset($data['timeFilter'])) {
     $doc = new DOMDocument();
     $doc->loadHTML('<!DOCTYPE html>
     <html lang="en">
@@ -12,15 +71,15 @@ if (isset($_GET['downloadHTML'])) {
         
     </body>
     </html>');
-    $str = file_get_contents('../app/php/initChart.php');
-    $str = str_replace('<?php echo $pls; ?>', $pls, $str);
-    $str = str_replace('<?php echo $pap; ?>', $pap, $str);
-    $str = str_replace('<?php echo $gls; ?>', $gls, $str);
-    $str = str_replace('<?php echo $mtl; ?>', $mtl, $str);
-    $str = str_replace('<?php echo $plsQuantity; ?>', $plsQuantity, $str);
-    $str = str_replace('<?php echo $papQuantity; ?>', $papQuantity, $str);
-    $str = str_replace('<?php echo $glsQuantity; ?>', $glsQuantity, $str);
-    $str = str_replace('<?php echo $mtlQuantity; ?>', $mtlQuantity, $str);
+    $str = file_get_contents(__DIR__ . '../initChart.php');
+    $str = str_replace('<?php echo $pls; ?>', $data['plastic'], $str);
+    $str = str_replace('<?php echo $pap; ?>', $data['paper'], $str);
+    $str = str_replace('<?php echo $gls; ?>', $data['glass'], $str);
+    $str = str_replace('<?php echo $mtl; ?>', $data['metal'], $str);
+    $str = str_replace('<?php echo $plsQuantity; ?>', $data['allPlastic'], $str);
+    $str = str_replace('<?php echo $papQuantity; ?>', $data['allPaper'], $str);
+    $str = str_replace('<?php echo $glsQuantity; ?>', $data['allGlass'], $str);
+    $str = str_replace('<?php echo $mtlQuantity; ?>', $data['allMetal'], $str);
     $str = str_replace('<?php if ($data[\'garbageToShow\'][\'plastic\'] === true) echo \'true\';
                             else echo \'false\'; ?>', 'true', $str);
     $str = str_replace('<?php if ($data[\'garbageToShow\'][\'paper\'] === true) echo \'true\';
@@ -40,8 +99,8 @@ if (isset($_GET['downloadHTML'])) {
     if ($data['timeFilter'] === "LastWeek") {
         $data['timeFilter'] = "Last Week";
     }
-    if ($_SESSION['city'] != 'none') {
-        $nodText2 = $doc->createTextNode($data['timeFilter'] . ' Report ' . $_SESSION['city']);
+    if ($data['city'] != 'none') {
+        $nodText2 = $doc->createTextNode($data['timeFilter'] . ' Report ' . $data['city']);
     } else {
         $nodText2 = $doc->createTextNode($data['timeFilter'] . ' Report');
     }
@@ -59,12 +118,12 @@ if (isset($_GET['downloadHTML'])) {
     $txt = $doc->createTextNode('Country Level');
     $hdr->appendChild($txt);
     $contor = 1;
-    if ($data['markersByCounty'] != null) {
-        foreach ($data['markersByCounty'] as $county) {
+    if ($markersByCounty != null) {
+        foreach ($markersByCounty as $county) {
             $listEl = $doc->createElement('div');
             if ($contor <= 5) {
                 $listEl->setAttribute('style', 'background-color: #0ed145;');
-            } else if ($contor > count($data['markersByCounty']) - 5) {
+            } else if ($contor > count($markersByCounty) - 5) {
                 $listEl->setAttribute('style', 'background-color: #e03131;');
             }
             $contor++;
@@ -104,12 +163,12 @@ if (isset($_GET['downloadHTML'])) {
     $divRegion->appendChild($hdr2);
     $divRegion->appendChild($list2);
     $contor = 1;
-    if ($data['markersByRegion'] != null) {
-        foreach ($data['markersByRegion'] as $region) {
+    if ($markersByRegion != null) {
+        foreach ($markersByRegion as $region) {
             $listEl = $doc->createElement('div');
             if ($contor <= 5) {
                 $listEl->setAttribute('style', 'background-color: #0ed145;');
-            } else if ($contor > count($data['markersByRegion']) - 5) {
+            } else if ($contor > count($markersByRegion) - 5) {
                 $listEl->setAttribute('style', 'background-color: #e03131;');
             }
             $contor++;
@@ -124,17 +183,6 @@ if (isset($_GET['downloadHTML'])) {
     $divCountryAndRegion->appendChild($divRegion);
     $body->appendChild($divCountryAndRegion);
     $htmlAsString = $doc->saveHTML();
-    file_put_contents(__DIR__ . '../../report.html', $htmlAsString);
-    $file = __DIR__ . '../../report.html';
-    if (file_exists($file)) {
-        header('Content-Description: File Transfer');
-        header('Content-Type: application/octet-stream');
-        header('Content-Disposition: attachment; filename="' . basename($file) . '"');
-        header('Expires: 0');
-        header('Cache-Control: must-revalidate');
-        header('Pragma: public');
-        header('Content-Length: ' . filesize($file));
-        readfile($file);
-        exit;
-    }
+    echo $htmlAsString;
+    //file_put_contents('report.html', $htmlAsString);
 }

@@ -1,8 +1,3 @@
-<?php
-require_once('../app/php/initTrash.php');
-require_once('../app/php/initHTML.php');
-require_once('../app/php/initCSV.php');
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -40,20 +35,20 @@ require_once('../app/php/initCSV.php');
         </div>
     </div>
     <div class="main1">
-        <form class="buttons" method="GET">
-            <button class="D3Button button" type="submit" id="firstButton" value="Download file" name="downloadCSV">
+        <div class="buttons">
+            <button class="D3Button button" onclick="downloadCSV()" id="firstButton" value="Download file" name="downloadCSV">
                 CSV Report
             </button>
-            <button class="D3Button button" id="secondButton" value="Download file" name="downloadPDF">
+            <button class="D3Button button" onclick="downloadPDF()" id="secondButton" value="Download file" name="downloadPDF">
                 PDF Report
             </button>
-            <button class="D3Button button" type="submit" id="thirdButton" value="Download file" name="downloadHTML">
+            <button class="D3Button button" onclick="downloadHTML()" id="thirdButton" value="Download file" name="downloadHTML">
                 HTML Report
             </button>
-        </form>
+        </div>
         <div class="chartAndButton">
             <div id="chartContainer"></div>
-            <form class="form" style="position:relative; margin-top:1em; display:flex;" method="GET">
+            <div class="form" style="position:relative; margin-top:1em; display:flex;">
                 <div class="garbage">
                     <input type="checkbox" id="garbage1" name="plastic" value="Plastic">
                     <label for="garbage1" style="margin-right: 0.5em;"> Plastic </label>
@@ -67,40 +62,14 @@ require_once('../app/php/initCSV.php');
                     <input type="checkbox" id="garbage4" name="metal" value="Metal">
                     <label for="garbage4" style="margin-right: 0.5em;"> Metal </label>
                 </div>
-                <select  name="filters" id="filters">
-                    <option value="Today">Today</option>
+                <select name="filters" id="filters">
+                    <option value="All Time">All Time</option>
                     <option value="Last Week">Last Week</option>
                     <option value="Last Month">Last Month</option>
-                    <option value="All Time">All Time</option>
+                    <option value="Today">Today</option>
                 </select>
-                <button type="submit" name="dateFilter" id="filterButton" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em; margin-left:0.5em; padding-top:0.3em; padding-bottom:0.3em; color:black; font-size:1em; font-weight:bold;">Filter</button>
-            </form>
-            <?php
-            if (isset($_GET["dateFilter"])) {
-                $shownGarbageTypes = '';
-                if (isset($_GET["plastic"])) {
-                    $shownGarbageTypes = $shownGarbageTypes . "plastic_";
-                }
-                if (isset($_GET["paper"])) {
-                    $shownGarbageTypes = $shownGarbageTypes . "paper_";
-                }
-                if (isset($_GET["glass"])) {
-                    $shownGarbageTypes = $shownGarbageTypes . "glass_";
-                }
-                if (isset($_GET["metal"])) {
-                    $shownGarbageTypes = $shownGarbageTypes . "metal_";
-                }
-                if ($_GET["filters"] === "Today") {
-                    header("Location: http://localhost/proiect/GaSM/public/Statistics/Today/" . $shownGarbageTypes);
-                } else if ($_GET["filters"] === "Last Week") {
-                    header("Location: http://localhost/proiect/GaSM/public/Statistics/Last Week/" . $shownGarbageTypes);
-                } else if ($_GET["filters"] === "Last Month") {
-                    header("Location: http://localhost/proiect/GaSM/public/Statistics/Last Month/" . $shownGarbageTypes);
-                } else {
-                    header("Location: http://localhost/proiect/GaSM/public/Statistics/All Time/" . $shownGarbageTypes);
-                }
-            }
-            ?>
+                <button onclick="changeChart()" name="dateFilter" id="filterButton" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em; margin-left:0.5em; padding-top:0.3em; padding-bottom:0.3em; color:black; font-size:1em; font-weight:bold;">Filter</button>
+            </div>
         </div>
     </div>
     <div class="main2">
@@ -110,12 +79,12 @@ require_once('../app/php/initCSV.php');
             </h3>
             <div class="changes">
                 <div class="box-firstchange">
-                    <div class="<?php echo $data['changes'][0]['arrow'] ?>"> </div>
-                    <span> <?php echo $data['changes'][0]['diff']; ?> </span>
+                    <div id="first-change"> </div>
+                    <span id="first-change-span"> </span>
                 </div>
                 <div class="box-secondchange">
-                    <div class="<?php echo $data['changes'][1]['arrow'] ?>"></div>
-                    <span> <?php echo $data['changes'][1]['diff']; ?> </span>
+                    <div id="second-change"></div>
+                    <span id="second-change-span"> </span>
                 </div>
                 <div class="box-thirdchange">
                     <div class="downarrow"></div>
@@ -138,14 +107,610 @@ require_once('../app/php/initCSV.php');
             </div>
         </div>
     </div>
-    <div id="demo"></div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
-    <script>
-        <?php require_once('../app/php/initChart.php'); ?>
-    </script>
     <script src="http://localhost/proiect/GaSM/app/javascript/jspdf.min.js"></script>
     <script>
-        <?php require_once('../app/php/initPDF.php'); ?>
+        var country = '<?php echo $_SESSION['country']; ?>';
+        var city = '<?php echo $_SESSION['city'] ?>';
+        var county = '<?php echo $_SESSION['county']; ?>';
+    </script>
+    <script>
+        var filter = 'All Time';
+        var showPlastic = true;
+        var showPaper = true;
+        var showGlass = true;
+        var showMetal = true;
+        var markerCoordinates = [];
+        var plastics = [];
+        var papers = [];
+        var glasses = [];
+        var metals = [];
+        var allPlastic = 0;
+        var allPaper = 0;
+        var allGlass = 0;
+        var allMetal = 0;
+
+        function changeChart() {
+            lastFilter = filter;
+            showPlastic = document.getElementById('garbage1').checked;
+            showPaper = document.getElementById('garbage2').checked;
+            showGlass = document.getElementById('garbage3').checked;
+            showMetal = document.getElementById('garbage4').checked;
+            if (showPlastic == false && showPaper == false && showGlass == false && showMetal == false) {
+                showPlastic = true;
+                showPaper = true;
+                showGlass = true;
+                showMetal = true;
+            }
+            filter = document.getElementById('filters');
+            filter = filter.value;
+            if (filter === "Last Week") {
+                filter = "LastWeek";
+            }
+            if (filter === "Last Month") {
+                filter = "LastMonth";
+            }
+            var url = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getTrash.php?filter=';
+            url = url.concat(filter, '&country=', country, '&city=', city);
+            fetch(url).then(response => response.json())
+                .then(data => {
+                    var markers = data;
+                    if (!("message" in data)) {
+                        plastics = [];
+                        papers = [];
+                        glasses = [];
+                        metals = [];
+                        allPlastic = 0;
+                        allPaper = 0;
+                        allGlass = 0;
+                        allMetal = 0;
+                        markerCoordinates = [];
+                        markers.forEach(marker => {
+                            var myArray = {
+                                "longitude": marker["longitude"],
+                                "latitude": marker["latitude"]
+                            };
+                            markerCoordinates.push(myArray);
+                            var time;
+                            if (filter !== "Today") {
+                                time = marker["time"].split(" ");
+                                time = new Date(time[0]);
+                            } else {
+                                time = new Date(marker["time"]);
+                                time.setSeconds(0);
+                            }
+                            if (marker["trash_type"] === "plastic") {
+                                var ok = 0;
+                                for (var i = 0; i < plastics.length; i++) {
+                                    var time2 = new Date(plastics[i]['time']);
+                                    if (time2.getTime() == time.getTime()) {
+                                        plastics[i]['quantity']++;
+                                        ok = 1;
+                                    }
+                                }
+                                if (ok == 0) {
+                                    var myArray = {
+                                        "time": time,
+                                        "quantity": 1
+                                    }
+                                    plastics.push(myArray);
+                                }
+                            }
+                            if (marker["trash_type"] === "paper") {
+                                var ok = 0;
+                                for (var i = 0; i < papers.length; i++) {
+                                    var time2 = new Date(papers[i]['time']);
+                                    if (time2.getTime() == time.getTime()) {
+                                        papers[i]['quantity']++;
+                                        ok = 1;
+                                    }
+                                }
+                                if (ok == 0) {
+                                    var myArray = {
+                                        "time": time,
+                                        "quantity": 1
+                                    }
+                                    papers.push(myArray);
+                                }
+                            }
+                            if (marker["trash_type"] === "glass") {
+                                var ok = 0;
+                                for (var i = 0; i < glasses.length; i++) {
+                                    var time2 = new Date(glasses[i]['time']);
+                                    if (time2.getTime() == time.getTime()) {
+                                        glasses[i]['quantity']++;
+                                        ok = 1;
+                                    }
+                                }
+                                if (ok == 0) {
+                                    var myArray = {
+                                        "time": time,
+                                        "quantity": 1
+                                    }
+                                    glasses.push(myArray);
+                                }
+                            }
+                            if (marker["trash_type"] === "metal") {
+                                var ok = 0;
+                                for (var i = 0; i < metals.length; i++) {
+                                    var time2 = new Date(metals[i]['time']);
+                                    if (time2.getTime() == time.getTime()) {
+                                        metals[i]['quantity']++;
+                                        ok = 1;
+                                    }
+                                }
+                                if (ok == 0) {
+                                    var myArray = {
+                                        "time": time,
+                                        "quantity": 1
+                                    }
+                                    metals.push(myArray);
+                                }
+                            }
+                        });
+                        plastics.sort(compare);
+                        papers.sort(compare);
+                        glasses.sort(compare);
+                        metals.sort(compare);
+
+                        function compare(a, b) {
+                            if (a["time"] > b["time"]) return 1;
+                            if (b["time"] > a["time"]) return -1;
+                            return 0;
+                        }
+                        var plasticDps = [];
+                        var paperDps = [];
+                        var glassDps = [];
+                        var metalDps = [];
+                        for (var i = 0; i < plastics.length; i++) {
+                            var myArray = {
+                                x: plastics[i]["time"],
+                                y: plastics[i]["quantity"]
+                            }
+                            plasticDps.push(myArray);
+                        }
+
+                        for (var i = 0; i < glasses.length; i++) {
+                            var myArray = {
+                                x: glasses[i]["time"],
+                                y: glasses[i]["quantity"]
+                            }
+                            glassDps.push(myArray);
+                        }
+
+                        for (var i = 0; i < papers.length; i++) {
+                            var myArray = {
+                                x: papers[i]["time"],
+                                y: papers[i]["quantity"]
+                            }
+                            paperDps.push(myArray);
+                        }
+
+                        for (var i = 0; i < metals.length; i++) {
+                            var myArray = {
+                                x: metals[i]["time"],
+                                y: metals[i]["quantity"]
+                            }
+                            metalDps.push(myArray);
+                        }
+
+                        var lineChart = new CanvasJS.Chart("chartContainer", {
+                            backgroundColor: "white",
+                            fileName: "LineChart",
+                            title: {
+                                text: "Garbage distribution"
+                            },
+                            axisX: {
+                                tickColor: "red",
+                                tickLength: 5,
+                                tickThickness: 2
+                            },
+                            axisY: {
+                                tickLength: 15,
+                                tickColor: "DarkSlateBlue",
+                                tickThickness: 5
+                            },
+                            zoomEnabled: true,
+                            data: [{
+                                    showInLegend: true,
+                                    name: "series1",
+                                    legendText: "Plastic",
+                                    visible: showPlastic,
+                                    type: "line",
+                                    dataPoints: plasticDps
+                                },
+                                {
+                                    showInLegend: true,
+                                    name: "series2",
+                                    legendText: "Paper",
+                                    visible: showPaper,
+                                    type: "line",
+                                    dataPoints: paperDps
+                                },
+                                {
+                                    showInLegend: true,
+                                    name: "series3",
+                                    legendText: "Glass",
+                                    visible: showGlass,
+                                    type: "line",
+                                    dataPoints: glassDps
+                                },
+                                {
+                                    showInLegend: true,
+                                    name: "series4",
+                                    legendText: "Metal",
+                                    visible: showMetal,
+                                    type: "line",
+                                    dataPoints: metalDps
+                                }
+                            ]
+                        });
+                        lineChart.render();
+                        for (var i = 0; i < plastics.length; i++) {
+                            allPlastic = allPlastic + plastics[i]["quantity"];
+                        }
+                        for (var i = 0; i < papers.length; i++) {
+                            allPaper = allPaper + papers[i]["quantity"];
+                        }
+                        for (var i = 0; i < glasses.length; i++) {
+                            allGlass = allGlass + glasses[i]["quantity"];
+                        }
+                        for (var i = 0; i < metals.length; i++) {
+                            allMetal = allMetal + metals[i]["quantity"];
+                        }
+                        var chart2 = new CanvasJS.Chart("pieChart", {
+                            theme: "light2",
+                            title: {
+                                text: "Garbage distribution",
+                                horizontalAlign: "left",
+                                fileName: "PieChart",
+                                verticalAlign: "center"
+                            },
+                            data: [{
+                                type: "pie",
+                                showInLegend: true,
+                                toolTipContent: "{y} - #percent %",
+                                legendText: "{indexLabel}",
+                                dataPoints: [{
+                                        y: allPlastic,
+                                        indexLabel: "Plastic"
+                                    },
+                                    {
+                                        y: allMetal,
+                                        indexLabel: "Metal"
+                                    },
+                                    {
+                                        y: allPaper,
+                                        indexLabel: "Paper"
+                                    },
+                                    {
+                                        y: allGlass,
+                                        indexLabel: "Glass"
+                                    }
+                                ]
+                            }]
+                        });
+                        chart2.render();
+
+                        function distance(lat1, lon1, lat2, lon2, unit) {
+                            if ((lat1 == lat2) && (lon1 == lon2)) {
+                                return 0;
+                            } else {
+                                var radlat1 = Math.PI * lat1 / 180;
+                                var radlat2 = Math.PI * lat2 / 180;
+                                var theta = lon1 - lon2;
+                                var radtheta = Math.PI * theta / 180;
+                                var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+                                if (dist > 1) {
+                                    dist = 1;
+                                }
+                                dist = Math.acos(dist);
+                                dist = dist * 180 / Math.PI;
+                                dist = dist * 60 * 1.1515;
+                                if (unit == "K") {
+                                    dist = dist * 1.609344
+                                }
+                                if (unit == "N") {
+                                    dist = dist * 0.8684
+                                }
+                                return dist;
+                            }
+                        }
+                        var allTrash = allGlass + allMetal + allPaper + allPlastic;
+                        var precedentMarkerCoordinates = [];
+                        var url = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getPrecedentTrash.php?filter=';
+                        url = url.concat(filter, '&country=', country, '&city=', city);
+                        fetch(url).then(response => response.json())
+                            .then(precedentData => {
+                                var precedentMarkers = precedentData;
+                                precedentMarkers.forEach(marker => {
+                                    var myArray = {
+                                        "longitude": marker["longitude"],
+                                        "latitude": marker["latitude"]
+                                    };
+                                    precedentMarkerCoordinates.push(myArray);
+                                });
+                                var allPrecedentTrash = precedentMarkers.length;
+                                var dif = 0;
+                                if (allPrecedentTrash > allTrash) {
+                                    dif = allPrecedentTrash - allTrash;
+                                    dif = "- ".concat(dif, " Reports");
+                                    document.getElementById("first-change-span").textContent = dif;
+                                    document.getElementById("first-change").setAttribute("class", "uparrow");
+                                } else {
+                                    dif = allTrash - allPrecedentTrash;
+                                    dif = "+ ".concat(dif, " Reports");
+                                    document.getElementById("first-change-span").textContent = dif;
+                                    document.getElementById("first-change").setAttribute("class", "downarrow");
+                                }
+
+                                var currentAverageMarkerDistance = 0;
+                                var precedentAverageMarkerDistance = 0;
+                                // console.log(markerCoordinates.length);
+                                //  console.log(precedentMarkerCoordinates.length);
+                                if (markerCoordinates.length <= 100) {
+                                    for (var i = 0; i < markerCoordinates.length - 1; i++) {
+                                        for (var j = i + 1; j < markerCoordinates.length; j++) {
+                                            currentAverageMarkerDistance = currentAverageMarkerDistance + distance(markerCoordinates[i]["latitude"], markerCoordinates[i]["longitude"], markerCoordinates[j]["latitude"], markerCoordinates[j]["longitude"], "K");
+                                        }
+                                    }
+                                    if (markerCoordinates.length != 0) {
+                                        currentAverageMarkerDistance = currentAverageMarkerDistance / markerCoordinates.length;
+                                    }
+
+                                } else {
+                                    for (var k = 0; k < 25; k++) {
+                                        var estimatedAverageMarkerDistance = 0;
+                                        var randomCoordinates = [...markerCoordinates];
+                                        var selectedRandomCoordinates = [];
+                                        for (var i = 0; i < 100; i++) {
+                                            var index = Math.floor(Math.random() * randomCoordinates.length);
+                                            selectedRandomCoordinates.push(randomCoordinates[index]);
+                                            randomCoordinates.splice(index, 1);
+                                        }
+                                        //console.log(selectedRandomCoordinates.length);
+                                        for (var i = 0; i < selectedRandomCoordinates.length - 1; i++) {
+                                            for (var j = i + 1; j < selectedRandomCoordinates.length; j++) {
+                                                estimatedAverageMarkerDistance = estimatedAverageMarkerDistance + distance(selectedRandomCoordinates[i]["latitude"], selectedRandomCoordinates[i]["longitude"], selectedRandomCoordinates[j]["latitude"], selectedRandomCoordinates[j]["longitude"], "K");
+                                            }
+                                        }
+                                        estimatedAverageMarkerDistance = estimatedAverageMarkerDistance / 100;
+                                        currentAverageMarkerDistance = currentAverageMarkerDistance + estimatedAverageMarkerDistance;
+                                    }
+                                    currentAverageMarkerDistance = currentAverageMarkerDistance / 25;
+                                }
+
+
+                                if (precedentMarkerCoordinates.length <= 100) {
+                                    for (var i = 0; i < precedentMarkerCoordinates.length - 1; i++) {
+                                        for (var j = i + 1; j < precedentMarkerCoordinates.length; j++) {
+                                            precedentAverageMarkerDistance = precedentAverageMarkerDistance + distance(precedentMarkerCoordinates[i]["latitude"], precedentMarkerCoordinates[i]["longitude"], precedentMarkerCoordinates[j]["latitude"], precedentMarkerCoordinates[j]["longitude"], "K");
+                                        }
+                                    }
+                                    if (precedentMarkerCoordinates.length != 0) {
+                                        precedentAverageMarkerDistance = precedentAverageMarkerDistance / precedentMarkerCoordinates.length;
+                                    }
+                                } else {
+                                    for (k = 0; k < 25; k++) {
+                                        var estimatedAverageMarkerDistance = 0;
+                                        var randomCoordinates = [...precedentMarkerCoordinates];
+                                        var selectedRandomCoordinates = [];
+                                        for (var i = 0; i < 100; i++) {
+                                            var index = Math.floor(Math.random() * randomCoordinates.length);
+                                            selectedRandomCoordinates.push(randomCoordinates[index]);
+                                            randomCoordinates.splice(index, 1);
+                                        }
+                                        for (var i = 0; i < selectedRandomCoordinates.length - 1; i++) {
+                                            for (var j = i + 1; j < selectedRandomCoordinates.length; j++) {
+                                                estimatedAverageMarkerDistance = estimatedAverageMarkerDistance + distance(selectedRandomCoordinates[i]["latitude"], selectedRandomCoordinates[i]["longitude"], selectedRandomCoordinates[j]["latitude"], selectedRandomCoordinates[j]["longitude"], "K");
+                                            }
+                                        }
+                                        estimatedAverageMarkerDistance = estimatedAverageMarkerDistance / 100;
+                                        precedentAverageMarkerDistance = precedentAverageMarkerDistance + estimatedAverageMarkerDistance;
+                                    }
+                                    precedentAverageMarkerDistance = precedentAverageMarkerDistance / 25;
+                                }
+                                dif = (1 - precedentAverageMarkerDistance / currentAverageMarkerDistance) * 100;
+                                dif = Math.round(dif);
+                                if (dif < 0) {
+                                    dif = dif.toString(10);
+                                    dif = dif.substr(1);
+                                    dif = "- ".concat(dif, " % Congestion");
+                                    document.getElementById("second-change-span").textContent = dif;
+                                    document.getElementById("second-change").setAttribute("class", "uparrow");
+                                } else {
+                                    dif = "+ ".concat(dif, " % Congestion");
+                                    document.getElementById("second-change-span").textContent = dif;
+                                    document.getElementById("second-change").setAttribute("class", "downarrow");
+                                }
+
+                            });
+                    } else {
+                        filter = lastFilter;
+                        if (filter == "LastMonth") {
+                            filter = "Last Month";
+                        }
+                        if (filter == "LastWeek") {
+                            filter = "Last Week";
+                        }
+                        document.getElementById('filters').value = filter;
+                        if (filter == "Last Month") {
+                            filter = "LastMonth";
+                        }
+                        if (filter == "Last Week") {
+                            filter = "LastWeek";
+                        }
+                    }
+                });
+        }
+    </script>
+    <script>
+        changeChart();
+    </script>
+    <script>
+        function downloadHTML() {
+            var url = "http://localhost:80/proiect/GaSM/app/php/ajaxHTML.php";
+            var sentData = {
+                "timeFilter": filter,
+                "country": country,
+                "city": city,
+                "county": county,
+                "plastic": JSON.stringify(plastics),
+                "paper": JSON.stringify(papers),
+                "glass": JSON.stringify(glasses),
+                "metal": JSON.stringify(metals),
+                "allPlastic": allPlastic,
+                "allPaper": allPaper,
+                "allGlass": allGlass,
+                "allMetal": allMetal
+            };
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sentData)
+                }).then(response => response.blob())
+                .then(data => {
+                    var url = window.URL.createObjectURL(data);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = "report.html";
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                });
+        }
+    </script>
+    <script>
+        function downloadPDF() {
+            var timeFlt = "";
+            var markersByCounty;
+            var markersByRegion;
+            if (filter != "Today" && filter != "LastMonth" && filter != "LastWeek") {
+                timeFlt = 'All Time';
+            }
+            if (filter == "LastMonth") {
+                timeFlt = "Last Month";
+            }
+            if (filter == "LastWeek") {
+                timeFlt = "Last Week";
+            }
+            if (city != 'none') {
+                timeFlt = timeFlt.concat(" Report ", city);
+            } else {
+                timeFlt = timeFlt.concat(" Report ");
+            }
+
+            function compare(a, b) {
+                if (a["quantity"] > b["quantity"]) return 1;
+                if (b["quantity"] > a["quantity"]) return -1;
+                return 0;
+            }
+            var pdf = new jsPDF('p', 'mm', [360, 400]);
+            var canvas1 = document.querySelector("#chartContainer .canvasjs-chart-canvas");
+            var canvas2 = document.querySelector("#pieChart .canvasjs-chart-canvas");
+            var dataURL1 = canvas1.toDataURL('image1/JPEG', 1);
+            var dataURL2 = canvas2.toDataURL('image2/JPEG', 1);
+            pdf.text(timeFlt, 150, 10);
+            pdf.line(0, 15, 400, 15);
+            pdf.addImage(dataURL1, 'JPEG', 0, 25);
+            pdf.line(0, 135, 400, 135);
+            pdf.addImage(dataURL2, 'JPEG', 110, 150);
+            pdf.line(0, 245, 400, 245);
+
+            getBoth()
+                .then(([counties, regions]) => {
+                    markersByCounty = counties;
+                    markersByCounty.sort(compare);
+                    var cleanestCounties = 'Cleanest Counties: \r\n\r\n';
+                    var dirtiestCounties = 'Dirtiest Counties: \r\n\r\n';
+                    var contor = 1;
+                    if (markersByCounty != null) {
+                        markersByCounty.forEach(county => {
+                            if (contor <= 5) {
+                                cleanestCounties = cleanestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
+                            } else if (contor > markersByCounty.length - 5) {
+                                dirtiestCounties = dirtiestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
+                            }
+                            contor++;
+                        });
+                    }
+                    pdf.text(cleanestCounties, 15, 255);
+                    pdf.text(dirtiestCounties, 290, 255);
+
+                    markersByRegion = regions;
+                    markersByRegion.sort(compare);
+                    var cleanestRegions = 'Cleanest Cities: \r\n\r\n';
+                    var dirtiestRegions = 'Dirtiest Cities: \r\n\r\n';
+                    var contor = 1;
+                    if (markersByRegion != null) {
+                        markersByRegion.forEach(region => {
+                            if (contor <= 5) {
+                                cleanestRegions = cleanestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
+                            } else if (contor > markersByRegion.length - 5) {
+                                dirtiestRegions = dirtiestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
+                            }
+                            contor++;
+                        });
+                    }
+                    pdf.line(0, 300, 400, 300);
+                    pdf.text(cleanestRegions, 15, 310);
+                    pdf.text(dirtiestRegions, 290, 310);
+                    pdf.save("download.pdf");
+                });
+
+            function getByCounty() {
+                var pdfURL = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getByCounty.php?filter=';
+                pdfURL = pdfURL.concat(filter, "&country=", country);
+                return fetch(pdfURL).then(response => response.json())
+            }
+
+            function getByRegion() {
+                var pdfURL = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getByRegion.php?filter=';
+                pdfURL = pdfURL.concat(filter, "&country=", country, "&county=", county);
+                return fetch(pdfURL).then(response => response.json())
+            }
+
+            function getBoth() {
+                return Promise.all([getByCounty(), getByRegion()]);
+            }
+        }
+    </script>
+    <script src="http://danml.com/js/download.js"></script>
+    <script>
+        function downloadCSV() {
+            function blobToString(b) {
+                var u, x;
+                u = URL.createObjectURL(b);
+                x = new XMLHttpRequest();
+                x.open('GET', u, false);
+                x.send();
+                URL.revokeObjectURL(u);
+                return x.responseText;
+            }
+
+            var csvURL = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getCSV.php?filter=';
+            csvURL = csvURL.concat(filter, "&country=", country, "&city=", city);
+            fetch(csvURL).then(response => response.blob())
+                .then(data => {
+                    var csvToString = blobToString(data);
+                    csvToString = csvToString.replace(/\"/g, "");
+                    var csvSplit = csvToString.split("newline");
+                    console.log(csvSplit.length);
+                    var csvArray = [];
+                    csvSplit.forEach(element => {
+                        var myArray = [element];
+                        csvArray.push(myArray);
+                    });
+                    let csvContent = "data:text/csv;charset=utf-8,";
+                    csvArray.forEach(function(rowArray) {
+                        let row = rowArray.join(",");
+                        csvContent += row + "\r\n";
+                    });
+                    download(csvContent, "repot.csv", "csv");
+                });
+        }
     </script>
 </body>
 

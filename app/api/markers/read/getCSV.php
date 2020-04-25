@@ -13,16 +13,16 @@ if (isset($_GET['filter'])) {
     $marker = new Marker($db);
 
     if (array_key_exists('city', $_GET)) {
-        $result = $marker->getCSVString($_GET['filter'], $_GET['city'], $_GET['country']);
+        $result = $marker->getCSVString($_GET['filter'], $_GET['country'], $_GET['city']);
     } else {
         $result = $marker->getCSVString($_GET['filter'], '', '');
     }
     $num = $result->rowCount();
 
     if ($num > 0) {
-        $CSVString = '';
+        $CSVString = "";
         while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-            $CSVString = $CSVString . $row['id'] . ', ' . $row['latitude'] . ', ' . $row['longitude'] . ', ' . $row['trash_type'] . ', ' . $row['user_id'] . ', ' . $row['time'] . ', ' . $row['country'] . ', ' . $row['county'] . ', ' . $row['city'] . "\r\n";
+            $CSVString = $CSVString . $row['id'] . ', ' . $row['latitude'] . ', ' . $row['longitude'] . ', ' . $row['trash_type'] . ', ' . $row['user_id'] . ', ' . $row['time'] . ', ' . $row['country'] . ', ' . $row['county'] . ', ' . $row['city'] . " newline ";
         }
 
         echo json_encode($CSVString);
