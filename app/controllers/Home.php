@@ -65,7 +65,7 @@ class Home extends Controller
                 }
                 else 
                 {
-                    $this->view('index',['mesaj'=>"Datele introduse nu sunt valide!"]);
+                    $this->view('index',['mesaj'=>"Parola sau username gresit!"]);
                     //echo '<script>alert("Parola sau username gresite!")</script>';  //daca sunt gresite datele introduse la  login
     
                 }    
@@ -95,13 +95,13 @@ class Home extends Controller
 
          //var_dump($_POST); // pt debugging, va arata ce valori s-au primit la $_POST, daca o las asa aici,necomentata, se va putea face XSS pe ea
 
-         echo $_SESSION['loggedIn'];
-         echo $_SESSION['userID'];
-         echo $_SESSION['privileges'];
-         echo $_SESSION['country'];
-         echo $_SESSION['county'];
-         echo $_SESSION['city'];
-         echo $_SESSION['name'];
+         //echo $_SESSION['loggedIn'];
+         //echo $_SESSION['userID'];
+         //echo $_SESSION['privileges'];
+         //echo $_SESSION['country'];
+         //echo $_SESSION['county'];
+         //echo $_SESSION['city'];
+         //echo $_SESSION['name'];
     }  
 
 }

@@ -25,14 +25,18 @@
             
                 
            
-                <button onclick= "location.href = 'Map'" class="D3Button">
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Map'" class="D3Button">
                     Map
                 </button>
             
 
             
-                <button onclick= "location.href = 'Statistics'" class="D3Button">
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Statistics'" class="D3Button">
                     Statistics
+                </button>
+
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/1'" class="D3Button">
+                    Campaigns
                 </button>
             
         </div>

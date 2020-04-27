@@ -33,6 +33,11 @@
             <button onclick= "location.href = 'Statistics'" class="D3Button">
                 Statistics
             </button>
+
+            <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/1'" class="D3Button">
+                    Campaigns
+            </button>
+
         </div>
     </div>
 
@@ -64,7 +69,7 @@
             <?php
               if(isset($data['mesaj'])) echo '<p  class="error">' . $data['mesaj'] .'</p>';
             ?>
-            <a class="forgotPW" href="resetpw.html">Forgot password?</a>
+            <!--<a class="forgotPW" href="resetpw.html">Forgot password?</a>-->
         </div>
 
     </div>
