@@ -32,10 +32,6 @@
             <button>
                 Statistics
             </button>
-
-            <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/1'" class="D3Button">
-                Campaigns
-            </button>
         </div>
     </div>
     <div class="main1">
@@ -51,7 +47,15 @@
             </button>
         </div>
         <div class="chartAndButton">
-            <div id="chartContainer"></div>
+            <div id="chartAndSwitch">
+                <div id="leftButton" onclick="switchChart()">
+                    <div class="leftarrow"></div>
+                </div>
+                <div class="charts" id="lineChart"></div>
+                <div id="rightButton" onclick="switchChart()">
+                    <div class="rightarrow"></div>
+                </div>
+            </div>
             <div class="form" style="position:relative; margin-top:1em; display:flex;">
                 <div class="garbage">
                     <input type="checkbox" id="garbage1" name="plastic" value="Plastic">
@@ -119,6 +123,21 @@
         var county = '<?php echo $_SESSION['county']; ?>';
     </script>
     <script>
+        function switchChart() {
+            if (currentChart === "line") {
+                var chartId = document.getElementById(currentChart.concat("Chart"));
+                chartId.setAttribute("id", "barChart");
+                currentChart = "bar";
+            } else {
+                var chartId = document.getElementById(currentChart.concat("Chart"));
+                chartId.setAttribute("id", "lineChart");
+                currentChart = "line";
+            }
+            loadChart();
+        }
+    </script>
+
+    <script>
         var filter = 'All Time';
         var showPlastic = true;
         var showPaper = true;
@@ -133,6 +152,151 @@
         var allPaper = 0;
         var allGlass = 0;
         var allMetal = 0;
+        var plsticDps = [];
+        var paperDps = [];
+        var glassDps = [];
+        var metalDps = [];
+        var currentChart = "line";
+        var charts = [];
+
+        function loadChart() {
+            if (currentChart === "line") {
+                var lineChart = new CanvasJS.Chart("lineChart", {
+                    animationEnabled: true,
+                    backgroundColor: "white",
+                    fileName: "LineChart",
+                    title: {
+                        text: "Garbage Distribution"
+                    },
+                    axisX: {
+                        tickColor: "red",
+                        tickLength: 5,
+                        tickThickness: 2
+                    },
+                    axisY: {
+                        tickLength: 15,
+                        tickColor: "DarkSlateBlue",
+                        tickThickness: 5
+                    },
+                    zoomEnabled: true,
+                    data: [{
+                            showInLegend: true,
+                            name: "series1",
+                            legendText: "Plastic",
+                            visible: showPlastic,
+                            type: "line",
+                            dataPoints: plasticDps
+                        },
+                        {
+                            showInLegend: true,
+                            name: "series2",
+                            legendText: "Paper",
+                            visible: showPaper,
+                            type: "line",
+                            dataPoints: paperDps
+                        },
+                        {
+                            showInLegend: true,
+                            name: "series3",
+                            legendText: "Glass",
+                            visible: showGlass,
+                            type: "line",
+                            dataPoints: glassDps
+                        },
+                        {
+                            showInLegend: true,
+                            name: "series4",
+                            legendText: "Metal",
+                            visible: showMetal,
+                            type: "line",
+                            dataPoints: metalDps
+                        }
+                    ]
+                });
+                lineChart.render();
+                var myArray = {
+                    "line": lineChart
+                };
+                charts.push(myArray);
+            } else if (currentChart == "bar") {
+                var plasticToBar = plasticDps;
+                var paperToBar = paperDps;
+                var glassToBar = glassDps;
+                var metalToBar = metalDps;
+                plasticToBar['label'] = plasticToBar['x'];
+                delete plasticToBar['x'];
+                paperToBar['label'] = paperToBar['x'];
+                delete paperToBar['x'];
+                glassToBar['label'] = glassToBar['x'];
+                delete glassToBar['x'];
+                metalToBar['label'] = metalToBar['x'];
+                delete metalToBar['x'];
+                var chartId = document.getElementById("barChart");
+                chartId.setAttribute("id", "barChart");
+                currentChart = "bar";
+                var barChart = new CanvasJS.Chart("barChart", {
+                    animationEnabled: true,
+                    zoomEnabled: true,
+                    title: {
+                        text: "Garbage Distribution"
+                    },
+                    axisY: {
+                        title: "Reports",
+                        titleFontColor: "#4F81BC",
+                        lineColor: "#4F81BC",
+                        labelFontColor: "#4F81BC",
+                        tickColor: "#4F81BC"
+                    },
+                    toolTip: {
+                        shared: true
+                    },
+                    legend: {
+                        cursor: "pointer"
+                    },
+                    data: [{
+                            type: "column",
+                            name: "Plastic",
+                            legendText: "Plastic",
+                            visible: showPlastic,
+                            showInLegend: true,
+                            dataPoints: plasticToBar
+                        },
+                        {
+                            type: "column",
+                            name: "Paper",
+                            legendText: "Paper",
+                            visible: showPaper,
+                            axisYType: "secondary",
+                            showInLegend: true,
+                            dataPoints: paperToBar
+                        },
+                        {
+                            type: "column",
+                            name: "Glass",
+                            legendText: "Glass",
+                            visible: showGlass,
+                            axisYType: "secondary",
+                            showInLegend: true,
+                            dataPoints: glassToBar
+                        },
+                        {
+                            type: "column",
+                            name: "Metal",
+                            legendText: "Metal",
+                            visible: showMetal,
+                            axisYType: "secondary",
+                            showInLegend: true,
+                            dataPoints: metalToBar
+                        }
+                    ]
+                });
+                barChart.render();
+                var myArray = {
+                    "bar": barChart
+                };
+                charts.push(myArray);
+            }
+        }
 
         function changeChart() {
             lastFilter = filter;
@@ -262,10 +426,10 @@
                             if (b["time"] > a["time"]) return -1;
                             return 0;
                         }
-                        var plasticDps = [];
-                        var paperDps = [];
-                        var glassDps = [];
-                        var metalDps = [];
+                        plasticDps = [];
+                        paperDps = [];
+                        glassDps = [];
+                        metalDps = [];
                         for (var i = 0; i < plastics.length; i++) {
                             var myArray = {
                                 x: plastics[i]["time"],
@@ -297,59 +461,7 @@
                             }
                             metalDps.push(myArray);
                         }
-
-                        var lineChart = new CanvasJS.Chart("chartContainer", {
-                            backgroundColor: "white",
-                            fileName: "LineChart",
-                            title: {
-                                text: "Garbage distribution"
-                            },
-                            axisX: {
-                                tickColor: "red",
-                                tickLength: 5,
-                                tickThickness: 2
-                            },
-                            axisY: {
-                                tickLength: 15,
-                                tickColor: "DarkSlateBlue",
-                                tickThickness: 5
-                            },
-                            zoomEnabled: true,
-                            data: [{
-                                    showInLegend: true,
-                                    name: "series1",
-                                    legendText: "Plastic",
-                                    visible: showPlastic,
-                                    type: "line",
-                                    dataPoints: plasticDps
-                                },
-                                {
-                                    showInLegend: true,
-                                    name: "series2",
-                                    legendText: "Paper",
-                                    visible: showPaper,
-                                    type: "line",
-                                    dataPoints: paperDps
-                                },
-                                {
-                                    showInLegend: true,
-                                    name: "series3",
-                                    legendText: "Glass",
-                                    visible: showGlass,
-                                    type: "line",
-                                    dataPoints: glassDps
-                                },
-                                {
-                                    showInLegend: true,
-                                    name: "series4",
-                                    legendText: "Metal",
-                                    visible: showMetal,
-                                    type: "line",
-                                    dataPoints: metalDps
-                                }
-                            ]
-                        });
-                        lineChart.render();
+                        loadChart();
                         for (var i = 0; i < plastics.length; i++) {
                             allPlastic = allPlastic + plastics[i]["quantity"];
                         }
@@ -363,6 +475,7 @@
                             allMetal = allMetal + metals[i]["quantity"];
                         }
                         var chart2 = new CanvasJS.Chart("pieChart", {
+                            animationEnabled: true,
                             theme: "light2",
                             title: {
                                 text: "Garbage distribution",
@@ -611,16 +724,20 @@
                 if (b["quantity"] > a["quantity"]) return -1;
                 return 0;
             }
-            var pdf = new jsPDF('p', 'mm', [360, 400]);
-            var canvas1 = document.querySelector("#chartContainer .canvasjs-chart-canvas");
+            var pdf = new jsPDF('p', 'mm', [380, 400]);
+            if (currentChart == "line") {
+                var canvas1 = document.querySelector("#lineChart .canvasjs-chart-canvas");
+            } else if (currentChart == "bar") {
+                var canvas1 = document.querySelector("#barChart .canvasjs-chart-canvas");
+            }
             var canvas2 = document.querySelector("#pieChart .canvasjs-chart-canvas");
             var dataURL1 = canvas1.toDataURL('image1/JPEG', 1);
             var dataURL2 = canvas2.toDataURL('image2/JPEG', 1);
-            pdf.text(timeFlt, 150, 10);
+            pdf.text(timeFlt, 160, 10);
             pdf.line(0, 15, 400, 15);
             pdf.addImage(dataURL1, 'JPEG', 0, 25);
             pdf.line(0, 135, 400, 135);
-            pdf.addImage(dataURL2, 'JPEG', 110, 150);
+            pdf.addImage(dataURL2, 'JPEG', 120, 150);
             pdf.line(0, 245, 400, 245);
 
             getBoth()
@@ -641,7 +758,7 @@
                         });
                     }
                     pdf.text(cleanestCounties, 15, 255);
-                    pdf.text(dirtiestCounties, 290, 255);
+                    pdf.text(dirtiestCounties, 300, 255);
 
                     markersByRegion = regions;
                     markersByRegion.sort(compare);
@@ -660,7 +777,7 @@
                     }
                     pdf.line(0, 300, 400, 300);
                     pdf.text(cleanestRegions, 15, 310);
-                    pdf.text(dirtiestRegions, 290, 310);
+                    pdf.text(dirtiestRegions, 300, 310);
                     pdf.save("download.pdf");
                 });
 
