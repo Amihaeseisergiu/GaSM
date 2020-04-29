@@ -94,6 +94,7 @@
             <button class="brightGreen2DButton buttons" onclick="selectMarker('plastic')">Plastic</button>
             <button class="brightGreen2DButton buttons" onclick="selectMarker('paper')">Paper</button>
             <button class="brightGreen2DButton buttons" onclick="selectMarker('metal')">Metal</button>
+            <button class="brightGreen2DButton buttons" onclick="selectMarker('glass')">Glass</button>
         </div>
 
         <div class="middle">
@@ -104,7 +105,6 @@
         <div class="rightSide">
             <button class="brightGreen2DButton buttons" onclick="selectMap('statistics')">Statistics Map</button>
             <button class="brightGreen2DButton buttons" onclick="selectMap('markers')">Markers Map</button>
-            <button class="brightGreen2DButton buttons">Replace 3</button>
         </div>
     </div>
 

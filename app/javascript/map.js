@@ -31,6 +31,15 @@ var metalMarkerIcon = L.icon({
     shadowSize:   [50, 64],
     shadowAnchor: [0, 45]
 });
+var glassMarkerIcon = L.icon({
+    iconUrl: 'http://localhost:80/proiect/GaSM/app/images/glassmarkericon.png',
+    shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
+    iconSize: [40, 50],
+    iconAnchor: [20, 50],
+    popupAnchor: [20, 0],
+    shadowSize:   [50, 64],
+    shadowAnchor: [0, 45]
+});
 
 var currentGarbageType = '';
 var currentMapType = 'markers';
@@ -142,6 +151,7 @@ function addMarker(marker)
     if(marker.trash_type.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
     else if(marker.trash_type.localeCompare('plastic') == 0) markerIcon = plasticMarkerIcon;
     else if(marker.trash_type.localeCompare('metal') == 0) markerIcon = metalMarkerIcon;
+    else if(marker.trash_type.localeCompare('glass') == 0) markerIcon = glassMarkerIcon;
 
     if(marker.trash_type.localeCompare('') != 0)
     {
