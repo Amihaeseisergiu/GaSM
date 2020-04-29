@@ -155,7 +155,7 @@
         var allPaper = 0;
         var allGlass = 0;
         var allMetal = 0;
-        var plsticDps = [];
+        var plasticDps = [];
         var paperDps = [];
         var glassDps = [];
         var metalDps = [];
