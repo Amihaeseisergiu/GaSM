@@ -24,6 +24,11 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/MarkerCluster.Default.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.markercluster/1.4.1/leaflet.markercluster-src.js"></script>
 
+    <!-- Load Leaflet Drawing from CDN -->
+    <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <!-- Load Country Codes and Counties from local directory -->
     <script src="http://localhost:80/proiect/GaSM/app/javascript/countrycodes.js"></script>
     <script src="http://localhost:80/proiect/GaSM/app/javascript/romaniacounties.js"></script>
 
@@ -168,6 +173,21 @@
 
         loadMarkers();
         garbageMap.on('click', onMapClick);
+
+        if(<?php echo json_encode($_SESSION['privileges']); ?>.localeCompare('admin') == 0)
+        {
+            new L.Control.Draw({
+                draw: {
+                    marker   : false,
+                    polygon  : false,
+                    polyline : false,
+                    rectangle: true,
+                    circle   : false,
+                    circlemarker : false
+                },
+                edit: false
+            }).addTo(garbageMap);
+        }
         
     </script>
 </body>
