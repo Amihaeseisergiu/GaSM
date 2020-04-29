@@ -80,14 +80,14 @@ if (isset($data['timeFilter'])) {
     $str = str_replace('<?php echo $papQuantity; ?>', $data['allPaper'], $str);
     $str = str_replace('<?php echo $glsQuantity; ?>', $data['allGlass'], $str);
     $str = str_replace('<?php echo $mtlQuantity; ?>', $data['allMetal'], $str);
-    $str = str_replace('<?php if ($data[\'garbageToShow\'][\'plastic\'] === true) echo \'true\';
+  /*  $str = str_replace('<?php if ($data[\'garbageToShow\'][\'plastic\'] === true) echo \'true\';
                             else echo \'false\'; ?>', 'true', $str);
     $str = str_replace('<?php if ($data[\'garbageToShow\'][\'paper\'] === true) echo \'true\';
                             else echo \'false\'; ?>', 'true', $str);
     $str = str_replace('<?php if ($data[\'garbageToShow\'][\'glass\'] === true) echo \'true\';
                             else echo \'false\'; ?>', 'true', $str);
     $str = str_replace('<?php if ($data[\'garbageToShow\'][\'metal\'] === true) echo \'true\';
-                            else echo \'false\'; ?>', 'true', $str);
+                            else echo \'false\'; ?>', 'true', $str);*/
     $header = $doc->createElement('h1');
     $header->setAttribute('style', 'display:flex; justify-content:center; align-items:center; background-color: #cacbc8; margin-top:0em; font-size:3em; padding-bottom:1em; padding-top: 0.5em;');
     if ($data['timeFilter'] === "AllTime" || $data['timeFilter'] == '') {
@@ -146,6 +146,10 @@ if (isset($data['timeFilter'])) {
     $childDivNode2 = $doc->createElement('div');
     $childDivNode2->setAttribute('style', 'width: 650px; border: 5px solid black; height: 300px;');
     $childDivNode2->setAttribute('id', 'pieChart');
+    $childDivNode3 = $doc->createElement('div');
+    $childDivNode3->setAttribute('style', 'width: 1500px; border: 5px solid black; height: 400px; margin-bottom: 3em;');
+    $childDivNode3->setAttribute('id', 'barChart');
+    $divNode->appendChild($childDivNode3);
     $divNode->appendChild($childDivNode2);
     $list->setAttribute('style', 'display: flex; justify-content:center; flex-direction:column; font: bold;');
     $divCountry = $doc->createElement('div');
