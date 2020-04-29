@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/campaign.css">
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/inputButtons.css">
 </head>
-<body>
+<body class="bodyClass">
     <div class="top">      <!--top part-->
         <div>
             <img src="http://localhost:80/proiect/GaSM/app/images/logo.jpg" alt="Logo">
@@ -57,10 +57,11 @@
         echo '<h3 class="campaignDescText">No. of likes:' . $data[0]['likes'] . '</h3>';
 
         //print_r($data[0]);
-        for($i=0;$i+1<sizeof($data[1]);$i=$i+2)
+        for($i=0;$i+1<sizeof($data[1]);$i=$i+3)
         {
           echo '<div class="commentBox">';  
 
+          echo '<h3 class="campaignDescText">' . $data[1][$i+2] . '</h3>';  //timestamp-ul comentariului
           echo '<h3 class="campaignDescText">Author:' . $data[1][$i+1] . '</h3>';  //numele
           echo '<h3 class="campaignDescText">Comment:' . $data[1][$i] . '</h3>';    //$data[1][0], comentariul postat de el 
 

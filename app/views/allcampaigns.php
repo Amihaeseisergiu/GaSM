@@ -124,8 +124,11 @@ $counter=0;
               }
           
               xhr.open(\'POST\', \'http://localhost:80/proiect/GaSM/public/Campaign/comment/' . $row['id'] .'\');
-              xhr.send(new FormData(document.getElementById(\'commentForm' . $row['id'] . '\')));
-              alert ("You left a comment!");
+              xhr.send(new FormData(document.getElementById(\'commentForm' . $row['id'] . '\')));';
+              if($_SESSION['loggedIn']) echo 'alert ("You left a comment!");';
+                   else echo 'alert ("Trebuie sa fiti logat pt. a lasa comentarii!");';
+              echo '     
+              document.getElementById(\'comment' . $row['id'] . '\').value="";
             });
             
         </script>';

@@ -45,6 +45,10 @@
     <div class="greenContainer"> 
     
             <h1 class="textH">Not found </h1>  
+
+            <form  id="back" name="backToCreateCampaign" action="http://localhost/proiect/GaSM/public/Campaign/" method="post">
+               <button  class="controlButton" type="submit" id="details" name="startYourCampaign">Start your own campaign!</button>
+            </form>
    </div>  
 
 

@@ -114,7 +114,7 @@ public function doesItExist($idCampaign)
 
     $con=mysqli_connect("Localhost", "root" ,"", "tw");
 
-    $query = $con->prepare("SELECT * from campaigns");
+    $query = $con->prepare("SELECT * from campaigns order by id asc");
     $query->execute(); //nu mai avem de bind-uit parametri
 
     $result=$query->get_result();
@@ -196,7 +196,7 @@ public function doesItExist($idCampaign)
   {
     $con=mysqli_connect("Localhost", "root" ,"", "tw");
 
-    $query = $con->prepare("SELECT * from comments join users on comments.id_user=users.id where id_campaign=?");
+    $query = $con->prepare("SELECT * from comments join users on comments.id_user=users.id where id_campaign=? order by time desc");
     $query->bind_param("i",$idCampaign);
 
     $query->execute(); //nu mai avem de bind-uit parametri
@@ -210,14 +210,13 @@ public function doesItExist($idCampaign)
     {
         array_push($array,$row['comment']);
         array_push($array,$row['name']);
+        array_push($array,$row['time']);
     }
     return $array;
 
   }
 
 }
-
-
 
 
 ?>
