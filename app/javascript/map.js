@@ -93,7 +93,7 @@ info.update = function (props) {
     + "<b>Metal</b> " + props.nr_metal + "</br>"
     + "<b>Glass</b> " + props.nr_glass
     + "</div></div>"
-        : '</h4>Hover over a countie');
+        : '</h4>Hover over a county');
 };
 
 var legend = L.control({position: 'bottomright'});
