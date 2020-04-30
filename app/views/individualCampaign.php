@@ -35,7 +35,7 @@
                     Statistics
                 </button>
 
-                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/1'" class="D3Button">
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/0'" class="D3Button">
                     Campaigns
                 </button>
             
@@ -52,9 +52,12 @@
         echo '<div class="greyContainerOneCampaign">';
         
 
+        echo '<div class="infoOneCampaign">';
         echo '<h3 class="campaignNameText">' . $data[0]['name'] . '</h3>';
+        echo '<h3 class="campaignDescText"><p>Location:</p><p>' . $data[0]['location'] . '</p></h3>';
         echo '<h3 class="campaignDescText"><p>Description:</p><p>' . $data[0]['description'] . '</p></h3>';
         echo '<h3 class="campaignDescText">No. of likes:' . $data[0]['likes'] . '</h3>';
+        echo '</div>';
 
         //print_r($data[0]);
         for($i=0;$i+1<sizeof($data[1]);$i=$i+3)
@@ -69,16 +72,21 @@
         }
 
         if($data[0]['id']%2==1)
-        echo '<form  id="back" name="backToCampaignList" action="http://localhost/proiect/GaSM/public/Campaign/index/'. $data[0]['id'] .'" method="post" class="greyContainerAllCampaigns">
-            <button  class="controlButton" type="submit" id="details" name="startYourCampaign">Back</button>';
+        {
+
+            $index=$data[0]['id']-1;
+            echo '<form  id="back" name="backToCampaignList" action="http://localhost/proiect/GaSM/public/Campaign/index/'. $index .'" method="post" class="greyContainerAllCampaigns">
+                <button  class="controlButton" type="submit" id="details" name="startYourCampaign">Back</button>';
+        }
         else 
-            {   
-              $index=($data[0]['id'])-1;
+        {   
+            $index=($data[0]['id'])-2;
     
-              echo '<form  id="back" name="backToCampaignList" action="http://localhost/proiect/GaSM/public/Campaign/index/'. $index .'" method="post" class="greyContainerAllCampaigns">
+            echo '<form  id="back" name="backToCampaignList" action="http://localhost/proiect/GaSM/public/Campaign/index/'. $index .'" method="post" class="greyContainerAllCampaigns">
                 <button  class="controlButton" type="submit" id="details" name="startYourCampaign">Back</button>';
 
-            }
+        }
+
        echo '</div>';  //inchidem divul greyContainer  
 
   ?>

@@ -57,19 +57,19 @@ class Campaign extends Controller
         else if(isset($_POST['PreviousPage']))
         {
 
-            $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie-4);
-            array_push($arrayCampaignsTable,$idCampanie-4);
+            $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie);
+            array_push($arrayCampaignsTable,$idCampanie);
             //print_r($arrayCampaignsTable);
             $this->view('allcampaigns',$arrayCampaignsTable);
             
         }
                                  // trebuie verificat daca exista acest index
-        else if($idCampanie!='') //daca se da manual url-ul si se ajunge in metoda index cu id-ul 3, va afisa pagina cu campania cu id 3 si urm campanie de dupa daca exista
+        else if($idCampanie!='') //daca se da manual url-ul si se ajunge in metoda index cu id-ul 2, va afisa pagina cu campania cu id 3 si urm campanie de dupa daca exista(cea cu idul 4)
         {
-            if($aCampaign->doesItExist($idCampanie))
+            if($aCampaign->doesItExist($idCampanie+1))
             {
-               $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie-1);
-               array_push($arrayCampaignsTable,$idCampanie-1);
+               $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie);
+               array_push($arrayCampaignsTable,$idCampanie);
             
                $this->view('allcampaigns',$arrayCampaignsTable);
             }
@@ -88,9 +88,13 @@ class Campaign extends Controller
     {
         $aCampaign=$this->model('CampaignModel');
 
-        $aCampaign->addLike($idCampanie);
+        if($_SESSION['loggedIn'])
+         $aCampaign->addLike($idCampanie);
+
+        else  echo '<script>alert("Nu sunteti logat!")</script>';
             
         //if($idCampanie)
+
         $arrayCampaignsTable=$aCampaign->getAllCampaigns();
       
     }

@@ -36,7 +36,7 @@
                     Statistics
                 </button>
 
-                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/1'" class="D3Button">
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/0'" class="D3Button">
                     Campaigns
                 </button>
             
@@ -96,9 +96,12 @@ $counter=0;
 
                 fetch(\'http://localhost:80/proiect/GaSM/public/Campaign/like/'. $row['id'] . '\', {
                   method: \'POST\',
-                  headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}});
+                  headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}});';
                 
-                alert ("You liked this campaign!");
+                  if($_SESSION['loggedIn']) echo 'alert ("You liked this campaign!");';
+                  else echo 'alert ("Trebuie sa fiti logat pt. da like-uri!");';
+
+                  echo '
                 return false;
               }
 
@@ -158,7 +161,11 @@ $counter=0;
 //////////////////////////////////////////////////////////////////////////////////////////////
   if(($counter%2==1 && $row['id']>2)||($counter+1==sizeof($data)-1))//daca suntem la elementul 3(0,1,2,3) si id-ul e mai mare de 2, sau urm element e capatul sirului($fostulIndex)
   {
-    echo '<form action="http://localhost/proiect/GaSM/public/Campaign/index/' . $row['id']. '" method="post" class="greyContainerAllCampaigns">    
+    if($row['id']%2==0)     // ca sa nu ajunga la index -1 si sa dea not found
+       $valParam=$row['id']-4;
+      else $valParam=$row['id']-3; 
+
+    echo '<form action="http://localhost/proiect/GaSM/public/Campaign/index/' . $valParam . '" method="post" class="greyContainerAllCampaigns">    
         <button  class="controlButton" type="prevPage" id="prevPage" name="PreviousPage"><</button>
         </form>  ';
   } 
@@ -167,7 +174,7 @@ $counter=0;
   {
     
                      
-    echo '<form action="http://localhost/proiect/GaSM/public/Campaign/index/' . $row['id']. '" method="post" class="greyContainerAllCampaigns">    
+    echo '<form action="http://localhost/proiect/GaSM/public/Campaign/index/' . $row['id'] . '" method="post" class="greyContainerAllCampaigns">    
             <button  class="controlButton" type="nextPage" id="nextPage" name="NextPage">></button>
           </form>  ';
     break;
