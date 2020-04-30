@@ -180,6 +180,14 @@ function loadMarkers()
     });
 }
 
+function loadMyLastMarker()
+{
+    fetch('http://localhost:80/proiect/GaSM/app/api/markers/read/getLastByUser.php').then(response => response.json())
+    .then(data => {
+        addMarker(data);
+    });
+}
+
 function selectMap(mapType)
 {
     if(mapType.toString().localeCompare('markers') == 0 && currentMapType.toString().localeCompare('markers') != 0)
@@ -266,7 +274,6 @@ garbageMap.on(L.Draw.Event.CREATED, function (geometry) {
 
     var markers = jsonToArray(markersCluster.getLayers());
     var result = geometry.layer.contains(markers);
-    markersCluster.removeLayers(result);
 
     for(var i = 0; i < result.length; i++)
     {
@@ -279,6 +286,9 @@ garbageMap.on(L.Draw.Event.CREATED, function (geometry) {
             method: 'PUT',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify([marker, "inactive"])
+        }).then(response => {
+
+            markersCluster.removeLayers(result);
         });
     }
 });

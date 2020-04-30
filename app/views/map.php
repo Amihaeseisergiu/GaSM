@@ -118,27 +118,6 @@
                 var latlng = garbageMap.mouseEventToLatLng(e.originalEvent);
                 var loggedIn = <?php echo json_encode($_SESSION['loggedIn']); ?>;
 
-                if(loggedIn.toString().localeCompare('true') == 0)
-                {
-                    var currentdate = new Date();
-                    var marker = {
-                        latitude: latlng.lat,
-                        longitude: latlng.lng,
-                        trash_type: currentGarbageType,
-                        userId: parseInt(<?php echo json_encode($_SESSION['userID']); ?>),
-                        time: currentdate.getFullYear() + "-"
-                            + currentdate.getMonth()  + "-" 
-                            + currentdate.getDate() + " "  
-                            + currentdate.getHours() + ":"  
-                            + currentdate.getMinutes() + ":" 
-                            + currentdate.getSeconds(),
-                        userName: <?php echo json_encode($_SESSION['name']); ?>,
-                        userCountry: <?php echo json_encode($_SESSION['country']); ?>,
-                        userCity: <?php echo json_encode($_SESSION['city']); ?>
-                    };
-                    addMarker(marker);
-                }
-
                 var geocodeService = L.esri.Geocoding.geocodeService();
                 geocodeService.reverse().latlng(latlng).run(function(error, result) {
                     var locationData = {
@@ -147,10 +126,6 @@
                         county: result.address.Region.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
                         country : getCountryNameIso3(result.address.CountryCode)
                     }
-                    
-                    var urlString ="lat=" + latlng.lat+"&lng=" + latlng.lng + "&type=" + currentGarbageType 
-                                    + "&country=" + locationData.country + "&city=" + locationData.city
-                                     + "&county=" + locationData.county + "&neighborhood=" + locationData.neighborhood;
 
                     var marker = {
                         "latitude": latlng.lat,
@@ -166,6 +141,8 @@
                         method: 'POST',
                         headers: {'Content-Type':'application/json'},
                         body: JSON.stringify(marker)
+                    }).then(response => {
+                        loadMyLastMarker();
                     });
                 });
             }

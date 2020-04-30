@@ -178,6 +178,15 @@ class Marker
         return $query;
     }
 
+    public function getMarkersByUser($userId)
+    {
+            $con = $this->con;
+            $query = $con->prepare("SELECT * FROM tw.markers WHERE `user_id` = ? ORDER BY `id` DESC");
+            $query->bindParam(1,  $userId, PDO::PARAM_INT);
+            $query->execute();
+            return $query;
+    }
+
     public function insert($marker)
     {
         session_start();
