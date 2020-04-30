@@ -31,6 +31,15 @@ var metalMarkerIcon = L.icon({
     shadowSize:   [50, 64],
     shadowAnchor: [0, 45]
 });
+var glassMarkerIcon = L.icon({
+    iconUrl: 'http://localhost:80/proiect/GaSM/app/images/glassmarkericon.png',
+    shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
+    iconSize: [40, 50],
+    iconAnchor: [20, 50],
+    popupAnchor: [20, 0],
+    shadowSize:   [50, 64],
+    shadowAnchor: [0, 45]
+});
 
 var currentGarbageType = '';
 var currentMapType = 'markers';
@@ -142,6 +151,7 @@ function addMarker(marker)
     if(marker.trash_type.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
     else if(marker.trash_type.localeCompare('plastic') == 0) markerIcon = plasticMarkerIcon;
     else if(marker.trash_type.localeCompare('metal') == 0) markerIcon = metalMarkerIcon;
+    else if(marker.trash_type.localeCompare('glass') == 0) markerIcon = glassMarkerIcon;
 
     if(marker.trash_type.localeCompare('') != 0)
     {
@@ -226,3 +236,49 @@ function selectMap(mapType)
     }
     currentMapType = mapType;
 }
+
+L.drawLocal.draw.toolbar.actions.title = 'Cancel garbage clearing';
+L.drawLocal.draw.toolbar.buttons.rectangle = 'Clear garbage in area';
+L.drawLocal.draw.handlers.rectangle.tooltip.start = 'Select garbage area to clear';
+L.drawLocal.draw.handlers.simpleshape.tooltip.end = 'Release to select area';
+
+function jsonToArray(jsonObject)
+{
+    var result = [];
+    var keys = Object.keys(jsonObject);
+    keys.forEach(function (key) {
+      result.push(jsonObject[key]);
+    });
+    return result;
+}
+
+L.Rectangle.include({
+    contains: function (markers) {
+        var markersContained = markers.filter(marker => {
+            return this.getBounds().contains(marker.getLatLng()) === true;
+        });
+        
+        return markersContained;
+    }
+});
+
+garbageMap.on(L.Draw.Event.CREATED, function (geometry) {
+
+    var markers = jsonToArray(markersCluster.getLayers());
+    var result = geometry.layer.contains(markers);
+    markersCluster.removeLayers(result);
+
+    for(var i = 0; i < result.length; i++)
+    {
+        var marker = {
+            "latitude": result[i]._latlng.lat,
+            "longitude": result[i]._latlng.lng
+        }
+
+        fetch('http://localhost:80/proiect/GaSM/app/api/markers/update/update.php', {
+            method: 'PUT',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify([marker, "inactive"])
+        });
+    }
+});

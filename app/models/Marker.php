@@ -21,7 +21,7 @@ class Marker
 
     public function getAll()
     {
-        $query = $this->con->prepare("SELECT * from tw.markers");
+        $query = $this->con->prepare("SELECT * from tw.markers WHERE `state` = 'active'");
         $query->execute();
         return $query;
     }
@@ -186,8 +186,8 @@ class Marker
         $con = $this->con;
         if ($userId > 0) {
             $query = $con->prepare("INSERT INTO tw.markers(`latitude`,
-            `longitude`, `trash_type`, `user_id`, `time`, `country`, `county`, `city`, `neighborhood`) 
-            VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?)");
+            `longitude`, `trash_type`, `user_id`, `time`, `country`, `county`, `city`, `neighborhood`, `state`) 
+            VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP, ?, ?, ?, ?, 'active')");
             $query->bindParam(1, $marker['latitude'], PDO::PARAM_STR, 8);
             $query->bindParam(2, $marker['longitude'], PDO::PARAM_STR, 8);
             $query->bindParam(3, $marker['trashType'], PDO::PARAM_STR, 11);
@@ -196,6 +196,23 @@ class Marker
             $query->bindParam(6, $marker['county'], PDO::PARAM_STR, 50);
             $query->bindParam(7, $marker['city'], PDO::PARAM_STR, 50);
             $query->bindParam(8, $marker['neighborhood'], PDO::PARAM_STR, 50);
+            $query->execute();
+        }
+    }
+
+    public function update($marker, $state)
+    {
+        session_start();
+        $userId = $_SESSION['userID'];
+        $userPrivileges = $_SESSION['privileges'];
+
+        $con = $this->con;
+        if ($userId > 0 && strcmp($userPrivileges, "admin") == 0) {
+
+            $query = $con->prepare("UPDATE tw.markers SET `state` = ? WHERE `latitude` = ? AND `longitude` = ?");
+            $query->bindParam(1, $state, PDO::PARAM_STR, 10);
+            $query->bindParam(2, $marker['latitude'], PDO::PARAM_STR, 8);
+            $query->bindParam(3, $marker['longitude'], PDO::PARAM_STR, 8);
             $query->execute();
         }
     }
