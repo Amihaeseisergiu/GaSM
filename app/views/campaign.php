@@ -35,7 +35,7 @@
                     Statistics
                 </button>
 
-                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/1'" class="D3Button">
+                <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/0'" class="D3Button">
                     Campaigns
                 </button>
             
@@ -45,7 +45,7 @@
 <div class="greenContainer"> <!--strart campaign part-->
 
 <div class="greyContainer">
-  <form action="http://localhost/proiect/GaSM/public/Campaign" method="post" class="greyContainerInside">
+  <form action="http://localhost/proiect/GaSM/public/Campaign/index/0" method="post" class="greyContainerInside">
 
     <h1 class="textHCampaign">Start a campaign!</h1>
 
@@ -58,7 +58,7 @@
   </form>
 
 
-    <form action="http://localhost/proiect/GaSM/public/Campaign/index/1" method="post" class="greyContainerInside">
+    <form action="http://localhost/proiect/GaSM/public/Campaign/index/0" method="get" class="greyContainerInside">
     <button  class="submitButton" type="submit" id="viewAllCampaigns" name="ViewAllCampaigns">View all campaigns</button>
     </form>    
 </div>  

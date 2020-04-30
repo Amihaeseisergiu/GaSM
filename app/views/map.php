@@ -83,7 +83,7 @@
                 Statistics
             </button>
 
-            <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/1'" class="D3Button">
+            <button onclick= "location.href = 'http://localhost/proiect/GaSM/public/Campaign/index/0'" class="D3Button">
                     Campaigns
             </button>
         </div>

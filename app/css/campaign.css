@@ -16,6 +16,11 @@ input:valid {
     background-color:#0ed145;
     
 }
+
+.infoOneCampaign
+{
+  margin:0.9em;
+}
 .commentBox
 {
   background-color:rgb(148, 148, 148);
