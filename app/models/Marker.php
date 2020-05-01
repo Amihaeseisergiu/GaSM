@@ -218,7 +218,7 @@ class Marker
         $con = $this->con;
         if ($userId > 0 && strcmp($userPrivileges, "admin") == 0) {
 
-            $query = $con->prepare("UPDATE tw.markers SET `state` = ? WHERE `latitude` = ? AND `longitude` = ?");
+            $query = $con->prepare("UPDATE tw.markers SET `state` = ?, `remove_time` = CURRENT_TIMESTAMP WHERE `latitude` = ? AND `longitude` = ?");
             $query->bindParam(1, $state, PDO::PARAM_STR, 10);
             $query->bindParam(2, $marker['latitude'], PDO::PARAM_STR, 8);
             $query->bindParam(3, $marker['longitude'], PDO::PARAM_STR, 8);
