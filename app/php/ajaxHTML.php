@@ -80,6 +80,12 @@ if (isset($data['timeFilter'])) {
     $str = str_replace('<?php echo $papQuantity; ?>', $data['allPaper'], $str);
     $str = str_replace('<?php echo $glsQuantity; ?>', $data['allGlass'], $str);
     $str = str_replace('<?php echo $mtlQuantity; ?>', $data['allMetal'], $str);
+    if($data['timeFilter'] == "Today") {
+        $unit = "minute";
+    } else {
+        $unit = "day";
+    }
+    $str = str_replace('<?php echo $valUnit; ?>', $unit, $str);
   /*  $str = str_replace('<?php if ($data[\'garbageToShow\'][\'plastic\'] === true) echo \'true\';
                             else echo \'false\'; ?>', 'true', $str);
     $str = str_replace('<?php if ($data[\'garbageToShow\'][\'paper\'] === true) echo \'true\';
@@ -106,10 +112,10 @@ if (isset($data['timeFilter'])) {
     }
     $header->appendChild($nodText2);
     $divNode = $doc->createElement('div');
-    $divNode->setAttribute('style', 'display: flex; flex-direction:column; justify-content:center; align-items:center;');
+    $divNode->setAttribute('style', 'width: 100%; display: flex; flex-direction: column; justify-content: center; align-items: center;');
     $bodyContent = $doc->getElementsByTagName('body');
     $firstScript = $doc->createElement('script');
-    $firstScript->setAttribute('src', 'https://canvasjs.com/assets/script/canvasjs.min.js');
+    $firstScript->setAttribute('src', 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js');
     $secondScript = $doc->createElement('script');
     $nodText = $doc->createTextNode($str);
     $secondScript->appendChild($nodText);
@@ -134,23 +140,33 @@ if (isset($data['timeFilter'])) {
     }
     foreach ($bodyContent as $body) {
         $body->setAttribute('style', 'background-color: #e7e7e7;');
+        $body->appendChild($firstScript);
         $body->appendChild($header);
         $body->appendChild($divNode);
-        $body->appendChild($firstScript);
         $body->appendChild($secondScript);
     }
     $childDivNode1 = $doc->createElement('div');
-    $childDivNode1->setAttribute('style', 'width: 1500px; border: 5px solid black; height: 400px; margin-bottom: 3em;');
-    $childDivNode1->setAttribute('id', 'chartContainer');
+    $childDivNode1->setAttribute('style','border: 5px solid black; margin-bottom: 3em; height : 500px; width: 90%;');
+    $childCanvasNode1 = $doc->createElement('canvas');
+    $childCanvasNode1->setAttribute('style', 'width:100%; height:100%;');
+    $childCanvasNode1->setAttribute('id', 'lineChart');
+    $childDivNode1->appendChild($childCanvasNode1);
     $divNode->appendChild($childDivNode1);
     $childDivNode2 = $doc->createElement('div');
-    $childDivNode2->setAttribute('style', 'width: 650px; border: 5px solid black; height: 300px;');
-    $childDivNode2->setAttribute('id', 'pieChart');
-    $childDivNode3 = $doc->createElement('div');
-    $childDivNode3->setAttribute('style', 'width: 1500px; border: 5px solid black; height: 400px; margin-bottom: 3em;');
-    $childDivNode3->setAttribute('id', 'barChart');
-    $divNode->appendChild($childDivNode3);
+    $childDivNode2->setAttribute('style','border: 5px solid black; margin-bottom: 3em; height : 500px; width: 90%;');
+    $childCanvasNode2 = $doc->createElement('canvas');
+    $childCanvasNode2->setAttribute('style', 'height: 100%; width : 100%;');
+    $childCanvasNode2->setAttribute('id', 'barChart');
+    $childDivNode2->appendChild($childCanvasNode2);
     $divNode->appendChild($childDivNode2);
+    $childDivNode3 = $doc->createElement('div');
+    $childDivNode3->setAttribute('style','border: 5px solid black; margin-bottom: 3em; height : 300px; width : 300px;');
+    $childCanvasNode3 = $doc->createElement('canvas');
+    $childCanvasNode3->setAttribute('id', 'pieChart');
+    $childCanvasNode3->setAttribute('style', 'width : 100%; height : 100%;');
+    $childDivNode3->appendChild($childCanvasNode3);
+    $divNode->appendChild($childDivNode3);
+   // $divNode->appendChild($childDivNode2);
     $list->setAttribute('style', 'display: flex; justify-content:center; flex-direction:column; font: bold;');
     $divCountry = $doc->createElement('div');
     $divCountry->setAttribute('style', 'width: 25%; text-align: center; border: 2px solid black; background-color: white; margin-top:2em; font-family: sens-serif;');
