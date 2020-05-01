@@ -24,6 +24,9 @@ body
 {
     display: flex;
     flex-direction: column;
+    align-self: center;
+    justify-content: center;
+    
 }
 
 .main1 > img
@@ -39,8 +42,7 @@ body
     padding-bottom: 0.6em;
     padding-left: 1em;
     padding-right: 1em;
-    font-size: 2em;
-    margin-top: 0em;
+    font-size: 1.5em;
     margin-left: 2em;
 }
 
@@ -50,7 +52,7 @@ body
     padding-bottom: 0.6em;
     padding-left: 1em;
     padding-right: 1em;
-    font-size: 2em;
+    font-size: 1.5em;
     margin-top: 1.5em;
     margin-left: 2em;
 }
@@ -61,7 +63,7 @@ body
     padding-bottom: 0.6em;
     padding-left: 1em;
     padding-right: 1em;
-    font-size: 2em;
+    font-size: 1.5em;
     margin-top: 1.5em;
     margin-left: 2em;
 }
@@ -103,13 +105,14 @@ body
 
 #chartAndSwitch
 {
-    width: 100%; 
+    width: 95%; 
     height: 405px; 
     margin: auto; 
     display:flex; 
     justify-content:center; 
     align-items:center; 
     flex-direction: row;
+    position: relative;
 }
 
 .charts
@@ -117,6 +120,7 @@ body
     height: 400px; 
     width: 100%;
     border: 5px solid black;
+    background-color: white;
 }
 
 input[type=checkbox]
@@ -138,7 +142,7 @@ input[type=checkbox]:checked + label:before
 
 .garbage
 {
-    font-size: 1.3em;
+    font-size: 1em;
 }
 
 input[type=checkbox]+ label:before
@@ -280,7 +284,7 @@ span
     right: 0.2vw;
 }
 
-@media screen and (max-width: 1450px)
+@media screen and (max-width: 1500px)
 {
     .main1
     {
@@ -301,6 +305,8 @@ span
     {
         display: flex;
         flex-direction: row;
+        justify-content: center;
+        align-items: center;
     }
 
     #chartAndSwitch
@@ -308,17 +314,21 @@ span
         margin-top: 0;
         height: 80%;
         flex-direction: column;
+        position: relative;
     }
 
     .chartAndButton 
     {
         margin-top: 0;
         width: 90%;
+        flex-direction: column;
     }
     .buttons
     {
-        width: 40vw;
+        width: 35vw;
         order: 2;
+        height: 10%;
+        margin-top: 1.5em;
         align-self: center;
     }
 
@@ -334,8 +344,8 @@ span
         justify-content:center;
         align-items: center;
         font-size: 0.7em;
+        height: 5%;
     }
-
 
     #firstButton
     {
@@ -358,13 +368,13 @@ span
 
     #leftButton
     {
-        font-size: 2vh; 
+        font-size: 1vw; 
         margin-right: 0px;
     }
 
     #rightButton
     {
-        font-size: 2vh; 
+        font-size: 1vw; 
         margin-right: 0px;
     }
 
@@ -372,6 +382,7 @@ span
     {
         font-size: 3.5vw;
     }
+
     .uparrow
     {
 	    position: relative;
@@ -429,18 +440,6 @@ span
     .box-thirdchange
     {
         margin-top: 2vw;   
-    }
-
-    .circle
-    {
-        width: 30vw;
-        height: 30vw;
-    }
-
-    .circle-container
-    {
-        padding-top: 3vw;
-        padding-bottom: 3vw;
     }
 
     .box-text
