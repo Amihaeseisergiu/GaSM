@@ -87,176 +87,124 @@ dpsMetal.sort(function(a, b) {
     return 0;
 });
 
-var chart1 = new CanvasJS.Chart("chartContainer", {
-    backgroundColor: "white",
-    fileName: "LineChart",
-    title: {
-        text: "Garbage distribution"
-    },
-    axisX:{
-        tickColor: "red",
-        tickLength: 5,
-        tickThickness: 2
-    },
-    axisY:{
-    tickLength: 15,
-    tickColor: "DarkSlateBlue" ,
-    tickThickness: 5
-    },
-    zoomEnabled: true,
-    data: [{
-            showInLegend: true,
-            name: "series1",
-            legendText: "Plastic",
-            visible: true,
-            type: "line",
-            dataPoints: dpsPlastic
-        },
-        {
-            showInLegend: true,
-            name: "series2",
-            legendText: "Paper",
-            visible: true,
-            type: "line",
-            dataPoints: dpsPaper
-        },
-        {
-            showInLegend: true,
-            name: "series3",
-            legendText: "Glass",
-            visible: true,
-            type: "line",
-            dataPoints: dpsGlass
-        },
-        {
-            showInLegend: true,
-            name: "series4",
-            legendText: "Metal",
-            visible: true,
-            type: "line",
-            dataPoints: dpsMetal
-        }
-    ]
-});
-chart1.render();
-var allPlastic = 0;
-for (var i = 0; i < dateArrayPlastic.length; i++) {
-    allPlastic = allPlastic + quantitiesPlastic[i];
-}
-var allPaper = 0;
-for (var i = 0; i < dateArrayPaper.length; i++) {
-    allPaper = allPaper + quantitiesPaper[i];
-}
-var allGlass = 0;
-for (var i = 0; i < dateArrayGlass.length; i++) {
-    allGlass = allGlass + quantitiesGlass[i];
-}
-var allMetal = 0;
-for (var i = 0; i < dateArrayMetal.length; i++) {
-    allMetal = allMetal + quantitiesMetal[i];
-}
-var chart2 = new CanvasJS.Chart("pieChart", {
-    theme: "light2",
-    title: {
-        text: "Garbage distribution",
-        horizontalAlign: "left",
-        fileName: "PieChart",
-        verticalAlign: "center"
-    },
-    data: [{
-        type: "pie",
-        showInLegend: true,
-        toolTipContent: "{y} - #percent %",
-        legendText: "{indexLabel}",
-        dataPoints: [{
-                y: quantitiesPlastic,
-                indexLabel: "Plastic"
-            },
-            {
-                y: quantitiesPaper,
-                indexLabel: "Paper"
-            },
-            {
-                y: quantitiesGlass,
-                indexLabel: "Glass"
-            },
-            {
-                y: quantitiesMetal,
-                indexLabel: "Metal"
-            }
-        ]
-    }]
-}); 
+var unit = '<?php echo $valUnit; ?>';
 
-chart2.render();
+var ctx = document.getElementById('lineChart').getContext('2d');
+                var lineChart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+                    fill: false,
+                    // The data for our dataset
+                    data: {
+                        datasets: [{
+                                label: 'Plastic',
+                                borderColor: 'red',
+                                data: dpsPlastic
+                            },
+                            {
+                                label: 'Paper',
+                                borderColor: 'yellow',
+                                data: dpsPaper
+                            },
+                            {
+                                label: 'Glass',
+                                borderColor: 'blue',
+                                data: dpsGlass
+                            },
+                            {
+                                label: 'Metal',
+                                borderColor: 'green',
+                                data: dpsMetal
+                            }
+                        ]
+                    },
 
-var plasticToBar = dpsPlastic;
-            var paperToBar = dpsPaper;
-            var glassToBar = dpsGlass;
-            var metalToBar = dpsMetal;
-            plasticToBar['label'] = plasticToBar['x'];
-            delete plasticToBar['x'];
-            paperToBar['label'] = paperToBar['x'];
-            delete paperToBar['x'];
-            glassToBar['label'] = glassToBar['x'];
-            delete glassToBar['x'];
-            metalToBar['label'] = metalToBar['x'];
-            delete metalToBar['x'];
-
-var barChart = new CanvasJS.Chart("barChart", {
-                animationEnabled: true,
-                zoomEnabled: true,
-                title: {
-                    text: "Garbage Distribution"
-                },
-                axisY: {
-                    title: "Reports",
-                    titleFontColor: "#4F81BC",
-                    lineColor: "#4F81BC",
-                    labelFontColor: "#4F81BC",
-                    tickColor: "#4F81BC"
-                },
-                toolTip: {
-                    shared: true
-                },
-                legend: {
-                    cursor: "pointer"
-                },
-                data: [{
-                        type: "column",
-                        name: "Plastic",
-                        legendText: "Plastic",
-                        visible: true,
-                        showInLegend: true,
-                        dataPoints: plasticToBar
-                    },
-                    {
-                        type: "column",
-                        name: "Paper",
-                        legendText: "Paper",
-                        visible: true,
-                        axisYType: "secondary",
-                        showInLegend: true,
-                        dataPoints: paperToBar
-                    },
-                    {
-                        type: "column",
-                        name: "Glass",
-                        legendText: "Glass",
-                        visible: true,
-                        axisYType: "secondary",
-                        showInLegend: true,
-                        dataPoints: glassToBar
-                    },
-                    {
-                        type: "column",
-                        name: "Metal",
-                        legendText: "Metal",
-                        visible: true,
-                        axisYType: "secondary",
-                        showInLegend: true,
-                        dataPoints: metalToBar
+                    // Configuration options go here
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                time: {
+                                    unit: unit
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }]
+                        }
                     }
-                ]
-            });
-            barChart.render();
+                });
+
+var ctx2 = document.getElementById('barChart').getContext('2d');
+                var barChart = new Chart(ctx2, {
+                    // The type of chart we want to create
+                    type: 'bar',
+                    // The data for our dataset
+                    data: {
+                        datasets: [{
+                                label: 'Plastic',
+                                fill: false,
+                                data: dpsPlastic,
+                                backgroundColor: 'red',
+                                borderColor: 'red',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Paper',
+                                fill: false,
+                                data: dpsPaper,
+                                backgroundColor: 'yellow',
+                                borderColor: 'yellow',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Glass',
+                                fill: false,
+                                data: dpsGlass,
+                                backgroundColor: 'blue',
+                                borderColor: 'blue',
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Metal',
+                                fill: false,
+                                data: dpsMetal,
+                                backgroundColor: 'green',
+                                borderColor: 'green',
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+
+                    // Configuration options go here
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                time: {
+                                    unit: unit
+                                }
+                            }]
+                        },
+                    }
+                });
+
+                var ctx3 = document.getElementById("pieChart");
+                        pieChart = new Chart(ctx3, {
+                            type: 'pie',
+                            data: {
+                                labels: ["Plastic", "Paper", "Glass", "Metal"],
+                                datasets: [{
+                                    label: "Reports",
+                                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+                                    data: [quantitiesPlastic, quantitiesPaper, quantitiesGlass, quantitiesMetal]
+                                }]
+                            },
+                            options: {
+                               // maintainAspectRatio: false
+                            }
+                        });
