@@ -32,6 +32,10 @@ if (isset($_GET['filter'])) {
             }
 
             echo json_encode($markerByRegion);
+        } else {
+            echo json_encode(
+                array('message' => 'No Markers Found')
+            );
         }
     } else {
         echo json_encode(
