@@ -54,13 +54,14 @@
                 <div id="leftButton" onclick="switchChart()">
                     <div class="leftarrow"></div>
                 </div>
-                <div class="charts" id="lineChart"></div>
+                <button onclick="resetZoom()" style="font-size : 0.6em; background: white; box-shadow: 0px 0px 0px transparent; border: 2px solid black; text-shadow: 0px 0px 0px transparent; position : absolute; top : 1%; left : 5%;">R</button>
+                <canvas class="charts" id="chart"></canvas>
                 <div id="rightButton" onclick="switchChart()">
                     <div class="rightarrow"></div>
                 </div>
             </div>
             <div class="form" style="position:relative; margin-top:1em; display:flex;">
-                <div class="garbage">
+                <div class="garbage" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
                     <input type="checkbox" id="garbage1" name="plastic" value="Plastic">
                     <label for="garbage1" style="margin-right: 0.5em;"> Plastic </label>
 
@@ -107,7 +108,9 @@
             <h3 class="box-p">
                 Garbage distribution
             </h3>
-            <div id="pieChart" style="height: 200px;"></div>
+            <div id="pieContainer" style="width : 100%;">
+            <canvas id="pieChart"></canvas>
+            </div>
         </div>
         <div class="box3">
             <h3 class="box-p">
@@ -118,7 +121,9 @@
             </div>
         </div>
     </div>
-    <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@0.7.4"></script>
     <script src="http://localhost/proiect/GaSM/app/javascript/jspdf.min.js"></script>
     <script>
         var country = '<?php echo $_SESSION['country']; ?>';
@@ -128,12 +133,12 @@
     <script>
         function switchChart() {
             if (currentChart === "line") {
-                var chartId = document.getElementById(currentChart.concat("Chart"));
-                chartId.setAttribute("id", "barChart");
+                // var chartId = document.getElementById(currentChart.concat("Chart"));
+                //chartId.setAttribute("id", "barChart");
                 currentChart = "bar";
             } else {
-                var chartId = document.getElementById(currentChart.concat("Chart"));
-                chartId.setAttribute("id", "lineChart");
+                //  var chartId = document.getElementById(currentChart.concat("Chart"));
+                //chartId.setAttribute("id", "chart");
                 currentChart = "line";
             }
             loadChart();
@@ -161,143 +166,187 @@
         var metalDps = [];
         var currentChart = "line";
         var charts = [];
+        var chart;
+        var pieChart;
+
+        resetZoom = function() {
+            chart.resetZoom();
+        };
 
         function loadChart() {
+            if (filter == "Today") {
+                var unit = 'minute';
+            } else {
+                var unit = 'day';
+            }
+            if (chart) {
+                chart.destroy();
+            }
             if (currentChart === "line") {
-                var lineChart = new CanvasJS.Chart("lineChart", {
-                    animationEnabled: true,
-                    backgroundColor: "white",
-                    fileName: "LineChart",
-                    title: {
-                        text: "Garbage Distribution"
+                var ctx = document.getElementById('chart').getContext('2d');
+                chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'line',
+                    fill: false,
+                    // The data for our dataset
+                    data: {
+                        datasets: [{
+                                label: 'Plastic',
+                                borderColor: 'red',
+                                hidden: showPlastic,
+                                data: plasticDps
+                            },
+                            {
+                                label: 'Paper',
+                                borderColor: 'yellow',
+                                hidden: showPaper,
+                                data: paperDps
+                            },
+                            {
+                                label: 'Glass',
+                                borderColor: 'blue',
+                                hidden: showGlass,
+                                data: glassDps
+                            },
+                            {
+                                label: 'Metal',
+                                borderColor: 'green',
+                                hidden: showMetal,
+                                data: metalDps
+                            }
+                        ]
                     },
-                    axisX: {
-                        tickColor: "red",
-                        tickLength: 5,
-                        tickThickness: 2
-                    },
-                    axisY: {
-                        tickLength: 15,
-                        tickColor: "DarkSlateBlue",
-                        tickThickness: 5
-                    },
-                    zoomEnabled: true,
-                    data: [{
-                            showInLegend: true,
-                            name: "series1",
-                            legendText: "Plastic",
-                            visible: showPlastic,
-                            type: "line",
-                            dataPoints: plasticDps
+
+                    // Configuration options go here
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                time: {
+                                    unit: unit
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }]
                         },
-                        {
-                            showInLegend: true,
-                            name: "series2",
-                            legendText: "Paper",
-                            visible: showPaper,
-                            type: "line",
-                            dataPoints: paperDps
-                        },
-                        {
-                            showInLegend: true,
-                            name: "series3",
-                            legendText: "Glass",
-                            visible: showGlass,
-                            type: "line",
-                            dataPoints: glassDps
-                        },
-                        {
-                            showInLegend: true,
-                            name: "series4",
-                            legendText: "Metal",
-                            visible: showMetal,
-                            type: "line",
-                            dataPoints: metalDps
+                        plugins: {
+                            zoom: {
+                                // Container for pan options
+
+                                // Container for zoom options
+                                zoom: {
+                                    // Boolean to enable zooming
+                                    enabled: true,
+
+                                    // Enable drag-to-zoom behavior
+
+                                    // Drag-to-zoom effect can be customized
+                                    drag: {
+                                        borderColor: 'rgba(225,225,225,0.3)',
+                                        borderWidth: 5,
+                                        backgroundColor: 'rgb(225,225,225)',
+                                        animationDuration: 0
+                                    },
+
+                                    mode: 'x',
+                                    speed: 0.1,
+
+                                    // On category scale, minimal zoom level before actually applying zoom
+                                    sensitivity: 3
+                                }
+                            }
                         }
-                    ]
+                    }
                 });
-                lineChart.render();
-                var myArray = {
-                    "line": lineChart
-                };
-                charts.push(myArray);
+                // var myArray = {
+                //     "line": chart
+                //  };
+                //  charts.push(myArray);
             } else if (currentChart == "bar") {
-                var plasticToBar = plasticDps;
-                var paperToBar = paperDps;
-                var glassToBar = glassDps;
-                var metalToBar = metalDps;
-                plasticToBar['label'] = plasticToBar['x'];
-                delete plasticToBar['x'];
-                paperToBar['label'] = paperToBar['x'];
-                delete paperToBar['x'];
-                glassToBar['label'] = glassToBar['x'];
-                delete glassToBar['x'];
-                metalToBar['label'] = metalToBar['x'];
-                delete metalToBar['x'];
-                var chartId = document.getElementById("barChart");
-                chartId.setAttribute("id", "barChart");
-                currentChart = "bar";
-                var barChart = new CanvasJS.Chart("barChart", {
-                    animationEnabled: true,
-                    zoomEnabled: true,
-                    title: {
-                        text: "Garbage Distribution"
+                var ctx = document.getElementById('chart').getContext('2d');
+                chart = new Chart(ctx, {
+                    // The type of chart we want to create
+                    type: 'bar',
+                    // The data for our dataset
+                    data: {
+                        datasets: [{
+                                label: 'Plastic',
+                                fill: false,
+                                data: plasticDps,
+                                backgroundColor: 'red',
+                                borderColor: 'red',
+                                hidden: showPlastic,
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Paper',
+                                fill: false,
+                                data: paperDps,
+                                backgroundColor: 'yellow',
+                                borderColor: 'yellow',
+                                hidden: showPaper,
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Glass',
+                                fill: false,
+                                data: glassDps,
+                                backgroundColor: 'blue',
+                                borderColor: 'blue',
+                                hidden: showGlass,
+                                borderWidth: 1
+                            },
+                            {
+                                label: 'Metal',
+                                fill: false,
+                                data: metalDps,
+                                backgroundColor: 'green',
+                                borderColor: 'green',
+                                hidden: showMetal,
+                                borderWidth: 1
+                            }
+                        ]
                     },
-                    axisY: {
-                        title: "Reports",
-                        titleFontColor: "#4F81BC",
-                        lineColor: "#4F81BC",
-                        labelFontColor: "#4F81BC",
-                        tickColor: "#4F81BC"
-                    },
-                    toolTip: {
-                        shared: true
-                    },
-                    legend: {
-                        cursor: "pointer"
-                    },
-                    data: [{
-                            type: "column",
-                            name: "Plastic",
-                            legendText: "Plastic",
-                            visible: showPlastic,
-                            showInLegend: true,
-                            dataPoints: plasticToBar
+
+                    // Configuration options go here
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                time: {
+                                    unit: unit
+                                }
+                            }]
                         },
-                        {
-                            type: "column",
-                            name: "Paper",
-                            legendText: "Paper",
-                            visible: showPaper,
-                            axisYType: "secondary",
-                            showInLegend: true,
-                            dataPoints: paperToBar
-                        },
-                        {
-                            type: "column",
-                            name: "Glass",
-                            legendText: "Glass",
-                            visible: showGlass,
-                            axisYType: "secondary",
-                            showInLegend: true,
-                            dataPoints: glassToBar
-                        },
-                        {
-                            type: "column",
-                            name: "Metal",
-                            legendText: "Metal",
-                            visible: showMetal,
-                            axisYType: "secondary",
-                            showInLegend: true,
-                            dataPoints: metalToBar
+                        plugins: {
+                            zoom: {
+                                zoom: {
+                                    enabled: true,
+                                    drag: {
+                                        borderColor: 'rgba(225,225,225,0.3)',
+                                        borderWidth: 5,
+                                        backgroundColor: 'rgb(225,225,225)',
+                                        animationDuration: 0
+                                    },
+                                    mode: 'x',
+                                    speed: 0.1,
+                                    sensitivity: 3
+                                }
+                            }
                         }
-                    ]
+                    }
                 });
-                barChart.render();
-                var myArray = {
-                    "bar": barChart
-                };
-                charts.push(myArray);
+                 /*var chartId = document.getElementById("barChart");
+                 chartId.setAttribute("id", "barChart");*/
+                //    var myArray = {
+                //      "bar": barChart
+                //  };
+                //  charts.push(myArray);
             }
         }
 
@@ -307,11 +356,11 @@
             showPaper = document.getElementById('garbage2').checked;
             showGlass = document.getElementById('garbage3').checked;
             showMetal = document.getElementById('garbage4').checked;
-            if (showPlastic == false && showPaper == false && showGlass == false && showMetal == false) {
-                showPlastic = true;
-                showPaper = true;
-                showGlass = true;
-                showMetal = true;
+            if (showPlastic == false && showPaper == false && showGlass == false && showMetal == false) {} else {
+                showPlastic = !showPlastic;
+                showPaper = !showPaper;
+                showGlass = !showGlass;
+                showMetal = !showMetal;
             }
             filter = document.getElementById('filters');
             filter = filter.value;
@@ -477,40 +526,26 @@
                         for (var i = 0; i < metals.length; i++) {
                             allMetal = allMetal + metals[i]["quantity"];
                         }
-                        var chart2 = new CanvasJS.Chart("pieChart", {
-                            animationEnabled: true,
-                            theme: "light2",
-                            title: {
-                                text: "Garbage distribution",
-                                horizontalAlign: "left",
-                                fileName: "PieChart",
-                                verticalAlign: "center"
+                        if (pieChart) {
+                            pieChart.destroy();
+                        }
+                        var ctx2 = document.getElementById("pieChart");
+                        ctx2.height = 135;
+                        //ctx2.width = 200;
+                        pieChart = new Chart(ctx2, {
+                            type: 'pie',
+                            data: {
+                                labels: ["Plastic", "Paper", "Glass", "Metal"],
+                                datasets: [{
+                                    label: "Reports",
+                                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+                                    data: [allPlastic, allPaper, allGlass, allMetal]
+                                }]
                             },
-                            data: [{
-                                type: "pie",
-                                showInLegend: true,
-                                toolTipContent: "{y} - #percent %",
-                                legendText: "{indexLabel}",
-                                dataPoints: [{
-                                        y: allPlastic,
-                                        indexLabel: "Plastic"
-                                    },
-                                    {
-                                        y: allMetal,
-                                        indexLabel: "Metal"
-                                    },
-                                    {
-                                        y: allPaper,
-                                        indexLabel: "Paper"
-                                    },
-                                    {
-                                        y: allGlass,
-                                        indexLabel: "Glass"
-                                    }
-                                ]
-                            }]
+                            options: {
+                                // maintainAspectRatio: false
+                            }
                         });
-                        chart2.render();
 
                         function distance(lat1, lon1, lat2, lon2, unit) {
                             if ((lat1 == lat2) && (lon1 == lon2)) {
@@ -542,108 +577,109 @@
                         url = url.concat(filter, '&country=', country, '&city=', city);
                         fetch(url).then(response => response.json())
                             .then(precedentData => {
-                                var precedentMarkers = precedentData;
-                                precedentMarkers.forEach(marker => {
-                                    var myArray = {
-                                        "longitude": marker["longitude"],
-                                        "latitude": marker["latitude"]
-                                    };
-                                    precedentMarkerCoordinates.push(myArray);
-                                });
-                                var allPrecedentTrash = precedentMarkers.length;
-                                var dif = 0;
-                                if (allPrecedentTrash > allTrash) {
-                                    dif = allPrecedentTrash - allTrash;
-                                    dif = "- ".concat(dif, " Reports");
-                                    document.getElementById("first-change-span").textContent = dif;
-                                    document.getElementById("first-change").setAttribute("class", "uparrow");
-                                } else {
-                                    dif = allTrash - allPrecedentTrash;
-                                    dif = "+ ".concat(dif, " Reports");
-                                    document.getElementById("first-change-span").textContent = dif;
-                                    document.getElementById("first-change").setAttribute("class", "downarrow");
-                                }
-
-                                var currentAverageMarkerDistance = 0;
-                                var precedentAverageMarkerDistance = 0;
-                                // console.log(markerCoordinates.length);
-                                //  console.log(precedentMarkerCoordinates.length);
-                                if (markerCoordinates.length <= 100) {
-                                    for (var i = 0; i < markerCoordinates.length - 1; i++) {
-                                        for (var j = i + 1; j < markerCoordinates.length; j++) {
-                                            currentAverageMarkerDistance = currentAverageMarkerDistance + distance(markerCoordinates[i]["latitude"], markerCoordinates[i]["longitude"], markerCoordinates[j]["latitude"], markerCoordinates[j]["longitude"], "K");
-                                        }
-                                    }
-                                    if (markerCoordinates.length != 0) {
-                                        currentAverageMarkerDistance = currentAverageMarkerDistance / markerCoordinates.length;
+                                if (!("message" in precedentData)) {
+                                    var precedentMarkers = precedentData;
+                                    precedentMarkers.forEach(marker => {
+                                        var myArray = {
+                                            "longitude": marker["longitude"],
+                                            "latitude": marker["latitude"]
+                                        };
+                                        precedentMarkerCoordinates.push(myArray);
+                                    });
+                                    var allPrecedentTrash = precedentMarkers.length;
+                                    var dif = 0;
+                                    if (allPrecedentTrash > allTrash) {
+                                        dif = allPrecedentTrash - allTrash;
+                                        dif = "- ".concat(dif, " Reports");
+                                        document.getElementById("first-change-span").textContent = dif;
+                                        document.getElementById("first-change").setAttribute("class", "uparrow");
+                                    } else {
+                                        dif = allTrash - allPrecedentTrash;
+                                        dif = "+ ".concat(dif, " Reports");
+                                        document.getElementById("first-change-span").textContent = dif;
+                                        document.getElementById("first-change").setAttribute("class", "downarrow");
                                     }
 
-                                } else {
-                                    for (var k = 0; k < 25; k++) {
-                                        var estimatedAverageMarkerDistance = 0;
-                                        var randomCoordinates = [...markerCoordinates];
-                                        var selectedRandomCoordinates = [];
-                                        for (var i = 0; i < 100; i++) {
-                                            var index = Math.floor(Math.random() * randomCoordinates.length);
-                                            selectedRandomCoordinates.push(randomCoordinates[index]);
-                                            randomCoordinates.splice(index, 1);
-                                        }
-                                        //console.log(selectedRandomCoordinates.length);
-                                        for (var i = 0; i < selectedRandomCoordinates.length - 1; i++) {
-                                            for (var j = i + 1; j < selectedRandomCoordinates.length; j++) {
-                                                estimatedAverageMarkerDistance = estimatedAverageMarkerDistance + distance(selectedRandomCoordinates[i]["latitude"], selectedRandomCoordinates[i]["longitude"], selectedRandomCoordinates[j]["latitude"], selectedRandomCoordinates[j]["longitude"], "K");
+                                    var currentAverageMarkerDistance = 0;
+                                    var precedentAverageMarkerDistance = 0;
+                                    // console.log(markerCoordinates.length);
+                                    //  console.log(precedentMarkerCoordinates.length);
+                                    if (markerCoordinates.length <= 100) {
+                                        for (var i = 0; i < markerCoordinates.length - 1; i++) {
+                                            for (var j = i + 1; j < markerCoordinates.length; j++) {
+                                                currentAverageMarkerDistance = currentAverageMarkerDistance + distance(markerCoordinates[i]["latitude"], markerCoordinates[i]["longitude"], markerCoordinates[j]["latitude"], markerCoordinates[j]["longitude"], "K");
                                             }
                                         }
-                                        estimatedAverageMarkerDistance = estimatedAverageMarkerDistance / 100;
-                                        currentAverageMarkerDistance = currentAverageMarkerDistance + estimatedAverageMarkerDistance;
+                                        if (markerCoordinates.length != 0) {
+                                            currentAverageMarkerDistance = currentAverageMarkerDistance / markerCoordinates.length;
+                                        }
+
+                                    } else {
+                                        for (var k = 0; k < 25; k++) {
+                                            var estimatedAverageMarkerDistance = 0;
+                                            var randomCoordinates = [...markerCoordinates];
+                                            var selectedRandomCoordinates = [];
+                                            for (var i = 0; i < 100; i++) {
+                                                var index = Math.floor(Math.random() * randomCoordinates.length);
+                                                selectedRandomCoordinates.push(randomCoordinates[index]);
+                                                randomCoordinates.splice(index, 1);
+                                            }
+                                            //console.log(selectedRandomCoordinates.length);
+                                            for (var i = 0; i < selectedRandomCoordinates.length - 1; i++) {
+                                                for (var j = i + 1; j < selectedRandomCoordinates.length; j++) {
+                                                    estimatedAverageMarkerDistance = estimatedAverageMarkerDistance + distance(selectedRandomCoordinates[i]["latitude"], selectedRandomCoordinates[i]["longitude"], selectedRandomCoordinates[j]["latitude"], selectedRandomCoordinates[j]["longitude"], "K");
+                                                }
+                                            }
+                                            estimatedAverageMarkerDistance = estimatedAverageMarkerDistance / 100;
+                                            currentAverageMarkerDistance = currentAverageMarkerDistance + estimatedAverageMarkerDistance;
+                                        }
+                                        currentAverageMarkerDistance = currentAverageMarkerDistance / 25;
                                     }
-                                    currentAverageMarkerDistance = currentAverageMarkerDistance / 25;
-                                }
 
 
-                                if (precedentMarkerCoordinates.length <= 100) {
-                                    for (var i = 0; i < precedentMarkerCoordinates.length - 1; i++) {
-                                        for (var j = i + 1; j < precedentMarkerCoordinates.length; j++) {
-                                            precedentAverageMarkerDistance = precedentAverageMarkerDistance + distance(precedentMarkerCoordinates[i]["latitude"], precedentMarkerCoordinates[i]["longitude"], precedentMarkerCoordinates[j]["latitude"], precedentMarkerCoordinates[j]["longitude"], "K");
-                                        }
-                                    }
-                                    if (precedentMarkerCoordinates.length != 0) {
-                                        precedentAverageMarkerDistance = precedentAverageMarkerDistance / precedentMarkerCoordinates.length;
-                                    }
-                                } else {
-                                    for (k = 0; k < 25; k++) {
-                                        var estimatedAverageMarkerDistance = 0;
-                                        var randomCoordinates = [...precedentMarkerCoordinates];
-                                        var selectedRandomCoordinates = [];
-                                        for (var i = 0; i < 100; i++) {
-                                            var index = Math.floor(Math.random() * randomCoordinates.length);
-                                            selectedRandomCoordinates.push(randomCoordinates[index]);
-                                            randomCoordinates.splice(index, 1);
-                                        }
-                                        for (var i = 0; i < selectedRandomCoordinates.length - 1; i++) {
-                                            for (var j = i + 1; j < selectedRandomCoordinates.length; j++) {
-                                                estimatedAverageMarkerDistance = estimatedAverageMarkerDistance + distance(selectedRandomCoordinates[i]["latitude"], selectedRandomCoordinates[i]["longitude"], selectedRandomCoordinates[j]["latitude"], selectedRandomCoordinates[j]["longitude"], "K");
+                                    if (precedentMarkerCoordinates.length <= 100) {
+                                        for (var i = 0; i < precedentMarkerCoordinates.length - 1; i++) {
+                                            for (var j = i + 1; j < precedentMarkerCoordinates.length; j++) {
+                                                precedentAverageMarkerDistance = precedentAverageMarkerDistance + distance(precedentMarkerCoordinates[i]["latitude"], precedentMarkerCoordinates[i]["longitude"], precedentMarkerCoordinates[j]["latitude"], precedentMarkerCoordinates[j]["longitude"], "K");
                                             }
                                         }
-                                        estimatedAverageMarkerDistance = estimatedAverageMarkerDistance / 100;
-                                        precedentAverageMarkerDistance = precedentAverageMarkerDistance + estimatedAverageMarkerDistance;
+                                        if (precedentMarkerCoordinates.length != 0) {
+                                            precedentAverageMarkerDistance = precedentAverageMarkerDistance / precedentMarkerCoordinates.length;
+                                        }
+                                    } else {
+                                        for (k = 0; k < 25; k++) {
+                                            var estimatedAverageMarkerDistance = 0;
+                                            var randomCoordinates = [...precedentMarkerCoordinates];
+                                            var selectedRandomCoordinates = [];
+                                            for (var i = 0; i < 100; i++) {
+                                                var index = Math.floor(Math.random() * randomCoordinates.length);
+                                                selectedRandomCoordinates.push(randomCoordinates[index]);
+                                                randomCoordinates.splice(index, 1);
+                                            }
+                                            for (var i = 0; i < selectedRandomCoordinates.length - 1; i++) {
+                                                for (var j = i + 1; j < selectedRandomCoordinates.length; j++) {
+                                                    estimatedAverageMarkerDistance = estimatedAverageMarkerDistance + distance(selectedRandomCoordinates[i]["latitude"], selectedRandomCoordinates[i]["longitude"], selectedRandomCoordinates[j]["latitude"], selectedRandomCoordinates[j]["longitude"], "K");
+                                                }
+                                            }
+                                            estimatedAverageMarkerDistance = estimatedAverageMarkerDistance / 100;
+                                            precedentAverageMarkerDistance = precedentAverageMarkerDistance + estimatedAverageMarkerDistance;
+                                        }
+                                        precedentAverageMarkerDistance = precedentAverageMarkerDistance / 25;
                                     }
-                                    precedentAverageMarkerDistance = precedentAverageMarkerDistance / 25;
+                                    dif = (1 - precedentAverageMarkerDistance / currentAverageMarkerDistance) * 100;
+                                    dif = Math.round(dif);
+                                    if (dif < 0) {
+                                        dif = dif.toString(10);
+                                        dif = dif.substr(1);
+                                        dif = "- ".concat(dif, " % Congestion");
+                                        document.getElementById("second-change-span").textContent = dif;
+                                        document.getElementById("second-change").setAttribute("class", "uparrow");
+                                    } else {
+                                        dif = "+ ".concat(dif, " % Congestion");
+                                        document.getElementById("second-change-span").textContent = dif;
+                                        document.getElementById("second-change").setAttribute("class", "downarrow");
+                                    }
                                 }
-                                dif = (1 - precedentAverageMarkerDistance / currentAverageMarkerDistance) * 100;
-                                dif = Math.round(dif);
-                                if (dif < 0) {
-                                    dif = dif.toString(10);
-                                    dif = dif.substr(1);
-                                    dif = "- ".concat(dif, " % Congestion");
-                                    document.getElementById("second-change-span").textContent = dif;
-                                    document.getElementById("second-change").setAttribute("class", "uparrow");
-                                } else {
-                                    dif = "+ ".concat(dif, " % Congestion");
-                                    document.getElementById("second-change-span").textContent = dif;
-                                    document.getElementById("second-change").setAttribute("class", "downarrow");
-                                }
-
                             });
                     } else {
                         filter = lastFilter;
@@ -727,13 +763,13 @@
                 if (b["quantity"] > a["quantity"]) return -1;
                 return 0;
             }
-            var pdf = new jsPDF('p', 'mm', [380, 400]);
-            if (currentChart == "line") {
-                var canvas1 = document.querySelector("#lineChart .canvasjs-chart-canvas");
-            } else if (currentChart == "bar") {
-                var canvas1 = document.querySelector("#barChart .canvasjs-chart-canvas");
-            }
-            var canvas2 = document.querySelector("#pieChart .canvasjs-chart-canvas");
+            var pdf = new jsPDF('p', 'mm', [390, 400]);
+            // if (currentChart == "line") {
+            var canvas1 = document.querySelector("#chart");
+            //  } else if (currentChart == "bar") {
+            //       var canvas1 = document.querySelector("#barChart .canvasjs-chart-canvas");
+            //  }
+            var canvas2 = document.querySelector("#pieChart");
             var dataURL1 = canvas1.toDataURL('image1/JPEG', 1);
             var dataURL2 = canvas2.toDataURL('image2/JPEG', 1);
             pdf.text(timeFlt, 160, 10);
