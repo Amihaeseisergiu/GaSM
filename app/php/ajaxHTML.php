@@ -124,7 +124,8 @@ if (isset($data['timeFilter'])) {
     $txt = $doc->createTextNode('Country Level');
     $hdr->appendChild($txt);
     $contor = 1;
-    if ($markersByCounty != null) {
+    $firstValue = $markersByCounty[0];
+    if ($firstValue != 'No Markers Found') {
         foreach ($markersByCounty as $county) {
             $listEl = $doc->createElement('div');
             if ($contor <= 5) {
@@ -183,7 +184,8 @@ if (isset($data['timeFilter'])) {
     $divRegion->appendChild($hdr2);
     $divRegion->appendChild($list2);
     $contor = 1;
-    if ($markersByRegion != null) {
+    $firstValue = $markersByRegion[0];
+    if ($firstValue != 'No Markers Found') {
         foreach ($markersByRegion as $region) {
             $listEl = $doc->createElement('div');
             if ($contor <= 5) {
