@@ -7,7 +7,7 @@ include_once '../../../config/Database.php';
 include_once '../../../models/Marker.php';
 
 if (isset($_GET['filter'])) {
-    if (array_key_exists('country', $_GET) && array_key_exists('county', $_GET)) {
+    if (array_key_exists('country', $_GET) && array_key_exists('county', $_GET) && $_GET['country'] != 'none' && $_GET['county'] != 'none') {
         $database = new Database();
         $db = $database->connect();
 
@@ -33,11 +33,9 @@ if (isset($_GET['filter'])) {
 
             echo json_encode($markerByRegion);
         }
-        /*  else
-    {
+    } else {
         echo json_encode(
             array('message' => 'No Markers Found')
         );
-    }*/
     }
 }

@@ -109,7 +109,7 @@
                 Garbage distribution
             </h3>
             <div id="pieContainer" style="width : 100%;">
-            <canvas id="pieChart"></canvas>
+                <canvas id="pieChart"></canvas>
             </div>
         </div>
         <div class="box3">
@@ -341,8 +341,8 @@
                         }
                     }
                 });
-                 /*var chartId = document.getElementById("barChart");
-                 chartId.setAttribute("id", "barChart");*/
+                /*var chartId = document.getElementById("barChart");
+                chartId.setAttribute("id", "barChart");*/
                 //    var myArray = {
                 //      "bar": barChart
                 //  };
@@ -371,7 +371,11 @@
                 filter = "LastMonth";
             }
             var url = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getTrash.php?filter=';
-            url = url.concat(filter, '&country=', country, '&city=', city);
+            if (country != 'none') {
+                url = url.concat(filter, '&country=', country, '&city=', city);
+            } else {
+                url = url.concat(filter);
+            }
             fetch(url).then(response => response.json())
                 .then(data => {
                     var markers = data;
@@ -574,7 +578,11 @@
                         var allTrash = allGlass + allMetal + allPaper + allPlastic;
                         var precedentMarkerCoordinates = [];
                         var url = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getPrecedentTrash.php?filter=';
-                        url = url.concat(filter, '&country=', country, '&city=', city);
+                        if (country != 'none') {
+                            url = url.concat(filter, '&country=', country, '&city=', city);
+                        } else {
+                            url = url.concat(filter);
+                        }
                         fetch(url).then(response => response.json())
                             .then(precedentData => {
                                 if (!("message" in precedentData)) {
@@ -781,55 +789,63 @@
 
             getBoth()
                 .then(([counties, regions]) => {
-                    markersByCounty = counties;
-                    markersByCounty.sort(compare);
-                    var cleanestCounties = 'Cleanest Counties: \r\n\r\n';
-                    var dirtiestCounties = 'Dirtiest Counties: \r\n\r\n';
-                    var contor = 1;
-                    if (markersByCounty != null) {
-                        markersByCounty.forEach(county => {
-                            if (contor <= 5) {
-                                cleanestCounties = cleanestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
-                            } else if (contor > markersByCounty.length - 5) {
-                                dirtiestCounties = dirtiestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
-                            }
-                            contor++;
-                        });
-                    }
-                    pdf.text(cleanestCounties, 15, 255);
-                    pdf.text(dirtiestCounties, 300, 255);
+                    if (!("message" in counties) && !("message" in regions)) {
+                        markersByCounty = counties;
+                        markersByCounty.sort(compare);
+                        var cleanestCounties = 'Cleanest Counties: \r\n\r\n';
+                        var dirtiestCounties = 'Dirtiest Counties: \r\n\r\n';
+                        var contor = 1;
+                        if (markersByCounty != null) {
+                            markersByCounty.forEach(county => {
+                                if (contor <= 5) {
+                                    cleanestCounties = cleanestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
+                                } else if (contor > markersByCounty.length - 5) {
+                                    dirtiestCounties = dirtiestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
+                                }
+                                contor++;
+                            });
+                        }
+                        pdf.text(cleanestCounties, 15, 255);
+                        pdf.text(dirtiestCounties, 300, 255);
 
-                    markersByRegion = regions;
-                    markersByRegion.sort(compare);
-                    var cleanestRegions = 'Cleanest Cities: \r\n\r\n';
-                    var dirtiestRegions = 'Dirtiest Cities: \r\n\r\n';
-                    var contor = 1;
-                    if (markersByRegion != null) {
-                        markersByRegion.forEach(region => {
-                            if (contor <= 5) {
-                                cleanestRegions = cleanestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
-                            } else if (contor > markersByRegion.length - 5) {
-                                dirtiestRegions = dirtiestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
-                            }
-                            contor++;
-                        });
+                        markersByRegion = regions;
+                        markersByRegion.sort(compare);
+                        var cleanestRegions = 'Cleanest Cities: \r\n\r\n';
+                        var dirtiestRegions = 'Dirtiest Cities: \r\n\r\n';
+                        var contor = 1;
+                        if (markersByRegion != null) {
+                            markersByRegion.forEach(region => {
+                                if (contor <= 5) {
+                                    cleanestRegions = cleanestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
+                                } else if (contor > markersByRegion.length - 5) {
+                                    dirtiestRegions = dirtiestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
+                                }
+                                contor++;
+                            });
+                        }
+                        pdf.line(0, 300, 400, 300);
+                        pdf.text(cleanestRegions, 15, 310);
+                        pdf.text(dirtiestRegions, 300, 310);
+                        console.log(regions);
+                        console.log(counties);
+                        pdf.save("download.pdf");
+                    } else {
+                        console.log(regions);
+                        console.log(counties);
+                        pdf.save("download.pdf");
                     }
-                    pdf.line(0, 300, 400, 300);
-                    pdf.text(cleanestRegions, 15, 310);
-                    pdf.text(dirtiestRegions, 300, 310);
-                    pdf.save("download.pdf");
                 });
 
             function getByCounty() {
                 var pdfURL = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getByCounty.php?filter=';
                 pdfURL = pdfURL.concat(filter, "&country=", country);
-                return fetch(pdfURL).then(response => response.json())
+                return fetch(pdfURL).then(response => response.json());
             }
 
             function getByRegion() {
                 var pdfURL = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getByRegion.php?filter=';
                 pdfURL = pdfURL.concat(filter, "&country=", country, "&county=", county);
-                return fetch(pdfURL).then(response => response.json())
+                return fetch(pdfURL).then(response => response.json());
             }
 
             function getBoth() {
@@ -857,7 +873,6 @@
                     var csvToString = blobToString(data);
                     csvToString = csvToString.replace(/\"/g, "");
                     var csvSplit = csvToString.split("newline");
-                    console.log(csvSplit.length);
                     var csvArray = [];
                     csvSplit.forEach(element => {
                         var myArray = [element];
