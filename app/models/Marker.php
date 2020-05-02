@@ -26,7 +26,7 @@ class Marker
         return $query;
     }
 
-    public function getTrash($filter = '', $city, $country)
+    public function getTrash($filter = '', $country, $city)
     {
         if ($city == 'none' || $city == '') {
             if ($filter == "LastWeek") {
@@ -61,7 +61,7 @@ class Marker
         return $query;
     }
 
-    public function getPrecedentTrash($filter = '', $city, $country)
+    public function getPrecedentTrash($filter = '', $country, $city)
     {
         $con = $this->con;
         if ($city == 'none' || $city == '') {
@@ -119,7 +119,7 @@ class Marker
         }
     }
 
-    public function getMarkersByRegion($filter = '', $county, $country)
+    public function getMarkersByRegion($filter = '', $country, $county)
     {
         $con = $this->con;
         if ($county != 'none') {

@@ -4,12 +4,14 @@ RewriteEngine On
 RewriteBase /proiect/GaSM/public
 
 #directory checking, executa urmatorul rewrite rule doar daca asta e true
-RewriteCond #{REQUEST_FILENAME} !-d     
+RewriteCond #{REQUEST_FILENAME} !-d    
 
 #file checking
 RewriteCond #{REQUEST_FILENAME} !-f 
-
+RewriteCond %{REQUEST_URI} /api/
 # $1 e primul parametru adica url-ul 
+
+RewriteRule ^api/(.+)$ ../app/api/router.php [NC,L]
 RewriteRule ^(.+)$ index.php?url=$1  [QSA,L]
 
 #The RewriteRule basically means that if the request is done that matches ^(.+)$

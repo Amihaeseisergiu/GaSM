@@ -12,7 +12,7 @@ if(isset($_GET['filter']))
     $db = $database->connect();
     $marker = new Marker($db);
     if(array_key_exists('city', $_GET)){
-    $result = $marker->getTrash($_GET['filter'], $_GET['city'], $_GET['country']);
+    $result = $marker->getTrash($_GET['filter'], $_GET['country'], $_GET['city']);
     }
     else {
         $result = $marker->getTrash($_GET['filter'], '', '');

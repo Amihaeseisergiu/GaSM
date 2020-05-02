@@ -137,7 +137,7 @@
                         "neighborhood": locationData.neighborhood
                     }
 
-                    fetch('http://localhost:80/proiect/GaSM/app/api/markers/write/insert.php', {
+                    fetch('http://localhost:80/proiect/GaSM/public/api/markers', {
                         method: 'POST',
                         headers: {'Content-Type':'application/json'},
                         body: JSON.stringify(marker)

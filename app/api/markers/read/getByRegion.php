@@ -13,7 +13,7 @@ if (isset($_GET['filter'])) {
 
         $marker = new Marker($db);
 
-        $result = $marker->getMarkersByRegion($_GET['filter'], $_GET['county'], $_GET['country']);
+        $result = $marker->getMarkersByRegion($_GET['filter'], $_GET['country'], $_GET['county']);
         $num = $result->rowCount();
 
         if ($num > 0) {

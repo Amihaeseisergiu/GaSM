@@ -171,7 +171,7 @@ function loadMarkers()
     loadedMarkers = [];
     markersCluster = L.markerClusterGroup();
 
-    fetch('http://localhost:80/proiect/GaSM/app/api/markers/read/getAll.php').then(response => response.json())
+    fetch('http://localhost:80/proiect/GaSM/public/api/markers/active').then(response => response.json())
     .then(data => {
         for(var i = 0; i < data.length; i++)
                 addMarker(data[i]);
@@ -182,7 +182,7 @@ function loadMarkers()
 
 function loadMyLastMarker()
 {
-    fetch('http://localhost:80/proiect/GaSM/app/api/markers/read/getLastByUser.php').then(response => response.json())
+    fetch('http://localhost:80/proiect/GaSM/public/api/markers/lastbyuser').then(response => response.json())
     .then(data => {
         addMarker(data);
     });
@@ -199,7 +199,7 @@ function selectMap(mapType)
     }
     else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
     {
-        fetch('http://localhost:80/proiect/GaSM/app/api/markers/read/getAll.php').then(response => response.json())
+        fetch('http://localhost:80/proiect/GaSM/public/api/markers/active').then(response => response.json())
         .then(data => {
             var markers = data;
             for(var i = 0; i < countiesData.features.length; i++)
@@ -282,7 +282,7 @@ garbageMap.on(L.Draw.Event.CREATED, function (geometry) {
             "longitude": result[i]._latlng.lng
         }
 
-        fetch('http://localhost:80/proiect/GaSM/app/api/markers/update/update.php', {
+        fetch('http://localhost:80/proiect/GaSM/public/api/markers', {
             method: 'PUT',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify([marker, "inactive"])
