@@ -66,7 +66,7 @@ $markerRoutes =
             }
         ],
         [
-            "url" => "/markers/quantity/:filter/:county/:country",
+            "url" => "/markers/quantity/:filter/:country/:county",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
@@ -74,7 +74,7 @@ $markerRoutes =
 
                 $marker = new Marker($db);
 
-                $result = $marker->getMarkersByRegion($req['params'][0]['filter'], $req['params'][1]['county'], $req['params'][2]['country']);
+                $result = $marker->getMarkersByRegion($req['params'][0]['filter'], $req['params'][1]['country'], $req['params'][2]['county']);
                 $num = $result->rowCount();
 
                 if ($num > 0) {
@@ -128,6 +128,33 @@ $markerRoutes =
             }
         ],
         [
+            "url" => "/markers/precedent/:filter",
+            "method" => "GET",
+            "handler" => function ($req) {
+                $database = new Database();
+                $db = $database->connect();
+
+                $marker = new Marker($db);
+
+                $result = $marker->getPrecedentTrash($req['params'][0]['filter'], 'none', 'none');
+
+                $num = $result->rowCount();
+
+                if ($num > 0) {
+                    $markers = array();
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                        array_push($markers, $row);
+                    }
+
+                    echo json_encode($markers);
+                } else {
+                    echo json_encode(
+                        array('message' => 'No Markers Found')
+                    );
+                }
+            }
+        ],
+        [
             "url" => "/markers/:filter/:country/:city",
             "method" => "GET",
             "handler" => function ($req) {
@@ -135,6 +162,30 @@ $markerRoutes =
                 $db = $database->connect();
                 $marker = new Marker($db);
                 $result = $marker->getTrash($req['params'][0]['filter'], $req['params'][1]['country'], $req['params'][2]['city']);
+                $num = $result->rowCount();
+
+                if ($num > 0) {
+                    $markers = array();
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                        array_push($markers, $row);
+                    }
+
+                    echo json_encode($markers);
+                } else {
+                    echo json_encode(
+                        array('message' => 'No Markers Found')
+                    );
+                }
+            }
+        ],
+        [
+            "url" => "/markers/:filter",
+            "method" => "GET",
+            "handler" => function ($req) {
+                $database = new Database();
+                $db = $database->connect();
+                $marker = new Marker($db);
+                $result = $marker->getTrash($req['params'][0]['filter'], '', '');
                 $num = $result->rowCount();
 
                 if ($num > 0) {

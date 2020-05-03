@@ -99,8 +99,8 @@
                     <span id="second-change-span"> </span>
                 </div>
                 <div class="box-thirdchange">
-                    <div class="downarrow"></div>
-                    <span> -5% Speed </span>
+                    <div id="third-change"></div>
+                    <span id="third-change-span"> </span>
                 </div>
             </div>
         </div>
@@ -387,9 +387,25 @@
                         allPlastic = 0;
                         allPaper = 0;
                         allGlass = 0;
+                        var totalCurrent = markers.length;
                         allMetal = 0;
                         markerCoordinates = [];
+                        var averageCurrentWaitingTime = 0;
+                        var averagePrecedentWaitingTime = 0;
                         markers.forEach(marker => {
+                            var auxTime1 = new Date(marker["time"]);
+                            if (marker["remove-time"] == null) {
+                                var auxTime2 = new Date();
+                                var date = auxTime2.getFullYear() + '-' + (auxTime2.getMonth() + 1) + '-' + auxTime2.getDate();
+                                var time = auxTime2.getHours() + ":" + auxTime2.getMinutes() + ":" + auxTime2.getSeconds();
+                                var auxTime2 = date + ' ' + time;
+                                auxTime2 = new Date(auxTime2);
+                            } else {
+                                var auxTime2 = new Date(marker["remove-time"]);
+                            }
+                            var diffInMilliSeconds = Math.abs(auxTime2 - auxTime1);
+                            var minutes = Math.floor(diffInMilliSeconds / 60000);
+                            averageCurrentWaitingTime = averageCurrentWaitingTime + minutes;
                             var myArray = {
                                 "longitude": marker["longitude"],
                                 "latitude": marker["latitude"]
@@ -472,6 +488,7 @@
                                 }
                             }
                         });
+                        averageCurrentWaitingTime = averageCurrentWaitingTime / totalCurrent;
                         plastics.sort(compare);
                         papers.sort(compare);
                         glasses.sort(compare);
@@ -542,7 +559,7 @@
                                 labels: ["Plastic", "Paper", "Glass", "Metal"],
                                 datasets: [{
                                     label: "Reports",
-                                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+                                    backgroundColor: ["red", "yellow", "blue", "green"],
                                     data: [allPlastic, allPaper, allGlass, allMetal]
                                 }]
                             },
@@ -587,13 +604,28 @@
                             .then(precedentData => {
                                 if (!("message" in precedentData)) {
                                     var precedentMarkers = precedentData;
+                                    var totalPrecedent = precedentMarkers.length;
                                     precedentMarkers.forEach(marker => {
+                                        var auxTime1 = new Date(marker["time"]);
+                                        if (marker["remove-time"] == null) {
+                                            var auxTime2 = new Date();
+                                            var date = auxTime2.getFullYear() + '-' + (auxTime2.getMonth() + 1) + '-' + auxTime2.getDate();
+                                            var time = auxTime2.getHours() + ":" + auxTime2.getMinutes() + ":" + auxTime2.getSeconds();
+                                            var auxTime2 = date + ' ' + time;
+                                            auxTime2 = new Date(auxTime2);
+                                        } else {
+                                            var auxTime2 = new Date(marker["remove-time"]);
+                                        }
+                                        var diffInMilliSeconds = Math.abs(auxTime2 - auxTime1);
+                                        var minutes = Math.floor(diffInMilliSeconds / 60000);
+                                        averagePrecedentWaitingTime = averagePrecedentWaitingTime + minutes;
                                         var myArray = {
                                             "longitude": marker["longitude"],
                                             "latitude": marker["latitude"]
                                         };
                                         precedentMarkerCoordinates.push(myArray);
                                     });
+                                    averagePrecedentWaitingTime = averagePrecedentWaitingTime / totalPrecedent;
                                     var allPrecedentTrash = precedentMarkers.length;
                                     var dif = 0;
                                     if (allPrecedentTrash > allTrash) {
@@ -610,8 +642,6 @@
 
                                     var currentAverageMarkerDistance = 0;
                                     var precedentAverageMarkerDistance = 0;
-                                    // console.log(markerCoordinates.length);
-                                    //  console.log(precedentMarkerCoordinates.length);
                                     if (markerCoordinates.length <= 100) {
                                         for (var i = 0; i < markerCoordinates.length - 1; i++) {
                                             for (var j = i + 1; j < markerCoordinates.length; j++) {
@@ -632,7 +662,6 @@
                                                 selectedRandomCoordinates.push(randomCoordinates[index]);
                                                 randomCoordinates.splice(index, 1);
                                             }
-                                            //console.log(selectedRandomCoordinates.length);
                                             for (var i = 0; i < selectedRandomCoordinates.length - 1; i++) {
                                                 for (var j = i + 1; j < selectedRandomCoordinates.length; j++) {
                                                     estimatedAverageMarkerDistance = estimatedAverageMarkerDistance + distance(selectedRandomCoordinates[i]["latitude"], selectedRandomCoordinates[i]["longitude"], selectedRandomCoordinates[j]["latitude"], selectedRandomCoordinates[j]["longitude"], "K");
@@ -686,6 +715,20 @@
                                         dif = "+ ".concat(dif, " % Congestion");
                                         document.getElementById("second-change-span").textContent = dif;
                                         document.getElementById("second-change").setAttribute("class", "downarrow");
+                                    }
+                                    //
+                                    dif = (1 - averagePrecedentWaitingTime / averageCurrentWaitingTime) * 100;
+                                    dif = Math.round(dif);
+                                    if (dif < 0) {
+                                        dif = dif.toString(10);
+                                        dif = dif.substr(1);
+                                        dif = "+ ".concat(dif, " % Speed");
+                                        document.getElementById("third-change-span").textContent = dif;
+                                        document.getElementById("third-change").setAttribute("class", "uparrow");
+                                    } else {
+                                        dif = "- ".concat(dif, " % Speed");
+                                        document.getElementById("third-change-span").textContent = dif;
+                                        document.getElementById("third-change").setAttribute("class", "downarrow");
                                     }
                                 }
                             });
@@ -826,12 +869,8 @@
                         pdf.line(0, 300, 400, 300);
                         pdf.text(cleanestRegions, 15, 310);
                         pdf.text(dirtiestRegions, 300, 310);
-                        console.log(regions);
-                        console.log(counties);
                         pdf.save("download.pdf");
                     } else {
-                        console.log(regions);
-                        console.log(counties);
                         pdf.save("download.pdf");
                     }
                 });
