@@ -99,8 +99,8 @@
                     <span id="second-change-span"> </span>
                 </div>
                 <div class="box-thirdchange">
-                    <div class="downarrow"></div>
-                    <span> -5% Speed </span>
+                    <div id="third-change"></div>
+                    <span id="third-change-span"> </span>
                 </div>
             </div>
         </div>
@@ -389,7 +389,23 @@
                         allGlass = 0;
                         allMetal = 0;
                         markerCoordinates = [];
+                        var averageCurrentWaitingTime = 0;
+                        var averagePrecedentWaitingTime = 0;
                         markers.forEach(marker => {
+                            var auxTime1 = new Date(marker["time"]);
+                            if (marker["remove-time"] == null) {
+                                var auxTime2 = new Date();
+                                var date = auxTime2.getFullYear() + '-' + (auxTime2.getMonth() + 1) + '-' + auxTime2.getDate();
+                                var time = auxTime2.getHours() + ":" + auxTime2.getMinutes() + ":" + auxTime2.getSeconds();
+                                var auxTime2 = date + ' ' + time;
+                                auxTime2 = new Date(auxTime2);
+                            } else {
+                                var auxTime2 = new Date(marker["remove-time"]);
+                            }
+                            //  console.log(auxTime1);
+                            //  console.log(auxTime2);
+                            var diffMins = (((auxTime2 - auxTime1) % 86400000) % 3600000) / 60000;
+                            averageCurrentWaitingTime = averageCurrentWaitingTime + diffMins;
                             var myArray = {
                                 "longitude": marker["longitude"],
                                 "latitude": marker["latitude"]
@@ -472,6 +488,7 @@
                                 }
                             }
                         });
+                        //  averageCurrentWaitingTime = averageCurrentWaitingTime / averageCurrentWaitingTime.length;
                         plastics.sort(compare);
                         papers.sort(compare);
                         glasses.sort(compare);
@@ -542,7 +559,7 @@
                                 labels: ["Plastic", "Paper", "Glass", "Metal"],
                                 datasets: [{
                                     label: "Reports",
-                                    backgroundColor: ["#3e95cd", "#8e5ea2", "#3cba9f", "#e8c3b9"],
+                                    backgroundColor: ["red", "yellow", "blue", "green"],
                                     data: [allPlastic, allPaper, allGlass, allMetal]
                                 }]
                             },
@@ -588,12 +605,27 @@
                                 if (!("message" in precedentData)) {
                                     var precedentMarkers = precedentData;
                                     precedentMarkers.forEach(marker => {
+                                        var auxTime1 = new Date(marker["time"]);
+                                        if (marker["remove-time"] == null) {
+                                            var auxTime2 = new Date();
+                                            var date = auxTime2.getFullYear() + '-' + (auxTime2.getMonth() + 1) + '-' + auxTime2.getDate();
+                                            var time = auxTime2.getHours() + ":" + auxTime2.getMinutes() + ":" + auxTime2.getSeconds();
+                                            var auxTime2 = date + ' ' + time;
+                                            auxTime2 = new Date(auxTime2);
+                                        } else {
+                                            var auxTime2 = new Date(marker["remove-time"]);
+                                        }
+                                        var diffMins = (((auxTime2 - auxTime1) % 86400000) % 3600000) / 60000;
+                                        averagePrecedentWaitingTime = averagePrecedentWaitingTime + diffMins;
                                         var myArray = {
                                             "longitude": marker["longitude"],
                                             "latitude": marker["latitude"]
                                         };
                                         precedentMarkerCoordinates.push(myArray);
                                     });
+                                    //  averagePrecedentWaitingTime = averagePrecedentWaitingTime / averagePrecedentWaitingTime.length;
+                                    console.log(averageCurrentWaitingTime);
+                                    console.log(averagePrecedentWaitingTime);
                                     var allPrecedentTrash = precedentMarkers.length;
                                     var dif = 0;
                                     if (allPrecedentTrash > allTrash) {
@@ -610,8 +642,6 @@
 
                                     var currentAverageMarkerDistance = 0;
                                     var precedentAverageMarkerDistance = 0;
-                                    // console.log(markerCoordinates.length);
-                                    //  console.log(precedentMarkerCoordinates.length);
                                     if (markerCoordinates.length <= 100) {
                                         for (var i = 0; i < markerCoordinates.length - 1; i++) {
                                             for (var j = i + 1; j < markerCoordinates.length; j++) {
@@ -686,6 +716,20 @@
                                         dif = "+ ".concat(dif, " % Congestion");
                                         document.getElementById("second-change-span").textContent = dif;
                                         document.getElementById("second-change").setAttribute("class", "downarrow");
+                                    }
+                                    //
+                                    dif = (1 - averagePrecedentWaitingTime / averageCurrentWaitingTime) * 100;
+                                    dif = Math.round(dif);
+                                    if (dif < 0) {
+                                        dif = dif.toString(10);
+                                        dif = dif.substr(1);
+                                        dif = "+ ".concat(dif, " % Speed");
+                                        document.getElementById("third-change-span").textContent = dif;
+                                        document.getElementById("third-change").setAttribute("class", "uparrow");
+                                    } else {
+                                        dif = "- ".concat(dif, " % Speed");
+                                        document.getElementById("third-change-span").textContent = dif;
+                                        document.getElementById("third-change").setAttribute("class", "downarrow");
                                     }
                                 }
                             });
