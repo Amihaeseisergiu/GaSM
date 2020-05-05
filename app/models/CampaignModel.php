@@ -162,14 +162,16 @@ public function doesItExist($idCampaign)
     $query->execute(); //nu mai avem de bind-uit parametri
   }
 
-  public function addComment($idCampaign,$content)
+  public function addComment($idCampaign,$content,$userId='')  //ca sa pot adauga din api un comentariu
   {
     $con=mysqli_connect("Localhost", "root" ,"", "tw");
 
     $query = $con->prepare(" INSERT INTO comments(id_campaign,id_user,comment) values(?,?,?)");
 
-    
-    $query->bind_param("iis",$idCampaign,$_SESSION['userID'],$content);
+    if($userId==='')
+      $query->bind_param("iis",$idCampaign,$_SESSION['userID'],$content);
+    else 
+      $query->bind_param("iis",$idCampaign,$userId,$content);
 
     $query->execute(); //nu mai avem de bind-uit parametri
   }

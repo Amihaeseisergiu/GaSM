@@ -21,7 +21,7 @@ include_once '../../models/CampaignModel.php';
     if(!$returnedArray)
       {
         echo json_encode(
-            array('campaign' => 'No campaigns found')
+            array('campaign' => 'No campaigns found from that index onwards')
         );
       }
     else

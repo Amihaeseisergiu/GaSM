@@ -92,13 +92,18 @@ $counter=0;
   echo '<script type="text/javascript">
               document.getElementById("like' . $row['id'] . '").addEventListener("click", likeFunction);
                  
-              function likeFunction() {
+              function likeFunction() {';
 
-                fetch(\'http://localhost:80/proiect/GaSM/public/Campaign/like/'. $row['id'] . '\', {
-                  method: \'POST\',
-                  headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}});';
-                
-                  if($_SESSION['loggedIn']) echo 'alert ("You liked this campaign!");';
+                  
+
+                  if($_SESSION['loggedIn']) {
+                                              echo 'alert ("You liked this campaign!");';
+                                              echo '
+                                                fetch(\'http://localhost/proiect/GaSM/app/api/campaigns/addLike.php' . '\', {
+                                                method: \'POST\',
+                                                headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}, 
+                                                body: \'campaignID='  . $row['id'] . '\' });';
+                                            }  
                   else echo 'alert ("Trebuie sa fiti logat pt. da like-uri!");';
 
                   echo '

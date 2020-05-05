@@ -19,16 +19,16 @@ input:valid {
 
 .infoOneCampaign
 {
-  margin:0.9em;
+  margin:0.1em;
+  width:80%;
 }
 .commentBox
 {
   background-color:rgb(148, 148, 148);
   color:black;
   border :2px solid black;
-  width:80%;
   padding:0.5em;
-  margin:0.25em;
+  margin-bottom:0.25em;
   position:center;
   justify-content:center;
 }
@@ -74,7 +74,7 @@ input:valid {
     flex-direction:column;
     justify-content:center;
     align-items:center;
-    padding:2em;
+    padding:0.7em;
     background-color:#e7e7e7;
     border-radius:2em;
 }
@@ -122,7 +122,7 @@ input:valid {
   .campaignNameText
 {
 
-    margin-bottom:0.5em;
+    margin-bottom:0.7em;
     font-size: 3.3vw;
     line-height:0.7%;
     font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;

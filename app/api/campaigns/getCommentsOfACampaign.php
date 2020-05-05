@@ -21,7 +21,7 @@ include_once '../../models/CampaignModel.php';
     if(!$returnedArray)
       {
         echo json_encode(
-            array('comment' => 'The specified campaign has no comments yet.')
+            array('The specified campaign has no comments yet.')
         );
       }
     else
