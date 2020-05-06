@@ -370,11 +370,14 @@
             if (filter === "Last Month") {
                 filter = "LastMonth";
             }
-            var url = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getTrash.php?filter=';
+            if (filter === "All Time") {
+                filter = "AllTime";
+            }
+            var url = 'http://localhost/proiect/GasM/public/api/markers';
             if (country != 'none') {
-                url = url.concat(filter, '&country=', country, '&city=', city);
+                url = url.concat('/', filter, '/', country, '/', city);
             } else {
-                url = url.concat(filter);
+                url = url.concat('/', filter);
             }
             fetch(url).then(response => response.json())
                 .then(data => {
@@ -592,13 +595,13 @@
                                 return dist;
                             }
                         }
-                        var allTrash = allGlass + allMetal + allPaper + allPlastic;
+                        var allTrash = markers.length;
                         var precedentMarkerCoordinates = [];
-                        var url = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getPrecedentTrash.php?filter=';
+                        var url = 'http://localhost/proiect/GasM/public/api/markers/precedent';
                         if (country != 'none') {
-                            url = url.concat(filter, '&country=', country, '&city=', city);
+                            url = url.concat('/', filter, '/', country, '/', city);
                         } else {
-                            url = url.concat(filter);
+                            url = url.concat('/', filter);
                         }
                         fetch(url).then(response => response.json())
                             .then(precedentData => {
@@ -876,14 +879,14 @@
                 });
 
             function getByCounty() {
-                var pdfURL = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getByCounty.php?filter=';
-                pdfURL = pdfURL.concat(filter, "&country=", country);
+                var pdfURL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                pdfURL = pdfURL.concat('/', filter, "/", country);
                 return fetch(pdfURL).then(response => response.json());
             }
 
             function getByRegion() {
-                var pdfURL = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getByRegion.php?filter=';
-                pdfURL = pdfURL.concat(filter, "&country=", country, "&county=", county);
+                var pdfURL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                pdfURL = pdfURL.concat('/', filter, "/", country, "/", county);
                 return fetch(pdfURL).then(response => response.json());
             }
 
@@ -905,7 +908,7 @@
                 return x.responseText;
             }
 
-            var csvURL = 'http://localhost:80/proiect/GaSM/app/api/markers/read/getCSV.php?filter=';
+            var csvURL = 'http://localhost:80/proiect/GaSM/app/php/getCSV.php?filter=';
             csvURL = csvURL.concat(filter, "&country=", country, "&city=", city);
             fetch(csvURL).then(response => response.blob())
                 .then(data => {
