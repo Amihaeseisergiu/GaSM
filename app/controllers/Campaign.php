@@ -92,66 +92,7 @@ class Campaign extends Controller
            }
     }
 
-    public function like($idCampanie='')
-    {
-        $aCampaign=$this->model('CampaignModel');
 
-        if($_SESSION['loggedIn'])
-         {
-            if($aCampaign->doesItExist($idCampanie))
-                $aCampaign->addLike($idCampanie);
-            else echo  '<script>alert("Campania nu exista!")</script>';
-         }
-        else  echo '<script>alert("Nu sunteti logat!")</script>';
-            
-        //if($idCampanie)
-
-        $arrayCampaignsTable=$aCampaign->getAllCampaigns();
-      
-    }
-
-    public function comment($idCampanie='')
-    {
-        $aCampaign=$this->model('CampaignModel');
-        
-            $commentContent=$_POST['CommentContent'];
-
-            if($aCampaign->isCommentValid($commentContent))
-            {
-                
-                if($_SESSION['loggedIn'])
-               {
-                  $aCampaign->addComment($idCampanie, $commentContent);
-    
-                  if($idCampanie%2==1)
-                    {
-                        $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie-1);
-                        array_push($arrayCampaignsTable,$idCampanie-1);
-                    }    
-                    else {
-                           $arrayCampaignsTable=$aCampaign->getAllCampaignsFromIndexOnwards($idCampanie-2);
-                           array_push($arrayCampaignsTable,$idCampanie-2);
-                         }  
-                  $this->view('allcampaigns',$arrayCampaignsTable);
-               }
-                else  //n-are voie sa puna comentarii daca nu e logat
-               {
-                
-                  $arrayCampaignsTable=$aCampaign->getAllCampaigns();
-                  $this->view('allcampaigns',$arrayCampaignsTable);
-                  echo '<script>alert("Nu sunteti logat!")</script>';
-               }
-            }
-            else 
-            {
-                $arrayCampaignsTable=$aCampaign->getAllCampaigns();
-                $this->view('allcampaigns',$arrayCampaignsTable);
-                echo '<script>alert("Continut invalid al comentariului!")</script>';
-            }
-            
-        }
-    
-        //var_dump($_POST);
     
 
     public function details($idCampanie='')
@@ -161,29 +102,16 @@ class Campaign extends Controller
         if(isset($_POST['Details']))
         {
 
-            $fullDetails=$aCampaign->getFullDetailsOfACampaign($idCampanie);
-            $allComments=$aCampaign->getCommentsOfACampaign($idCampanie);
-            $resultArray=array();
-            array_push($resultArray,$fullDetails);
-            array_push($resultArray,$allComments);
-            //print_r($resultArray);
+            $this->view('individualCampaign',array('id'=>$idCampanie)); //voi trimite toate atributele campaniei cu id-ul ala din tabelul campaigns
+            //print_r(array('id'=>$idCampanie));
 
-            $this->view('individualCampaign',$resultArray); //voi trimite toate atributele campaniei cu id-ul ala din tabelul campaigns
-
-            //echo '<script>alert("pagina campanie individuala!")</script>';
         }
         else //nu s-a apasat butonul dar s-a ajuns aici prin link 
         {
             if($aCampaign->doesItExist($idCampanie))
             {
-                $fullDetails=$aCampaign->getFullDetailsOfACampaign($idCampanie);
-                $allComments=$aCampaign->getCommentsOfACampaign($idCampanie);
-                $resultArray=array();
-                array_push($resultArray,$fullDetails);
-                array_push($resultArray,$allComments);
-                //print_r($resultArray);
-    
-                $this->view('individualCampaign',$resultArray); //voi trimite toate atributele campaniei cu id-ul ala din tabelul campaigns
+                
+                $this->view('individualCampaign',array('id'=>$idCampanie)); //voi trimite toate atributele campaniei cu id-ul ala din tabelul campaigns
     
             }
             else

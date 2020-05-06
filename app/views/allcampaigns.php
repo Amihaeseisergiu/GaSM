@@ -112,57 +112,39 @@ $counter=0;
 
               </script>';      
   
+
+            //listen-ul va fi facut pe form, la submit-ul ei aici.
+            //la submit pt comment-uri valide va goli campul de comentarii, la cele invalide il va lasa asa  
             echo '<script>
 
-            let button' . $row['id'] .' = document.getElementById(\'commentB' . $row['id'] . '\'); 
-            button' . $row['id'] .'.addEventListener(\'click\', (event) => { event.preventDefault();
-              let xhr = new XMLHttpRequest();
-        
-              // logic for handling the response of the server
-              xhr.onreadystatechange = function() {
-                  if (4 !== this.readyState) {
-                      // not yet ready
-                      return;
-                  }
-                  if (200 !== this.status) {
-                      //handle error response
-                      return;
-                  }
-                  // Handle something
-              }
-          
-              xhr.open(\'POST\', \'http://localhost:80/proiect/GaSM/public/Campaign/comment/' . $row['id'] .'\');
-              xhr.send(new FormData(document.getElementById(\'commentForm' . $row['id'] . '\')));';
-              if($_SESSION['loggedIn']) echo 'alert ("You left a comment!");';
-                   else echo 'alert ("Trebuie sa fiti logat pt. a lasa comentarii!");';
-              echo '     
-              document.getElementById(\'comment' . $row['id'] . '\').value="";
-            });
+            document.getElementById("commentForm' . $row['id'] . '").addEventListener("submit", commentFunction);
+            
+              function commentFunction(e) {e.preventDefault();';
+
+                
+                  echo 'var dataString=\'campaignID='  . $row['id'] .   '&userID=' . $_SESSION['userID'] . '&CommentContent=\';
+                  dataString=dataString.concat(document.getElementById(\'comment' . $row['id'] . '\').value);';
+
+                  if($_SESSION['loggedIn']) {
+                                              echo 'alert ("You left a comment!");';
+                                              echo '
+                                                fetch(\'http://localhost/proiect/GaSM/app/api/campaigns/addCommentToCampaign.php' . '\', {
+                                                method: \'POST\',
+                                                headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}, 
+                                                body: dataString });
+                                                document.getElementById(\'comment' . $row['id'] . '\').value="";';
+                                            }  
+                  else echo 'alert ("Trebuie sa fiti logat pt. a comenta!");';
+
+                  echo '
+                return false;
+              
+              
+            };
             
         </script>';
 
-              /*document.getElementById("commentB' . $row['id'] . '").addEventListener("click", commentFunction);
-              
-              function commentFunction() {
-
-                fetch(\'http://localhost:80/proiect/GaSM/public/Campaign/comment/'. $row['id'] . '\', {
-                  method: \'POST\',
-                  body : new FormData(document.getElementById("commentForm' . $row['id'] . '")),
-                  headers: {\'Content-Type\':\'multipart/form-data\'}
-                  
-                
-                });
-                
-                alert ("You left a comment!");
-              }
-
-        </script>';*/
-
-        //var_dump($_POST);
-
-//                        http://localhost:80/proiect/GaSM/public/Campaign/comment/'. $row['id'] . '\
-// body : new FormData(document.getElementById("comment' . $row['id'] . '")),
-
+ 
 //////////////////////////////////////////////////////////////////////////////////////////////
   if(($counter%2==1 && $row['id']>2)||($counter+1==sizeof($data)-1))//daca suntem la elementul 3(0,1,2,3) si id-ul e mai mare de 2, sau urm element e capatul sirului($fostulIndex)
   {
