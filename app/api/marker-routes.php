@@ -2,11 +2,12 @@
 
 include_once '../config/Database.php';
 include_once '../models/Marker.php';
+include_once '../config/Response.php';
 
 $markerRoutes =
     [
         [
-            "url" => "/markers/active",
+            "route" => "markers/active",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
@@ -22,16 +23,15 @@ $markerRoutes =
                         array_push($markers, $row);
                     }
 
-                    echo json_encode($markers);
+                    Response::status(200);
+                    Response::json($markers);
                 } else {
-                    echo json_encode(
-                        array('message' => 'No Markers Found')
-                    );
+                    Response::text("No Markers Found");
                 }
             }
         ],
         [
-            "url" => "/markers/quantity/:filter/:country",
+            "route" => "markers/quantity/:filter/:country",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
@@ -39,7 +39,7 @@ $markerRoutes =
 
                 $marker = new Marker($db);
 
-                $result = $marker->getMarkersByCounty($req['params'][0]['filter'], $req['params'][1]['country']);
+                $result = $marker->getMarkersByCounty($req['params']['filter'], $req['params']['country']);
                 $num = $result->rowCount();
 
                 if ($num > 0) {
@@ -57,16 +57,15 @@ $markerRoutes =
                         }
                     }
 
-                    echo json_encode($markersByCounty);
+                    Response::status(200);
+                    Response::json($markersByCounty);
                 } else {
-                    echo json_encode(
-                        array('message' => 'No Markers Found')
-                    );
+                    Response::text("No Markers Found");
                 }
             }
         ],
         [
-            "url" => "/markers/quantity/:filter/:country/:county",
+            "route" => "markers/quantity/:filter/:country/:county",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
@@ -74,7 +73,7 @@ $markerRoutes =
 
                 $marker = new Marker($db);
 
-                $result = $marker->getMarkersByRegion($req['params'][0]['filter'], $req['params'][1]['country'], $req['params'][2]['county']);
+                $result = $marker->getMarkersByRegion($req['params']['filter'], $req['params']['country'], $req['params']['county']);
                 $num = $result->rowCount();
 
                 if ($num > 0) {
@@ -92,16 +91,15 @@ $markerRoutes =
                         }
                     }
 
-                    echo json_encode($markerByRegion);
+                    Response::status(200);
+                    Response::json($markerByRegion);
                 } else {
-                    echo json_encode(
-                        array('message' => 'No Markers Found')
-                    );
+                    Response::text("No Markers Found");
                 }
             }
         ],
         [
-            "url" => "/markers/precedent/:filter/:country/:city",
+            "route" => "markers/precedent/:filter/:country/:city",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
@@ -109,7 +107,7 @@ $markerRoutes =
 
                 $marker = new Marker($db);
 
-                $result = $marker->getPrecedentTrash($req['params'][0]['filter'], $req['params'][1]['country'], $req['params'][2]['city']);
+                $result = $marker->getPrecedentTrash($req['params']['filter'], $req['params']['country'], $req['params']['city']);
 
                 $num = $result->rowCount();
 
@@ -119,16 +117,15 @@ $markerRoutes =
                         array_push($markers, $row);
                     }
 
-                    echo json_encode($markers);
+                    Response::status(200);
+                    Response::json($markers);
                 } else {
-                    echo json_encode(
-                        array('message' => 'No Markers Found')
-                    );
+                    Response::text("No Markers Found");
                 }
             }
         ],
         [
-            "url" => "/markers/precedent/:filter",
+            "route" => "markers/precedent/:filter",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
@@ -136,7 +133,7 @@ $markerRoutes =
 
                 $marker = new Marker($db);
 
-                $result = $marker->getPrecedentTrash($req['params'][0]['filter'], 'none', 'none');
+                $result = $marker->getPrecedentTrash($req['params']['filter'], 'none', 'none');
 
                 $num = $result->rowCount();
 
@@ -146,22 +143,21 @@ $markerRoutes =
                         array_push($markers, $row);
                     }
 
-                    echo json_encode($markers);
+                    Response::status(200);
+                    Response::json($markers);
                 } else {
-                    echo json_encode(
-                        array('message' => 'No Markers Found')
-                    );
+                    Response::text("No Markers Found");
                 }
             }
         ],
         [
-            "url" => "/markers/:filter/:country/:city",
+            "route" => "markers/:filter/:country/:city",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
                 $db = $database->connect();
                 $marker = new Marker($db);
-                $result = $marker->getTrash($req['params'][0]['filter'], $req['params'][1]['country'], $req['params'][2]['city']);
+                $result = $marker->getTrash($req['params']['filter'], $req['params']['country'], $req['params']['city']);
                 $num = $result->rowCount();
 
                 if ($num > 0) {
@@ -170,16 +166,15 @@ $markerRoutes =
                         array_push($markers, $row);
                     }
 
-                    echo json_encode($markers);
+                    Response::status(200);
+                    Response::json($markers);
                 } else {
-                    echo json_encode(
-                        array('message' => 'No Markers Found')
-                    );
+                    Response::text("No Markers Found");
                 }
             }
         ],
         [
-            "url" => "/markers/lastbyuser",
+            "route" => "markers/lastbyuser",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
@@ -194,24 +189,23 @@ $markerRoutes =
 
                 if ($num > 0) {
                     while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
-                        echo json_encode($row);
+                        Response::status(200);
+                        Response::json($row);
                         break;
                     }
                 } else {
-                    echo json_encode(
-                        array('message' => 'No Markers Found')
-                    );
+                    Response::text("No Markers Found");
                 }
             }
         ],
         [
-            "url" => "/markers/:filter",
+            "route" => "markers/:filter",
             "method" => "GET",
             "handler" => function ($req) {
                 $database = new Database();
                 $db = $database->connect();
                 $marker = new Marker($db);
-                $result = $marker->getTrash($req['params'][0]['filter'], '', '');
+                $result = $marker->getTrash($req['params']['filter'], '', '');
                 $num = $result->rowCount();
 
                 if ($num > 0) {
@@ -220,32 +214,30 @@ $markerRoutes =
                         array_push($markers, $row);
                     }
 
-                    echo json_encode($markers);
+                    Response::status(200);
+                    Response::json($markers);
                 } else {
-                    echo json_encode(
-                        array('message' => 'No Markers Found')
-                    );
+                    Response::text("No Markers Found");
                 }
             }
         ],
         [
-            "url" => "/markers",
+            "route" => "markers",
             "method" => "POST",
             "handler" => function ($req) {
-
-                $json = file_get_contents("php://input");
-                $data = json_decode($json, true);
 
                 $database = new Database();
                 $db = $database->connect();
 
                 $marker = new Marker($db);
 
-                $marker->insert($data);
+                $marker->insert($req['payload']);
+
+                Response::status(200);
             }
         ],
         [
-            "url" => "/markers",
+            "route" => "markers",
             "method" => "PUT",
             "handler" => function ($req) {
                 $json = file_get_contents("php://input");
@@ -256,14 +248,7 @@ $markerRoutes =
 
                 $marker = new Marker($db);
 
-                $marker->update($data[0], $data[1]);
-            }
-        ],
-        [
-            "url" => "/markers/:id",
-            "method" => "GET",
-            "handler" => function ($req) {
-                
+                $marker->update($req['payload'][0], $req['payload'][1]);
             }
         ]
     ];

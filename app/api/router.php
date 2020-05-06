@@ -1,62 +1,89 @@
 <?php
+require_once('./marker-routes.php');
+require_once('../config/Response.php');
+
 header("Access-Control-Allow-Headers: *");
-header("Content-type: application/json");
+header("Access-Control-Allow-Origin: *");
 
 $allHeaders = getallheaders();
 
-require_once('./marker-routes.php');
+$allRoutes = [
+    ... $markerRoutes
+];
 
-$allRoutes = [];
-
-array_push($allRoutes, ...$markerRoutes);
-
-foreach ($allRoutes as $route) {
-    if ($_SERVER["REQUEST_METHOD"] !== $route["method"]) {
-        continue;
+foreach ($allRoutes as $routeConfig) {
+    if (parseRequest($routeConfig)) {
+        exit;
     }
-
-    $params = matchRouteToActualURL($_SERVER["REQUEST_URI"], $route["url"]);
-    if (!isset($params)) {
-        continue;
-    }
-
-    $route["handler"]([
-        "params" => $params
-    ]);
-    break;
 }
 
-function matchRouteToActualURL($url, $route)
-{
-    $url = explode('/', filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL));
-    $route = explode('/', filter_var(rtrim($route, '/'), FILTER_SANITIZE_URL));
-    for ($i = 0; $i < 5; $i++) {
-        unset($url[$i]);
-    }
-    unset($route[0]);
-    if (count($url) != count($route)) {
-        return null;
-    }
-    $params = [];
-    $j = 1;
+handle404();
 
-    for ($i = 5; $i < count($url) + 5; $i++) {
-        if ($route[$j][0] == ":") {
-            if (is_numeric($url[$i])) {
-                $explodedRoute = explode(':', filter_var(rtrim($route[$j], ':'), FILTER_SANITIZE_URL));
-                $myArray = array($explodedRoute[1] => intval($url[$i]));
-                array_push($params, $myArray);
-            } else {
-                $explodedRoute = explode(':', filter_var(rtrim($route[$j], ':'), FILTER_SANITIZE_URL));
-                $myArray = array($explodedRoute[1] => $url[$i]);
-                array_push($params, $myArray);
-            }
-        } else {
-            if (strcmp($url[$i], $route[$j]) != 0) {
-                return null;
+function parseRequest($routeConfig)
+{
+    $url = $_SERVER['REQUEST_URI'];
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    if ($method !== $routeConfig['method']) {
+        return false;
+    }
+
+    $regExpString = routeExpToRegExp($routeConfig['route']);
+
+    if (preg_match("/$regExpString/", $url, $matches)) {
+
+        $params = [];
+        $parts = explode('/', $routeConfig['route']);
+
+        $index = 1;
+        foreach ($parts as $p) {
+            if (!empty($p) && $p[0] === ':') {
+                $params[substr($p, 1)] = $matches[$index];
+                $index++;
             }
         }
-        $j++;
+
+        $payload = file_get_contents('php://input');
+
+        if (strlen($payload)) {
+            $payload = json_decode($payload, true);
+        } else {
+            $payload = NULL;
+        }
+
+        call_user_func($routeConfig['handler'], [
+            "params" => $params,
+            "payload" => $payload
+        ]);
+
+        return true;
     }
-    return $params;
+
+    return false;
+}
+
+function handle404()
+{
+    Response::status(404);
+}
+
+
+
+function routeExpToRegExp($route)
+{
+    $regExpString = "";
+    $parts = explode('/', $route);
+
+    foreach ($parts as $p) {
+        $regExpString .= '\/';
+
+        if (!empty($p) && $p[0] === ":") {
+            $regExpString .= '([a-zA-Z0-9]+)';
+        } else {
+            $regExpString .= $p;
+        }
+    }
+    $regExpString .= '$';
+
+    return $regExpString;
 }
