@@ -23,6 +23,7 @@ foreach ($allRoutes as $route) {
     $route["handler"]([
         "params" => $params
     ]);
+    break;
 }
 
 function matchRouteToActualURL($url, $route)
