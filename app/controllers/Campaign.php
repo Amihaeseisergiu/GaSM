@@ -8,17 +8,25 @@ class Campaign extends Controller
         $aCampaign=$this->model('CampaignModel');
         
 
+
        if(isset($_POST['StartCampaign']))
         {
             $aCampaign->name=$_POST['Name'];
             $aCampaign->location=$_POST['Location'];
             $aCampaign->description=$_POST['Description'];
+
+
            if($aCampaign->isCampaignDataValid()) 
            {
 
               if($aCampaign->isTheNameAvailable())
                {
-                    $aCampaign->storeIntoDB();
+                echo '  <script>
+                fetch(\'http://localhost/proiect/GaSM/app/api/campaigns/addCampaign.php\', {
+                method: \'POST\',
+                headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}, 
+                body: \'name=' . $aCampaign->name . '&location=' . $aCampaign->location . '&description=' . $aCampaign->description .'\'                       });
+                        </script>  ';
                     
 
                     $arrayCampaignsTable=$aCampaign->getAllCampaigns();
@@ -89,8 +97,11 @@ class Campaign extends Controller
         $aCampaign=$this->model('CampaignModel');
 
         if($_SESSION['loggedIn'])
-         $aCampaign->addLike($idCampanie);
-
+         {
+            if($aCampaign->doesItExist($idCampanie))
+                $aCampaign->addLike($idCampanie);
+            else echo  '<script>alert("Campania nu exista!")</script>';
+         }
         else  echo '<script>alert("Nu sunteti logat!")</script>';
             
         //if($idCampanie)
@@ -107,6 +118,7 @@ class Campaign extends Controller
 
             if($aCampaign->isCommentValid($commentContent))
             {
+                
                 if($_SESSION['loggedIn'])
                {
                   $aCampaign->addComment($idCampanie, $commentContent);
