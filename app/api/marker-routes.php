@@ -65,6 +65,40 @@ $markerRoutes =
             }
         ],
         [
+            "route" => "markers/quantity/:filter/:country/type/:trashType",
+            "method" => "GET",
+            "handler" => function ($req) {
+                $database = new Database();
+                $db = $database->connect();
+
+                $marker = new Marker($db);
+
+                $result = $marker->getMarkersByCountyAndTrashType($req['params']['filter'], $req['params']['country'], $req['params']['trashType']);
+                $num = $result->rowCount();
+
+                if ($num > 0) {
+                    $markersByCounty = array();
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                        $ok = 0;
+                        for ($j = 0; $j < count($markersByCounty); $j++) {
+                            if ($markersByCounty[$j]['county'] == $row['county']) {
+                                $markersByCounty[$j]['quantity']++;
+                                $ok = 1;
+                            }
+                        }
+                        if ($ok == 0) {
+                            array_push($markersByCounty, array("county" => $row['county'], "quantity" => 1));
+                        }
+                    }
+
+                    Response::status(200);
+                    Response::json($markersByCounty);
+                } else {
+                    Response::text("No Markers Found");
+                }
+            }
+        ],
+        [
             "route" => "markers/quantity/:filter/:country/:county",
             "method" => "GET",
             "handler" => function ($req) {
@@ -74,6 +108,40 @@ $markerRoutes =
                 $marker = new Marker($db);
 
                 $result = $marker->getMarkersByRegion($req['params']['filter'], $req['params']['country'], $req['params']['county']);
+                $num = $result->rowCount();
+
+                if ($num > 0) {
+                    $markerByRegion = array();
+                    while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+                        $ok = 0;
+                        for ($j = 0; $j < count($markerByRegion); $j++) {
+                            if ($markerByRegion[$j]['city'] == $row['city']) {
+                                $markerByRegion[$j]['quantity']++;
+                                $ok = 1;
+                            }
+                        }
+                        if ($ok == 0) {
+                            array_push($markerByRegion, array("city" => $row['city'], "quantity" => 1));
+                        }
+                    }
+
+                    Response::status(200);
+                    Response::json($markerByRegion);
+                } else {
+                    Response::text("No Markers Found");
+                }
+            }
+        ],
+        [
+            "route" => "markers/quantity/:filter/:country/:county/type/:trashType",
+            "method" => "GET",
+            "handler" => function ($req) {
+                $database = new Database();
+                $db = $database->connect();
+
+                $marker = new Marker($db);
+
+                $result = $marker->getMarkersByRegionAndTrashType($req['params']['filter'], $req['params']['country'], $req['params']['county'], $req['params']['trashType']);
                 $num = $result->rowCount();
 
                 if ($num > 0) {

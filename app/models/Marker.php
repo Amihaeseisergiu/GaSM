@@ -119,6 +119,29 @@ class Marker
         }
     }
 
+    public function getMarkersByCountyAndTrashType($filter = '', $country, $trashType)
+    {
+        if ($country != 'none') {
+            $con = $this->con;
+            if ($filter == "LastWeek") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE country = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY AND trash_type = ?");
+            } else if ($filter == "LastMonth") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE country = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY AND trash_type = ?");
+            } else if ($filter == "Today") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE country = ? and time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY AND trash_type = ?");
+            } else {
+                $query = $con->prepare("SELECT * from tw.markers WHERE country = ? AND trash_type = ?");
+            }
+            $query->bindParam(1,  $country, PDO::PARAM_STR, 50);
+            $query->bindParam(2,  $trashType, PDO::PARAM_STR, 50);
+            $query->execute();
+            return $query;
+        }
+    }
+
     public function getMarkersByRegion($filter = '', $country, $county)
     {
         $con = $this->con;
@@ -137,6 +160,30 @@ class Marker
             }
             $query->bindParam(1,  $county, PDO::PARAM_STR, 50);
             $query->bindParam(2,  $country, PDO::PARAM_STR, 50);
+            $query->execute();
+            return $query;
+        }
+    }
+
+    public function getMarkersByRegionAndTrashType($filter = '', $country, $county, $trashType)
+    {
+        $con = $this->con;
+        if ($county != 'none') {
+            if ($filter == "LastWeek") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE county = ? and country = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 7 DAY AND trash_type = ?");
+            } else if ($filter == "LastMonth") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE county = ?  and country = ? and time <= CURDATE() AND time >= CURDATE() - INTERVAL 31 DAY AND trash_type = ?");
+            } else if ($filter == "Today") {
+                $query = $con->prepare("SELECT * FROM tw.markers
+            WHERE county = ? and country = ? and time >= CURDATE() AND time < CURDATE() + INTERVAL 1 DAY AND trash_type = ?");
+            } else {
+                $query = $con->prepare("SELECT * from tw.markers where county = ?  and country = ? AND trash_type = ? ");
+            }
+            $query->bindParam(1,  $county, PDO::PARAM_STR, 50);
+            $query->bindParam(2,  $country, PDO::PARAM_STR, 50);
+            $query->bindParam(3,  $trashType, PDO::PARAM_STR, 50);
             $query->execute();
             return $query;
         }

@@ -136,9 +136,17 @@
                 // var chartId = document.getElementById(currentChart.concat("Chart"));
                 //chartId.setAttribute("id", "barChart");
                 currentChart = "bar";
-            } else {
+            } else if (currentChart == "bar") {
                 //  var chartId = document.getElementById(currentChart.concat("Chart"));
                 //chartId.setAttribute("id", "chart");
+                if (city != 'none') {
+                    currentChart = "country";
+                } else {
+                    currentChart = "line";
+                }
+            } else if (currentChart == "country") {
+                currentChart = "county";
+            } else if (currentChart == "county") {
                 currentChart = "line";
             }
             loadChart();
@@ -168,6 +176,8 @@
         var charts = [];
         var chart;
         var pieChart;
+        var countyDps = [];
+        var cityDps = [];
 
         resetZoom = function() {
             chart.resetZoom();
@@ -347,6 +357,325 @@
                 //      "bar": barChart
                 //  };
                 //  charts.push(myArray);
+            } else if (currentChart == "country") {
+                function getPlastic() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                    URL = URL.concat('/', filter, "/", country, '/type/plastic');
+                    return fetch(URL).then(response => response.json());
+                }
+
+                function getPaper() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                    URL = URL.concat('/', filter, "/", country, '/type/paper');
+                    return fetch(URL).then(response => response.json());
+                }
+
+                function getGlass() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                    URL = URL.concat('/', filter, "/", country, '/type/glass');
+                    return fetch(URL).then(response => response.json());
+                }
+
+                function getMetal() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                    URL = URL.concat('/', filter, "/", country, '/type/metal');
+                    return fetch(URL).then(response => response.json());
+                }
+
+                function getAll() {
+                    return Promise.all([getPlastic(), getPaper(), getGlass(), getMetal()]);
+                }
+
+                getAll()
+                    .then(([plasticQ, paperQ, glassQ, metalQ]) => {
+                        var countyLabels = [];
+                        var countyPlasticData = [];
+                        var countyPaperData = [];
+                        var countyGlassData = [];
+                        var countyMetalData = [];
+                        plasticQ.forEach(marker => {
+                            if (!countyLabels.includes(marker["county"])) {
+                                countyLabels.push(marker["county"]);
+                            }
+                        });
+                        paperQ.forEach(marker => {
+                            if (!countyLabels.includes(marker["county"])) {
+                                countyLabels.push(marker["county"]);
+                            }
+                        });
+                        glassQ.forEach(marker => {
+                            if (!countyLabels.includes(marker["county"])) {
+                                countyLabels.push(marker["county"]);
+                            }
+                        });
+                        metalQ.forEach(marker => {
+                            if (!countyLabels.includes(marker["county"])) {
+                                countyLabels.push(marker["county"]);
+                            }
+                        });
+                        countyLabels.forEach(county => {
+                            var quantity = 0;
+                            plasticQ.forEach(plastic => {
+                                if (plastic["county"] == county) {
+                                    quantity = plastic["quantity"];
+                                }
+                            });
+                            countyPlasticData.push(quantity);
+
+                            var quantity = 0;
+                            paperQ.forEach(paper => {
+                                if (paper["county"] == county) {
+                                    quantity = paper["quantity"];
+                                }
+                            });
+                            countyPaperData.push(quantity);
+
+                            var quantity = 0;
+                            glassQ.forEach(glass => {
+                                if (glass["county"] == county) {
+                                    quantity = glass["quantity"];
+                                }
+                            });
+                            countyGlassData.push(quantity);
+
+                            var quantity = 0;
+                            metalQ.forEach(metal => {
+                                if (metal["county"] == county) {
+                                    quantity = metal["quantity"];
+                                }
+                            });
+                            countyMetalData.push(quantity);
+                        });
+                        var ctx = document.getElementById('chart').getContext('2d');
+                        chart = new Chart(ctx, {
+                            // The type of chart we want to create
+                            type: 'bar',
+                            // The data for our dataset
+                            data: {
+                                labels: countyLabels,
+                                datasets: [{
+                                        fill: false,
+                                        data: countyPlasticData,
+                                        label: 'Plastic',
+                                        backgroundColor: 'red',
+                                        borderColor: 'red',
+                                        hidden: showPlastic,
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        fill: false,
+                                        data: countyPaperData,
+                                        label: 'Paper',
+                                        backgroundColor: 'yellow',
+                                        borderColor: 'yellow',
+                                        hidden: showPaper,
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        fill: false,
+                                        data: countyGlassData,
+                                        label: 'Glass',
+                                        backgroundColor: 'blue',
+                                        borderColor: 'blue',
+                                        hidden: showGlass,
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        fill: false,
+                                        data: countyMetalData,
+                                        label: 'Metal',
+                                        backgroundColor: 'green',
+                                        borderColor: 'green',
+                                        hidden: showMetal,
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        stacked: true,
+                                        ticks: {
+                                            min: 0,
+                                            max: 100
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        stacked: true
+                                    }]
+                                },
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    zoom: {
+                                        pan: {
+                                            enabled: true,
+                                            mode: 'y'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
+            } else if (currentChart == "county") {
+                function getPlastic() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                    URL = URL.concat('/', filter, "/", country, '/', city, '/type/plastic');
+                    return fetch(URL).then(response => response.json());
+                }
+
+                function getPaper() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                    URL = URL.concat('/', filter, "/", country, '/', city, '/type/paper');
+                    return fetch(URL).then(response => response.json());
+                }
+
+                function getGlass() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                    URL = URL.concat('/', filter, "/", country, '/', city, '/type/glass');
+                    return fetch(URL).then(response => response.json());
+                }
+
+                function getMetal() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
+                    URL = URL.concat('/', filter, "/", country, '/', city, '/type/metal');
+                    return fetch(URL).then(response => response.json());
+                }
+
+                function getAll() {
+                    return Promise.all([getPlastic(), getPaper(), getGlass(), getMetal()]);
+                }
+
+                getAll()
+                    .then(([plasticQ, paperQ, glassQ, metalQ]) => {
+                        // countyDps = data;
+                        var countyLabels = [];
+                        var countyPlasticData = [];
+                        var countyPaperData = [];
+                        var countyGlassData = [];
+                        var countyMetalData = [];
+                        plasticQ.forEach(marker => {
+                            if (!countyLabels.includes(marker["city"])) {
+                                countyLabels.push(marker["city"]);
+                            }
+                        });
+                        paperQ.forEach(marker => {
+                            if (!countyLabels.includes(marker["city"])) {
+                                countyLabels.push(marker["city"]);
+                            }
+                        });
+                        glassQ.forEach(marker => {
+                            if (!countyLabels.includes(marker["city"])) {
+                                countyLabels.push(marker["city"]);
+                            }
+                        });
+                        metalQ.forEach(marker => {
+                            if (!countyLabels.includes(marker["city"])) {
+                                countyLabels.push(marker["city"]);
+                            }
+                        });
+                        countyLabels.forEach(county => {
+                            var quantity = 0;
+                            plasticQ.forEach(plastic => {
+                                if (plastic["city"] == county) {
+                                    quantity = plastic["quantity"];
+                                }
+                            });
+                            countyPlasticData.push(quantity);
+
+                            var quantity = 0;
+                            paperQ.forEach(paper => {
+                                if (paper["city"] == county) {
+                                    quantity = paper["quantity"];
+                                }
+                            });
+                            countyPaperData.push(quantity);
+
+                            var quantity = 0;
+                            glassQ.forEach(glass => {
+                                if (glass["city"] == county) {
+                                    quantity = glass["quantity"];
+                                }
+                            });
+                            countyGlassData.push(quantity);
+
+                            var quantity = 0;
+                            metalQ.forEach(metal => {
+                                if (metal["city"] == county) {
+                                    quantity = metal["quantity"];
+                                }
+                            });
+                            countyMetalData.push(quantity);
+                        });
+                        var ctx = document.getElementById('chart').getContext('2d');
+                        chart = new Chart(ctx, {
+                            // The type of chart we want to create
+                            type: 'bar',
+                            // The data for our dataset
+                            data: {
+                                labels: countyLabels,
+                                datasets: [{
+                                        fill: false,
+                                        data: countyPlasticData,
+                                        label: 'Plastic',
+                                        backgroundColor: 'red',
+                                        borderColor: 'red',
+                                        hidden: showPlastic,
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        fill: false,
+                                        data: countyPaperData,
+                                        label: 'Paper',
+                                        backgroundColor: 'yellow',
+                                        borderColor: 'yellow',
+                                        hidden: showPaper,
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        fill: false,
+                                        data: countyGlassData,
+                                        label: 'Glass',
+                                        backgroundColor: 'blue',
+                                        borderColor: 'blue',
+                                        hidden: showGlass,
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        fill: false,
+                                        data: countyMetalData,
+                                        label: 'Metal',
+                                        backgroundColor: 'green',
+                                        borderColor: 'green',
+                                        hidden: showMetal,
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                scales: {
+                                    yAxes: [{
+                                        stacked: true,
+                                        ticks: {
+                                            min: 0,
+                                            max: 100
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        stacked: true
+                                    }]
+                                },
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    zoom: {
+                                        pan: {
+                                            enabled: true,
+                                            mode: 'y'
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    });
             }
         }
 
@@ -805,6 +1134,9 @@
             }
             if (filter == "LastWeek") {
                 timeFlt = "Last Week";
+            }
+            if(filter == "Today") {
+                timeFlt = "Today";
             }
             if (city != 'none') {
                 timeFlt = timeFlt.concat(" Report ", city);
