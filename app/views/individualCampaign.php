@@ -55,7 +55,7 @@
         
 ?>
         <script>
-            var url='http://localhost/proiect/GaSM/public/api/campaign/details/';
+            var url='http://localhost/proiect/GaSM/public/api/campaigns/details/';
             var idValue=<?php echo $data['id'] ?>;
             url=url.concat(idValue);
 
@@ -72,7 +72,7 @@
 
 
 
-            url='http://localhost/proiect/GaSM/public/api/campaign/comments/';
+            url='http://localhost/proiect/GaSM/public/api/campaigns/comments/';
             url=url.concat(idValue);
 
             fetch(url).

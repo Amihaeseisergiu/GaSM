@@ -9,7 +9,7 @@ $campaignRoutes=
 [
 
     [
-        "route" => "campaign/details/:id",
+        "route" => "campaigns/details/:id",
         "method" => "GET",
         "handler" => function ($req)
            {
@@ -36,7 +36,7 @@ $campaignRoutes=
         ],
 
         [
-            "route" => "campaign/comments/:id",
+            "route" => "campaigns/comments/:id",
             "method" => "GET",
             "handler" => function ($req)
             {
@@ -64,7 +64,7 @@ $campaignRoutes=
 
          [
              
-            "route" => "campaign/like",
+            "route" => "campaigns/like",
             "method" => "POST",
             "handler" => function ($req)
             {
@@ -87,7 +87,7 @@ $campaignRoutes=
          ],
 
          [
-            "route" => "campaign/comment",
+            "route" => "campaigns/comment",
             "method" => "POST",
             "handler" => function ($req)
             {
@@ -118,7 +118,7 @@ $campaignRoutes=
         ],
 
         [
-            "route" => "campaign/add",
+            "route" => "campaigns/add",
             "method" => "POST",
             "handler" => function ($req)
             {
@@ -143,7 +143,7 @@ $campaignRoutes=
         ],
 
         [
-            "route" => "campaign/allcampaigns",
+            "route" => "campaigns/allcampaigns",
             "method" => "GET",
             "handler" => function ($req)
             {
@@ -168,7 +168,7 @@ $campaignRoutes=
 
 
         [
-            "route" => "campaign/allcampaignsfrom/:id",
+            "route" => "campaigns/allcampaignsfrom/:id",
             "method" => "GET",
             "handler" => function ($req)
             {

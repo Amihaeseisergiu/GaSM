@@ -99,7 +99,7 @@ $counter=0;
                   if($_SESSION['loggedIn']) {
                                               echo 'alert ("You liked this campaign!");';
                                               echo '
-                                                fetch(\'http://localhost/proiect/GaSM/public/api/campaign/like' . '\', {
+                                                fetch(\'http://localhost/proiect/GaSM/public/api/campaigns/like' . '\', {
                                                 method: \'POST\',
                                                 headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}, 
                                                 body: \'campaignID='  . $row['id'] . '\' });';
@@ -128,7 +128,7 @@ $counter=0;
                   if($_SESSION['loggedIn']) {
                                               echo 'alert ("You left a comment!");';
                                               echo '
-                                                fetch(\'http://localhost/proiect/GaSM/public/api/campaign/comment' . '\', {
+                                                fetch(\'http://localhost/proiect/GaSM/public/api/campaigns/comment' . '\', {
                                                 method: \'POST\',
                                                 headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}, 
                                                 body: dataString });
