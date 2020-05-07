@@ -1,5 +1,6 @@
 <?php
 require_once('./marker-routes.php');
+require_once('./campaign-routes.php');
 require_once('../config/Response.php');
 
 header("Access-Control-Allow-Headers: *");
@@ -8,7 +9,8 @@ header("Access-Control-Allow-Origin: *");
 $allHeaders = getallheaders();
 
 $allRoutes = [
-    ... $markerRoutes
+    ... $markerRoutes,
+    ... $campaignRoutes
 ];
 
 foreach ($allRoutes as $routeConfig) {
