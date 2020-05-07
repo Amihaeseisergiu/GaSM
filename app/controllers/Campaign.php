@@ -22,7 +22,7 @@ class Campaign extends Controller
               if($aCampaign->isTheNameAvailable())
                {
                 echo '  <script>
-                fetch(\'http://localhost/proiect/GaSM/app/api/campaigns/addCampaign.php\', {
+                fetch(\'http://localhost/proiect/GaSM/public/api/campaigns/add\', {
                 method: \'POST\',
                 headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}, 
                 body: \'name=' . $aCampaign->name . '&location=' . $aCampaign->location . '&description=' . $aCampaign->description .'\'                       });
