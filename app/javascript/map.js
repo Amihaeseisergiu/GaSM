@@ -177,7 +177,7 @@ function loadMarkers()
                 addMarker(data[i]);
         
             garbageMap.addLayer(markersCluster);
-    });
+    }).catch(error => console.log(error));
 }
 
 function loadMyLastMarker()
@@ -185,7 +185,7 @@ function loadMyLastMarker()
     fetch('http://localhost:80/proiect/GaSM/public/api/markers/lastbyuser').then(response => response.json())
     .then(data => {
         addMarker(data);
-    });
+    }).catch(error => console.log(error));;
 }
 
 function selectMap(mapType)
@@ -240,7 +240,7 @@ function selectMap(mapType)
             info.addTo(garbageMap);
             legend.addTo(garbageMap);
             garbageMap.removeLayer(markersCluster);
-        });
+        }).catch(error => console.log(error));;
     }
     currentMapType = mapType;
 }
@@ -289,6 +289,6 @@ garbageMap.on(L.Draw.Event.CREATED, function (geometry) {
         }).then(response => {
 
             markersCluster.removeLayers(result);
-        });
+        }).catch(error => console.log(error));;
     }
 });

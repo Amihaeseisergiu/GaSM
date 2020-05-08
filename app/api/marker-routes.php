@@ -4,16 +4,19 @@ include_once '../config/Database.php';
 include_once '../models/Marker.php';
 include_once '../config/Response.php';
 
+session_start();
+$database = new Database();
+$db = $database->connect();
+
+$marker = new Marker($db);
+
 $markerRoutes =
     [
         [
             "route" => "markers/active",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $result = $marker->getAll();
                 $num = $result->rowCount();
@@ -34,10 +37,7 @@ $markerRoutes =
             "route" => "markers/quantity/:filter/:country",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $result = $marker->getMarkersByCounty($req['params']['filter'], $req['params']['country']);
                 $num = $result->rowCount();
@@ -68,10 +68,7 @@ $markerRoutes =
             "route" => "markers/quantity/:filter/:country/type/:trashType",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $result = $marker->getMarkersByCountyAndTrashType($req['params']['filter'], $req['params']['country'], $req['params']['trashType']);
                 $num = $result->rowCount();
@@ -102,10 +99,7 @@ $markerRoutes =
             "route" => "markers/quantity/:filter/:country/:county",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $result = $marker->getMarkersByRegion($req['params']['filter'], $req['params']['country'], $req['params']['county']);
                 $num = $result->rowCount();
@@ -136,10 +130,7 @@ $markerRoutes =
             "route" => "markers/quantity/:filter/:country/:county/type/:trashType",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $result = $marker->getMarkersByRegionAndTrashType($req['params']['filter'], $req['params']['country'], $req['params']['county'], $req['params']['trashType']);
                 $num = $result->rowCount();
@@ -170,10 +161,7 @@ $markerRoutes =
             "route" => "markers/precedent/:filter/:country/:city",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $result = $marker->getPrecedentTrash($req['params']['filter'], $req['params']['country'], $req['params']['city']);
 
@@ -196,10 +184,7 @@ $markerRoutes =
             "route" => "markers/precedent/:filter",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $result = $marker->getPrecedentTrash($req['params']['filter'], 'none', 'none');
 
@@ -222,9 +207,8 @@ $markerRoutes =
             "route" => "markers/:filter/:country/:city",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-                $marker = new Marker($db);
+                global $marker;
+
                 $result = $marker->getTrash($req['params']['filter'], $req['params']['country'], $req['params']['city']);
                 $num = $result->rowCount();
 
@@ -243,14 +227,11 @@ $markerRoutes =
         ],
         [
             "route" => "markers/lastbyuser",
+            "middlewares" => ["IsLoggedIn"],
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
+                global $marker;
 
-                $marker = new Marker($db);
-
-                session_start();
                 $userId = $_SESSION['userID'];
                 $result = $marker->getMarkersByUser($userId);
                 $num = $result->rowCount();
@@ -270,9 +251,8 @@ $markerRoutes =
             "route" => "markers/:filter",
             "method" => "GET",
             "handler" => function ($req) {
-                $database = new Database();
-                $db = $database->connect();
-                $marker = new Marker($db);
+                global $marker;
+
                 $result = $marker->getTrash($req['params']['filter'], '', '');
                 $num = $result->rowCount();
 
@@ -291,13 +271,10 @@ $markerRoutes =
         ],
         [
             "route" => "markers",
+            "middlewares" => ["IsLoggedIn"],
             "method" => "POST",
             "handler" => function ($req) {
-
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $marker->insert($req['payload']);
 
@@ -306,17 +283,34 @@ $markerRoutes =
         ],
         [
             "route" => "markers",
+            "middlewares" => ["IsLoggedIn", "isAdmin"],
             "method" => "PUT",
             "handler" => function ($req) {
-                $json = file_get_contents("php://input");
-                $data = json_decode($json, true);
-
-                $database = new Database();
-                $db = $database->connect();
-
-                $marker = new Marker($db);
+                global $marker;
 
                 $marker->update($req['payload'][0], $req['payload'][1]);
             }
         ]
     ];
+
+    function isLoggedIn()
+    {
+        if(isset($_SESSION['userID']) && $_SESSION['userID'] > 0)
+            return true;
+
+        Response::status(402);
+        Response::text("You can only access this route if you're authenticated!");
+
+        return false;
+    }
+
+    function isAdmin()
+    {
+        if(isset($_SESSION['privileges']) && strcmp($_SESSION['privileges'], "admin") == 0)
+            return true;
+
+        Response::status(401);
+        Response::text("You can only access this route if you're an admin!");
+
+        return false;
+    }

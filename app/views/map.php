@@ -143,7 +143,7 @@
                         body: JSON.stringify(marker)
                     }).then(response => {
                         loadMyLastMarker();
-                    });
+                    }).catch(error => console.log(error));
                 });
             }
         }

@@ -35,6 +35,7 @@ function parseRequest($routeConfig)
     if (preg_match("/$regExpString/", $url, $matches)) {
 
         $params = [];
+        $query = [];
         $parts = explode('/', $routeConfig['route']);
 
         $index = 1;
@@ -42,6 +43,17 @@ function parseRequest($routeConfig)
             if (!empty($p) && $p[0] === ':') {
                 $params[substr($p, 1)] = $matches[$index];
                 $index++;
+            }
+        }
+
+        if (strpos($url, '?')) {
+            $queryString = explode('?', $url)[1];
+            $queryParts = explode('&', $queryString);
+
+            foreach ($queryParts as $part) {
+                if (strpos($part, '=')) {
+                    $query[explode('=', $part)[0]] = explode('=', $part)[1];
+                }
             }
         }
 
@@ -53,8 +65,23 @@ function parseRequest($routeConfig)
             $payload = NULL;
         }
 
+        if (isset($routeConfig['middlewares'])) {
+            foreach ($routeConfig['middlewares'] as $middlewareName) {
+                $didPass = call_user_func($middlewareName, [
+                    "params" => $params,
+                    "query" => $query,
+                    "payload" => $payload
+                ]);
+
+                if (!$didPass) {
+                    exit();
+                }
+            }
+        }
+
         call_user_func($routeConfig['handler'], [
             "params" => $params,
+            "query" => $query,
             "payload" => $payload
         ]);
 
