@@ -1282,7 +1282,7 @@
 
             var csvURL = 'http://localhost:80/proiect/GaSM/app/php/getCSV.php?filter=';
             csvURL = csvURL.concat(filter, "&country=", country, "&city=", city);
-            fetch(csvURL).then(response => response.blob())
+            fetch(csvURL).then(handleErrors).then(response => response.blob())
                 .then(data => {
                     var csvToString = blobToString(data);
                     csvToString = csvToString.replace(/\"/g, "");
@@ -1298,7 +1298,14 @@
                         csvContent += row + "\r\n";
                     });
                     download(csvContent, "repot.csv", "csv");
-                });
+                }).catch(error => console.log(error));
+        }
+
+        function handleErrors(response) {
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            return response;
         }
     </script>
 </body>

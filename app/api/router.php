@@ -112,7 +112,7 @@ function routeExpToRegExp($route)
             $regExpString .= $p;
         }
     }
-    $regExpString .= '$';
+    $regExpString .= '?(.+)$';
 
     return $regExpString;
 }
