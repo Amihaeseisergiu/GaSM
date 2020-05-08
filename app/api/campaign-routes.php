@@ -23,9 +23,8 @@ $campaignRoutes=
 
             if(!$returnedArray)
               {
-                Response::json(
-                    array('campaign' => 'No such campaign found')
-                );
+                Response::text("No such campaign found");
+                
               }
             else
             {
@@ -49,9 +48,9 @@ $campaignRoutes=
             
                 if(!$returnedArray)
                   {
-                   Response::json(
-                        array('The specified campaign has no comments yet.')
-                    );
+                   
+                        Response::text("The specified campaign has no comments yet.");
+                   
                   }
                 else
                 {
@@ -154,9 +153,7 @@ $campaignRoutes=
             
                 if(!$returnedArray)
                   {
-                    Response::json(
-                        array('campaign' => 'No campaigns found')
-                    );
+                    Response::text("No campaings found");
                   }
                 else
                 {
@@ -181,9 +178,9 @@ $campaignRoutes=
             
                 if(!$returnedArray)
                   {
-                    Response::json(
-                        array('campaign' => 'No campaigns found from that index onwards')
-                    );
+                    
+                        Response::text("No campaigns found from that index onwards");
+                    
                   }
                 else
                 {
