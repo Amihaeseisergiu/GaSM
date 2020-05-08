@@ -29,6 +29,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -60,6 +61,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markersByCounty);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -91,6 +93,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markersByCounty);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -122,6 +125,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markerByRegion);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -153,6 +157,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markerByRegion);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -176,6 +181,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -199,6 +205,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -221,6 +228,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -243,6 +251,7 @@ $markerRoutes =
                         break;
                     }
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -265,6 +274,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(400);
                     Response::text("No Markers Found");
                 }
             }
@@ -289,6 +299,8 @@ $markerRoutes =
                 global $marker;
 
                 $marker->update($req['payload'][0], $req['payload'][1]);
+
+                Response::status(200);
             }
         ]
     ];

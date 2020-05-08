@@ -118,33 +118,36 @@
                 var latlng = garbageMap.mouseEventToLatLng(e.originalEvent);
                 var loggedIn = <?php echo json_encode($_SESSION['loggedIn']); ?>;
 
-                var geocodeService = L.esri.Geocoding.geocodeService();
-                geocodeService.reverse().latlng(latlng).run(function(error, result) {
-                    var locationData = {
-                        neighborhood : result.address.Neighborhood.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                        city : result.address.City.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                        county: result.address.Region.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
-                        country : getCountryNameIso3(result.address.CountryCode)
-                    }
+                if(loggedIn)
+                {
+                    var geocodeService = L.esri.Geocoding.geocodeService();
+                    geocodeService.reverse().latlng(latlng).run(function(error, result) {
+                        var locationData = {
+                            neighborhood : result.address.Neighborhood.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                            city : result.address.City.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                            county: result.address.Region.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                            country : getCountryNameIso3(result.address.CountryCode)
+                        }
 
-                    var marker = {
-                        "latitude": latlng.lat,
-                        "longitude": latlng.lng,
-                        "trashType": currentGarbageType,
-                        "country": locationData.country,
-                        "city": locationData.city,
-                        "county": locationData.county,
-                        "neighborhood": locationData.neighborhood
-                    }
+                        var marker = {
+                            "latitude": latlng.lat,
+                            "longitude": latlng.lng,
+                            "trashType": currentGarbageType,
+                            "country": locationData.country,
+                            "city": locationData.city,
+                            "county": locationData.county,
+                            "neighborhood": locationData.neighborhood
+                        }
 
-                    fetch('http://localhost:80/proiect/GaSM/public/api/markers', {
-                        method: 'POST',
-                        headers: {'Content-Type':'application/json'},
-                        body: JSON.stringify(marker)
-                    }).then(response => {
-                        loadMyLastMarker();
-                    }).catch(error => console.log(error));
-                });
+                        fetch('http://localhost:80/proiect/GaSM/public/api/markers', {
+                            method: 'POST',
+                            headers: {'Content-Type':'application/json'},
+                            body: JSON.stringify(marker)
+                        }).then(handleErrors).then(response => {
+                            loadMyLastMarker();
+                        }).catch(error => console.log(error));
+                    });
+                }
             }
         }
 

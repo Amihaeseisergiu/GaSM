@@ -171,7 +171,7 @@ function loadMarkers()
     loadedMarkers = [];
     markersCluster = L.markerClusterGroup();
 
-    fetch('http://localhost:80/proiect/GaSM/public/api/markers/active').then(response => response.json())
+    fetch('http://localhost:80/proiect/GaSM/public/api/markers/active').then(handleErrors).then(response => response.json())
     .then(data => {
         for(var i = 0; i < data.length; i++)
                 addMarker(data[i]);
@@ -182,7 +182,7 @@ function loadMarkers()
 
 function loadMyLastMarker()
 {
-    fetch('http://localhost:80/proiect/GaSM/public/api/markers/lastbyuser').then(response => response.json())
+    fetch('http://localhost:80/proiect/GaSM/public/api/markers/lastbyuser').then(handleErrors).then(response => response.json())
     .then(data => {
         addMarker(data);
     }).catch(error => console.log(error));;
@@ -199,7 +199,7 @@ function selectMap(mapType)
     }
     else if(mapType.toString().localeCompare('statistics') == 0 && currentMapType.toString().localeCompare('statistics') != 0)
     {
-        fetch('http://localhost:80/proiect/GaSM/public/api/markers/active').then(response => response.json())
+        fetch('http://localhost:80/proiect/GaSM/public/api/markers/active').then(handleErrors).then(response => response.json())
         .then(data => {
             var markers = data;
             for(var i = 0; i < countiesData.features.length; i++)
@@ -286,9 +286,16 @@ garbageMap.on(L.Draw.Event.CREATED, function (geometry) {
             method: 'PUT',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify([marker, "inactive"])
-        }).then(response => {
-
+        }).then(handleErrors).then(response => {
+            
             markersCluster.removeLayers(result);
         }).catch(error => console.log(error));;
     }
 });
+
+function handleErrors(response) {
+    if (!response.ok) {
+        throw new Error(response.statusText);
+    }
+    return response;
+}

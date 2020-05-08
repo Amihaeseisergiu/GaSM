@@ -358,27 +358,31 @@
                 //  };
                 //  charts.push(myArray);
             } else if (currentChart == "country") {
+                if (filter == 'All Time') {
+                    var concatFilter = "AllTime";
+                }
+
                 function getPlastic() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
-                    URL = URL.concat('/', filter, "/", country, '/type/plastic');
+                    URL = URL.concat('/', concatFilter, "/", country, '/type/plastic');
                     return fetch(URL).then(response => response.json());
                 }
 
                 function getPaper() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
-                    URL = URL.concat('/', filter, "/", country, '/type/paper');
+                    URL = URL.concat('/', concatFilter, "/", country, '/type/paper');
                     return fetch(URL).then(response => response.json());
                 }
 
                 function getGlass() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
-                    URL = URL.concat('/', filter, "/", country, '/type/glass');
+                    URL = URL.concat('/', concatFilter, "/", country, '/type/glass');
                     return fetch(URL).then(response => response.json());
                 }
 
                 function getMetal() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
-                    URL = URL.concat('/', filter, "/", country, '/type/metal');
+                    URL = URL.concat('/', concatFilter, "/", country, '/type/metal');
                     return fetch(URL).then(response => response.json());
                 }
 
@@ -393,57 +397,73 @@
                         var countyPaperData = [];
                         var countyGlassData = [];
                         var countyMetalData = [];
-                        plasticQ.forEach(marker => {
-                            if (!countyLabels.includes(marker["county"])) {
-                                countyLabels.push(marker["county"]);
-                            }
-                        });
-                        paperQ.forEach(marker => {
-                            if (!countyLabels.includes(marker["county"])) {
-                                countyLabels.push(marker["county"]);
-                            }
-                        });
-                        glassQ.forEach(marker => {
-                            if (!countyLabels.includes(marker["county"])) {
-                                countyLabels.push(marker["county"]);
-                            }
-                        });
-                        metalQ.forEach(marker => {
-                            if (!countyLabels.includes(marker["county"])) {
-                                countyLabels.push(marker["county"]);
-                            }
-                        });
-                        countyLabels.forEach(county => {
-                            var quantity = 0;
-                            plasticQ.forEach(plastic => {
-                                if (plastic["county"] == county) {
-                                    quantity = plastic["quantity"];
+                        if (!("message" in plasticQ)) {
+                            plasticQ.forEach(marker => {
+                                if (!countyLabels.includes(marker["county"])) {
+                                    countyLabels.push(marker["county"]);
                                 }
                             });
+                        }
+                        if (!("message" in paperQ)) {
+                            paperQ.forEach(marker => {
+                                if (!countyLabels.includes(marker["county"])) {
+                                    countyLabels.push(marker["county"]);
+                                }
+                            });
+                        }
+                        if (!("message" in glassQ)) {
+                            glassQ.forEach(marker => {
+                                if (!countyLabels.includes(marker["county"])) {
+                                    countyLabels.push(marker["county"]);
+                                }
+                            });
+                        }
+                        if (!("message" in glassQ)) {
+                            metalQ.forEach(marker => {
+                                if (!countyLabels.includes(marker["county"])) {
+                                    countyLabels.push(marker["county"]);
+                                }
+                            });
+                        }
+                        countyLabels.forEach(county => {
+                            var quantity = 0;
+                            if (!("message" in plasticQ)) {
+                                plasticQ.forEach(plastic => {
+                                    if (plastic["county"] == county) {
+                                        quantity = plastic["quantity"];
+                                    }
+                                });
+                            }
                             countyPlasticData.push(quantity);
 
                             var quantity = 0;
-                            paperQ.forEach(paper => {
-                                if (paper["county"] == county) {
-                                    quantity = paper["quantity"];
-                                }
-                            });
+                            if (!("message" in paperQ)) {
+                                paperQ.forEach(paper => {
+                                    if (paper["county"] == county) {
+                                        quantity = paper["quantity"];
+                                    }
+                                });
+                            }
                             countyPaperData.push(quantity);
 
                             var quantity = 0;
-                            glassQ.forEach(glass => {
-                                if (glass["county"] == county) {
-                                    quantity = glass["quantity"];
-                                }
-                            });
+                            if (!("message" in glassQ)) {
+                                glassQ.forEach(glass => {
+                                    if (glass["county"] == county) {
+                                        quantity = glass["quantity"];
+                                    }
+                                });
+                            }
                             countyGlassData.push(quantity);
 
                             var quantity = 0;
-                            metalQ.forEach(metal => {
-                                if (metal["county"] == county) {
-                                    quantity = metal["quantity"];
-                                }
-                            });
+                            if (!("message" in metalQ)) {
+                                metalQ.forEach(metal => {
+                                    if (metal["county"] == county) {
+                                        quantity = metal["quantity"];
+                                    }
+                                });
+                            }
                             countyMetalData.push(quantity);
                         });
                         var ctx = document.getElementById('chart').getContext('2d');
@@ -517,27 +537,31 @@
                         });
                     });
             } else if (currentChart == "county") {
+                if (filter == 'All Time') {
+                    var concatFilter = "AllTime";
+                }
+
                 function getPlastic() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
-                    URL = URL.concat('/', filter, "/", country, '/', city, '/type/plastic');
+                    URL = URL.concat('/', concatFilter, "/", country, '/', city, '/type/plastic');
                     return fetch(URL).then(response => response.json());
                 }
 
                 function getPaper() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
-                    URL = URL.concat('/', filter, "/", country, '/', city, '/type/paper');
+                    URL = URL.concat('/', concatFilter, "/", country, '/', city, '/type/paper');
                     return fetch(URL).then(response => response.json());
                 }
 
                 function getGlass() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
-                    URL = URL.concat('/', filter, "/", country, '/', city, '/type/glass');
+                    URL = URL.concat('/', concatFilter, "/", country, '/', city, '/type/glass');
                     return fetch(URL).then(response => response.json());
                 }
 
                 function getMetal() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
-                    URL = URL.concat('/', filter, "/", country, '/', city, '/type/metal');
+                    URL = URL.concat('/', concatFilter, "/", country, '/', city, '/type/metal');
                     return fetch(URL).then(response => response.json());
                 }
 
@@ -553,57 +577,73 @@
                         var countyPaperData = [];
                         var countyGlassData = [];
                         var countyMetalData = [];
-                        plasticQ.forEach(marker => {
-                            if (!countyLabels.includes(marker["city"])) {
-                                countyLabels.push(marker["city"]);
-                            }
-                        });
-                        paperQ.forEach(marker => {
-                            if (!countyLabels.includes(marker["city"])) {
-                                countyLabels.push(marker["city"]);
-                            }
-                        });
-                        glassQ.forEach(marker => {
-                            if (!countyLabels.includes(marker["city"])) {
-                                countyLabels.push(marker["city"]);
-                            }
-                        });
-                        metalQ.forEach(marker => {
-                            if (!countyLabels.includes(marker["city"])) {
-                                countyLabels.push(marker["city"]);
-                            }
-                        });
-                        countyLabels.forEach(county => {
-                            var quantity = 0;
-                            plasticQ.forEach(plastic => {
-                                if (plastic["city"] == county) {
-                                    quantity = plastic["quantity"];
+                        if (!("message" in plasticQ)) {
+                            plasticQ.forEach(marker => {
+                                if (!countyLabels.includes(marker["city"])) {
+                                    countyLabels.push(marker["city"]);
                                 }
                             });
+                        }
+                        if (!("message" in paperQ)) {
+                            paperQ.forEach(marker => {
+                                if (!countyLabels.includes(marker["city"])) {
+                                    countyLabels.push(marker["city"]);
+                                }
+                            });
+                        }
+                        if (!("message" in glassQ)) {
+                            glassQ.forEach(marker => {
+                                if (!countyLabels.includes(marker["city"])) {
+                                    countyLabels.push(marker["city"]);
+                                }
+                            });
+                        }
+                        if (!("message" in glassQ)) {
+                            metalQ.forEach(marker => {
+                                if (!countyLabels.includes(marker["city"])) {
+                                    countyLabels.push(marker["city"]);
+                                }
+                            });
+                        }
+                        countyLabels.forEach(county => {
+                            var quantity = 0;
+                            if (!("message" in plasticQ)) {
+                                plasticQ.forEach(plastic => {
+                                    if (plastic["city"] == county) {
+                                        quantity = plastic["quantity"];
+                                    }
+                                });
+                            }
                             countyPlasticData.push(quantity);
 
                             var quantity = 0;
-                            paperQ.forEach(paper => {
-                                if (paper["city"] == county) {
-                                    quantity = paper["quantity"];
-                                }
-                            });
+                            if (!("message" in paperQ)) {
+                                paperQ.forEach(paper => {
+                                    if (paper["city"] == county) {
+                                        quantity = paper["quantity"];
+                                    }
+                                });
+                            }
                             countyPaperData.push(quantity);
 
                             var quantity = 0;
-                            glassQ.forEach(glass => {
-                                if (glass["city"] == county) {
-                                    quantity = glass["quantity"];
-                                }
-                            });
+                            if (!("message" in glassQ)) {
+                                glassQ.forEach(glass => {
+                                    if (glass["city"] == county) {
+                                        quantity = glass["quantity"];
+                                    }
+                                });
+                            }
                             countyGlassData.push(quantity);
 
                             var quantity = 0;
-                            metalQ.forEach(metal => {
-                                if (metal["city"] == county) {
-                                    quantity = metal["quantity"];
-                                }
-                            });
+                            if (!("message" in metalQ)) {
+                                metalQ.forEach(metal => {
+                                    if (metal["city"] == county) {
+                                        quantity = metal["quantity"];
+                                    }
+                                });
+                            }
                             countyMetalData.push(quantity);
                         });
                         var ctx = document.getElementById('chart').getContext('2d');
@@ -1135,7 +1175,7 @@
             if (filter == "LastWeek") {
                 timeFlt = "Last Week";
             }
-            if(filter == "Today") {
+            if (filter == "Today") {
                 timeFlt = "Today";
             }
             if (city != 'none') {
