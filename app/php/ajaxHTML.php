@@ -13,7 +13,7 @@ if ($data['timeFilter'] === "All Time" || $data['timeFilter'] == '') {
 $curl = curl_init();
 $markersByCounty = array();
 curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity/" . $data['timeFilter'] . '/' . $data['country'],
+    CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity" . '/' . $data['country'] . '?filter=' . $data['timeFilter'],
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 30,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -38,7 +38,7 @@ $markersByRegion = array();
 
 $curl = curl_init();
 curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity/" . $data['timeFilter'] . '/' . $data['country'] . '/' . $data['county'],
+    CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity" . '/' . $data['country'] . '/' . $data['county'] . '?filter=' . $data['timeFilter'],
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 30,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,

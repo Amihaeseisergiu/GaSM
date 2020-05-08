@@ -3,8 +3,8 @@
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/x-www-form-urlencoded");
 
-include_once '../../../config/Database.php';
-include_once '../../../models/Marker.php';
+include_once '../config/Database.php';
+include_once '../models/Marker.php';
 
 if (isset($_GET['filter'])) {
     $database = new Database();
