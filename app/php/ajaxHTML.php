@@ -13,7 +13,7 @@ if ($data['timeFilter'] === "All Time" || $data['timeFilter'] == '') {
 $curl = curl_init();
 $markersByCounty = array();
 curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getByCounty.php?filter=" . $data['timeFilter'] . '&country=' . $data['country'],
+    CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity/" . $data['timeFilter'] . '/' . $data['country'],
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 30,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -38,7 +38,7 @@ $markersByRegion = array();
 
 $curl = curl_init();
 curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://localhost:80/proiect/GaSM/app/api/markers/read/getByRegion.php?filter=" . $data['timeFilter'] . '&county=' . $data['county'] . '&country=' . $data['country'],
+    CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity/" . $data['timeFilter'] . '/' . $data['country'] . '/' . $data['county'],
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_TIMEOUT => 30,
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
@@ -47,7 +47,7 @@ curl_setopt_array($curl, array(
         "cache-control: no-cache"
     ),
 ));
-// echo curl_exec($curl);
+//echo curl_exec($curl);
 $markersByRegion = curl_exec($curl);
 $markersByRegion = json_decode($markersByRegion, true);
 $err = curl_error($curl);
