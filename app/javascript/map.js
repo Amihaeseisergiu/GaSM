@@ -9,7 +9,7 @@ var paperMarkerIcon = L.icon({
     shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
     iconSize: [40, 50],
     iconAnchor: [20, 50],
-    popupAnchor: [20, 0],
+    popupAnchor: [0, -40],
     shadowSize:   [50, 64],
     shadowAnchor: [0, 45]
 });
@@ -18,7 +18,7 @@ var plasticMarkerIcon = L.icon({
     shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
     iconSize: [40, 50],
     iconAnchor: [20, 50],
-    popupAnchor: [20, 0],
+    popupAnchor: [0, -40],
     shadowSize:   [50, 64],
     shadowAnchor: [0, 45]
 });
@@ -27,7 +27,7 @@ var metalMarkerIcon = L.icon({
     shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
     iconSize: [40, 50],
     iconAnchor: [20, 50],
-    popupAnchor: [20, 0],
+    popupAnchor: [0, -40],
     shadowSize:   [50, 64],
     shadowAnchor: [0, 45]
 });
@@ -36,7 +36,7 @@ var glassMarkerIcon = L.icon({
     shadowUrl: 'http://localhost:80/proiect/GaSM/app/images/markershadowicon.png',
     iconSize: [40, 50],
     iconAnchor: [20, 50],
-    popupAnchor: [20, 0],
+    popupAnchor: [0, -40],
     shadowSize:   [50, 64],
     shadowAnchor: [0, 45]
 });
@@ -155,7 +155,8 @@ function addMarker(marker)
 
     if(marker.trash_type.localeCompare('') != 0)
     {
-        const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trash_type, icon: markerIcon});
+        const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trash_type, icon: markerIcon})
+            .bindPopup('Reported by ' + marker.name + ' on ' + marker.time);
 		markersCluster.addLayer(mapMarker);
         loadedMarkers.push(mapMarker);
     }
@@ -292,6 +293,37 @@ garbageMap.on(L.Draw.Event.CREATED, function (geometry) {
         }).catch(error => console.log(error));;
     }
 });
+
+garbageMap.locate({setView: true})
+        .on('locationfound', function(e){
+            var marker = L.marker([e.latitude, e.longitude]).bindPopup('Your are here');
+            var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
+                weight: 1,
+                color: 'blue',
+                fillColor: '#cacaca',
+                fillOpacity: 0.2
+            });
+            garbageMap.addLayer(marker);
+            garbageMap.addLayer(circle);
+            marker.openPopup();
+        });
+
+var arcgisOnline = L.esri.Geocoding.arcgisOnlineProvider();
+
+L.esri.Geocoding.geosearch({
+    providers: [
+    arcgisOnline,
+    L.esri.Geocoding.featureLayerProvider({
+        url: 'https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/gisday/FeatureServer/0/',
+        searchFields: ['Name', 'Organization'],
+        label: 'GIS Day Events',
+        bufferRadius: 5000,
+        formatSuggestion: function (feature) {
+        return feature.properties.Name + ' - ' + feature.properties.Organization;
+        }
+    })
+    ]
+}).addTo(garbageMap);
 
 function handleErrors(response) {
     if (!response.ok) {

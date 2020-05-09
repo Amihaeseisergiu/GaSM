@@ -118,7 +118,7 @@
                 var latlng = garbageMap.mouseEventToLatLng(e.originalEvent);
                 var loggedIn = <?php echo json_encode($_SESSION['loggedIn']); ?>;
 
-                if(loggedIn)
+                if(loggedIn === 'true')
                 {
                     var geocodeService = L.esri.Geocoding.geocodeService();
                     geocodeService.reverse().latlng(latlng).run(function(error, result) {

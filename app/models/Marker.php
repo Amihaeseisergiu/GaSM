@@ -21,7 +21,7 @@ class Marker
 
     public function getAll()
     {
-        $query = $this->con->prepare("SELECT * from tw.markers WHERE `state` = 'active'");
+        $query = $this->con->prepare("SELECT * from tw.markers JOIN tw.users ON tw.markers.user_id = tw.users.id WHERE `state` = 'active'");
         $query->execute();
         return $query;
     }
@@ -228,7 +228,7 @@ class Marker
     public function getMarkersByUser($userId)
     {
             $con = $this->con;
-            $query = $con->prepare("SELECT * FROM tw.markers WHERE `user_id` = ? ORDER BY `id` DESC");
+            $query = $con->prepare("SELECT * FROM tw.markers JOIN tw.users ON tw.markers.user_id = tw.users.id WHERE tw.markers.user_id = ? ORDER BY tw.markers.id DESC");
             $query->bindParam(1,  $userId, PDO::PARAM_INT);
             $query->execute();
             return $query;
