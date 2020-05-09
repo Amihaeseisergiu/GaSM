@@ -9,25 +9,27 @@ $data = json_decode($json, true);
 if ($data['timeFilter'] === "All Time" || $data['timeFilter'] == '') {
     $data['timeFilter'] = "AllTime";
 }
+if ($data['country'] != 'none') {
+    $curl = curl_init();
+    $markersByCounty = array();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity" . '/' . $data['country'] . '?filter=' . $data['timeFilter'],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            "cache-control: no-cache"
+        ),
+    ));
+    $markersByCounty = curl_exec($curl);
+    $markersByCounty = json_decode($markersByCounty, true);
+    $err = curl_error($curl);
 
-$curl = curl_init();
-$markersByCounty = array();
-curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity" . '/' . $data['country'] . '?filter=' . $data['timeFilter'],
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "GET",
-    CURLOPT_HTTPHEADER => array(
-        "cache-control: no-cache"
-    ),
-));
-
-$markersByCounty = curl_exec($curl);
-$markersByCounty = json_decode($markersByCounty, true);
-$err = curl_error($curl);
-
-curl_close($curl);
+    curl_close($curl);
+} else {
+    $markersByCounty['message'] = 'No Markers Found';
+}
 if ($markersByCounty != null) {
     usort($markersByCounty, function ($a, $b) {
         return $a['quantity'] - $b['quantity'];
@@ -36,23 +38,28 @@ if ($markersByCounty != null) {
 
 $markersByRegion = array();
 
-$curl = curl_init();
-curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity" . '/' . $data['country'] . '/' . $data['county'] . '?filter=' . $data['timeFilter'],
-    CURLOPT_RETURNTRANSFER => true,
-    CURLOPT_TIMEOUT => 30,
-    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-    CURLOPT_CUSTOMREQUEST => "GET",
-    CURLOPT_HTTPHEADER => array(
-        "cache-control: no-cache"
-    ),
-));
-//echo curl_exec($curl);
-$markersByRegion = curl_exec($curl);
-$markersByRegion = json_decode($markersByRegion, true);
-$err = curl_error($curl);
 
-curl_close($curl);
+if ($data['country'] != 'none' && $data['county'] != 'none') {
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => "http://localhost:80/proiect/GaSM/public/api/markers/quantity" . '/' . $data['country'] . '/' . $data['county'] . '?filter=' . $data['timeFilter'],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        CURLOPT_HTTPHEADER => array(
+            "cache-control: no-cache"
+        ),
+    ));
+    //echo curl_exec($curl);
+    $markersByRegion = curl_exec($curl);
+    $markersByRegion = json_decode($markersByRegion, true);
+    $err = curl_error($curl);
+
+    curl_close($curl);
+} else {
+    $markersByRegion['message'] = 'No Markers Found';
+}
 if ($markersByRegion != null) {
     usort($markersByRegion, function ($a, $b) {
         return $a['quantity'] - $b['quantity'];
@@ -83,7 +90,7 @@ if (isset($data['timeFilter'])) {
     $str = str_replace('<?php echo $papQuantity; ?>', $data['allPaper'], $str);
     $str = str_replace('<?php echo $glsQuantity; ?>', $data['allGlass'], $str);
     $str = str_replace('<?php echo $mtlQuantity; ?>', $data['allMetal'], $str);
-    if($data['timeFilter'] == "Today") {
+    if ($data['timeFilter'] == "Today") {
         $unit = "minute";
     } else {
         $unit = "day";
@@ -142,27 +149,27 @@ if (isset($data['timeFilter'])) {
         $body->appendChild($secondScript);
     }
     $childDivNode1 = $doc->createElement('div');
-    $childDivNode1->setAttribute('id','childDivNode1');
+    $childDivNode1->setAttribute('id', 'childDivNode1');
     $childCanvasNode1 = $doc->createElement('canvas');
     $childCanvasNode1->setAttribute('class', 'childCanvasNode1');
     $childCanvasNode1->setAttribute('id', 'lineChart');
     $childDivNode1->appendChild($childCanvasNode1);
     $divNode->appendChild($childDivNode1);
     $childDivNode2 = $doc->createElement('div');
-    $childDivNode2->setAttribute('id','childDivNode2');
+    $childDivNode2->setAttribute('id', 'childDivNode2');
     $childCanvasNode2 = $doc->createElement('canvas');
     $childCanvasNode2->setAttribute('class', 'childCanvasNode2');
     $childCanvasNode2->setAttribute('id', 'barChart');
     $childDivNode2->appendChild($childCanvasNode2);
     $divNode->appendChild($childDivNode2);
     $childDivNode3 = $doc->createElement('div');
-    $childDivNode3->setAttribute('id','childDivNode3');
+    $childDivNode3->setAttribute('id', 'childDivNode3');
     $childCanvasNode3 = $doc->createElement('canvas');
     $childCanvasNode3->setAttribute('class', 'childCanvasNode3');
     $childCanvasNode3->setAttribute('id', 'pieChart');
     $childDivNode3->appendChild($childCanvasNode3);
     $divNode->appendChild($childDivNode3);
-   // $divNode->appendChild($childDivNode2);
+    // $divNode->appendChild($childDivNode2);
     $list->setAttribute('class', 'list');
     $divCountry = $doc->createElement('div');
     $divCountry->setAttribute('class', 'divCountryAndRegion');

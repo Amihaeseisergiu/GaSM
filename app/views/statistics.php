@@ -1197,60 +1197,79 @@
             //  } else if (currentChart == "bar") {
             //       var canvas1 = document.querySelector("#barChart .canvasjs-chart-canvas");
             //  }
+
+            canvas1.resizeAndExport = function(width, height) {
+                // create a new canvas
+                var c = document.createElement('canvas');
+                // set its width&height to the required ones
+                c.width = width;
+                c.height = height;
+                // draw our canvas to the new one
+                c.getContext('2d').drawImage(this, 0, 0, this.width, this.height, 0, 0, width, height);
+                // return the resized canvas dataURL
+                return c.toDataURL();
+            }
+            var img = new Image();
+            img.src = canvas1.resizeAndExport(1460, 400);
+
             var canvas2 = document.querySelector("#pieChart");
-            var dataURL1 = canvas1.toDataURL('image1/JPEG', 1);
+            //var dataURL1 = canvas1.toDataURL('image1/JPEG', 1);
             var dataURL2 = canvas2.toDataURL('image2/JPEG', 1);
             pdf.text(timeFlt, 160, 10);
             pdf.line(0, 15, 400, 15);
-            pdf.addImage(dataURL1, 'JPEG', 0, 25);
+            pdf.addImage(img, 'JPEG', 0, 25);
             pdf.line(0, 135, 400, 135);
             pdf.addImage(dataURL2, 'JPEG', 120, 150);
             pdf.line(0, 245, 400, 245);
 
-            getBoth()
-                .then(([counties, regions]) => {
-                    if (!("message" in counties) && !("message" in regions)) {
-                        markersByCounty = counties;
-                        markersByCounty.sort(compare);
-                        var cleanestCounties = 'Cleanest Counties: \r\n\r\n';
-                        var dirtiestCounties = 'Dirtiest Counties: \r\n\r\n';
-                        var contor = 1;
-                        if (markersByCounty != null) {
-                            markersByCounty.forEach(county => {
-                                if (contor <= 5) {
-                                    cleanestCounties = cleanestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
-                                } else if (contor > markersByCounty.length - 5) {
-                                    dirtiestCounties = dirtiestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
-                                }
-                                contor++;
-                            });
-                        }
-                        pdf.text(cleanestCounties, 15, 255);
-                        pdf.text(dirtiestCounties, 300, 255);
+            if (country != 'none' && county != 'none') {
+                getBoth()
+                    .then(([counties, regions]) => {
+                        if (!("message" in counties) && !("message" in regions)) {
+                            markersByCounty = counties;
+                            markersByCounty.sort(compare);
+                            var cleanestCounties = 'Cleanest Counties: \r\n\r\n';
+                            var dirtiestCounties = 'Dirtiest Counties: \r\n\r\n';
+                            var contor = 1;
+                            if (markersByCounty != null) {
+                                markersByCounty.forEach(county => {
+                                    if (contor <= 5) {
+                                        cleanestCounties = cleanestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
+                                    } else if (contor > markersByCounty.length - 5) {
+                                        dirtiestCounties = dirtiestCounties.concat(county['county'], ' : ', county['quantity'], '\r\n');
+                                    }
+                                    contor++;
+                                });
+                            }
+                            pdf.text(cleanestCounties, 15, 255);
+                            pdf.text(dirtiestCounties, 300, 255);
 
-                        markersByRegion = regions;
-                        markersByRegion.sort(compare);
-                        var cleanestRegions = 'Cleanest Cities: \r\n\r\n';
-                        var dirtiestRegions = 'Dirtiest Cities: \r\n\r\n';
-                        var contor = 1;
-                        if (markersByRegion != null) {
-                            markersByRegion.forEach(region => {
-                                if (contor <= 5) {
-                                    cleanestRegions = cleanestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
-                                } else if (contor > markersByRegion.length - 5) {
-                                    dirtiestRegions = dirtiestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
-                                }
-                                contor++;
-                            });
+                            markersByRegion = regions;
+                            markersByRegion.sort(compare);
+                            var cleanestRegions = 'Cleanest Cities: \r\n\r\n';
+                            var dirtiestRegions = 'Dirtiest Cities: \r\n\r\n';
+                            var contor = 1;
+                            if (markersByRegion != null) {
+                                markersByRegion.forEach(region => {
+                                    if (contor <= 5) {
+                                        cleanestRegions = cleanestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
+                                    } else if (contor > markersByRegion.length - 5) {
+                                        dirtiestRegions = dirtiestRegions.concat(region['city'], ' : ', region['quantity'], '\r\n');
+                                    }
+                                    contor++;
+                                });
+                            }
+                            pdf.line(0, 300, 400, 300);
+                            pdf.text(cleanestRegions, 15, 310);
+                            pdf.text(dirtiestRegions, 300, 310);
+                            pdf.save("download.pdf");
+                        } else {
+                            pdf.save("download.pdf");
                         }
-                        pdf.line(0, 300, 400, 300);
-                        pdf.text(cleanestRegions, 15, 310);
-                        pdf.text(dirtiestRegions, 300, 310);
-                        pdf.save("download.pdf");
-                    } else {
-                        pdf.save("download.pdf");
-                    }
-                });
+                    });
+            } else {
+                pdf.save("download.pdf");
+            }
 
             function getByCounty() {
                 var pdfURL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
