@@ -54,8 +54,12 @@
                 <div id="leftButton" onclick="switchChart()">
                     <div class="leftarrow"></div>
                 </div>
-                <button onclick="resetZoom()" style="font-size : 0.6em; background: white; box-shadow: 0px 0px 0px transparent; border: 2px solid black; text-shadow: 0px 0px 0px transparent; position : absolute; top : 1%; left : 5%;">R</button>
-                <canvas class="charts" id="chart"></canvas>
+                <div id="chartContainer">
+                    <button onclick="resetZoom()" style="font-size : 0.6em; background: white; box-shadow: 0px 0px 0px transparent; border: 2px solid black; text-shadow: 0px 0px 0px transparent; position : absolute;">R</button>
+                    <div style="width : 2000px; height: 100%;">
+                        <canvas id="chart" width="10000px" height="250px"></canvas>
+                    </div>
+                </div>
                 <div id="rightButton" onclick="switchChart()">
                     <div class="rightarrow"></div>
                 </div>
@@ -185,7 +189,7 @@
 
         function loadChart() {
             if (filter == "Today") {
-                var unit = 'minute';
+                var unit = 'hour';
             } else {
                 var unit = 'day';
             }
