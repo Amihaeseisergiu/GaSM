@@ -56,8 +56,8 @@
         <div class="rightDiv">
             <form  action="http://localhost/proiect/GaSM/public/" method="post" class="inputButtonsContainer">
                 <div class="divInput">
-                    <input required title="max 16 alphanumeric chars" max="16" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="username" name="Username" placeholder="Username">
-                    <input required title="max 16 alphanumeric chars" max="16" pattern="[a-zA-Z\d]+" class="inputBox" type="password" id="pw" name="Password" placeholder="Password">
+                    <input required title="max 16 alphanumeric chars" maxlength="16" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="username" name="Username" placeholder="Username">
+                    <input required title="max 16 alphanumeric chars" maxlength="16" pattern="[a-zA-Z\d]+" class="inputBox" type="password" id="pw" name="Password" placeholder="Password">
 
                     
                 </div>

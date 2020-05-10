@@ -142,7 +142,7 @@ $campaignRoutes=
         ],
 
         [
-            "route" => "campaigns/allcampaigns",
+            "route" => "campaigns/Allcampaigns",
             "method" => "GET",
             "handler" => function ($req)
             {
@@ -172,7 +172,8 @@ $campaignRoutes=
                 $aCampaign=new CampaignModel();
 
                 $campaignId=$req['params']['id'];
-            
+                
+
                 $returnedArray = array();
                 $returnedArray=$aCampaign->getAllCampaignsFromIndexOnwards($campaignId);
             

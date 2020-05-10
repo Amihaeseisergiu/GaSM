@@ -46,7 +46,7 @@
                              <!--greenContainerAllCampaigns lasa spatiu in jos daca e putin scris-->
 
     
-  </form>
+
  <?php  
 
         echo '<div id="oneCampaignContainer" class="greyContainerOneCampaign">';

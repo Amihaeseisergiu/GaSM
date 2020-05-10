@@ -102,7 +102,7 @@ fetch(url).
                                                                    var idCampanie=oneCampaign['id'];
                                                                    
                                                                    //console.log(data.length);
-                                                                   if((counter%2==1 && oneCampaign['id']>2)||(counter==data.length-1))
+                                                                   if((counter%2==1 && oneCampaign['id']>2)||(counter==data.length-1 && oneCampaign['id']>=3)) // si ca sa nu apara butonul de back daca am doar 1 campanie 
                                                                   {
                                                                     if(oneCampaign['id']%2==0)     // ca sa nu ajunga la index -1 si sa dea not found
                                                                        var valParam=oneCampaign['id']-4;
