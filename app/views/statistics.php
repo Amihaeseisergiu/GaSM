@@ -55,9 +55,9 @@
                     <div class="leftarrow"></div>
                 </div>
                 <div id="chartContainer">
-                    <button onclick="resetZoom()" style="font-size : 0.6em; background: white; box-shadow: 0px 0px 0px transparent; border: 2px solid black; text-shadow: 0px 0px 0px transparent; position : absolute;">R</button>
+                    <button onclick="resetZoom()" style="font-size : 0.6em; background: white; box-shadow: 0px 0px 0px transparent; border: 2px solid black; text-shadow: 0px 0px 0px transparent; position: absolute; margin-left: 5px; margin-top: 5px;">R</button>
                     <div style="width : 2000px; height: 100%;">
-                        <canvas id="chart" width="10000px" height="250px"></canvas>
+                        <canvas id="chart"></canvas>
                     </div>
                 </div>
                 <div id="rightButton" onclick="switchChart()">
@@ -1199,14 +1199,10 @@
             //  }
 
             canvas1.resizeAndExport = function(width, height) {
-                // create a new canvas
                 var c = document.createElement('canvas');
-                // set its width&height to the required ones
                 c.width = width;
                 c.height = height;
-                // draw our canvas to the new one
                 c.getContext('2d').drawImage(this, 0, 0, this.width, this.height, 0, 0, width, height);
-                // return the resized canvas dataURL
                 return c.toDataURL();
             }
             var img = new Image();
