@@ -64,8 +64,8 @@
     $fostulIndex=0;
 $counter=0;
 
-if($_SESSION['loggedIn'])  echo '<script>   var loggedIN=1;  </script>;';
-    else  echo '<script>   var loggedIN=0;  </script>;';
+if($_SESSION['loggedIn'])  echo '<script>   var loggedIN=1;  </script>';
+    else  echo '<script>   var loggedIN=0;  </script>';
 ?>
 <script>
 var url='http://localhost/proiect/GaSM/public/api/campaigns/allcampaignsfrom/';
@@ -87,7 +87,7 @@ fetch(url).
                                                                    string+='"name="detailsForm" action="http://localhost/proiect/GaSM/public/Campaign/details/';
                                                                    string=string.concat(oneCampaign['id']);
                                                                     
-                                                                   string+='" method="post" class="greyContainerAllCampaigns"> <button  class="submitButton" type="submit" id="details" name="Details">Details</button></form>  <form id="like"  name="likeForm" method="post" class="greyContainerAllCampaigns">    <button  class="submitButton" type="button" id="like';
+                                                                   string+='" method="post" class="greyContainerAllCampaigns"> <button  class="submitButton" type="submit"  name="Details">Details</button></form>  <form   name="likeForm" method="post" class="greyContainerAllCampaigns">    <button  class="submitButton" type="button" id="like';
                                                                    string=string.concat(oneCampaign['id']);
                                                                    string+='" name="Like">Like</button></form>';
 
@@ -95,7 +95,7 @@ fetch(url).
                                                                    string=string.concat(oneCampaign['id']);
                                                                    string+='" name="commentForm"  method="post"  class="greyContainerAllCampaigns"><input id="comment';
                                                                    string=string.concat(oneCampaign['id']);
-                                                                   string+='" name="CommentContent" max="250" title="max 250 alphanumeric and ,.?: etc chars" required pattern=' +  '\'[A-Za-z0-9 .,!?:\\[\\]()\"\\-+]+\''   +'class="inputBox" type="text"  placeholder="write here"><button  id="commentB';
+                                                                   string+='" name="CommentContent" maxlength="250" title="max 250 alphanumeric and ,.?: etc chars" required pattern=' +  '\'[A-Za-z0-9 .,!?:\\[\\]()\"\\-+]+\''   +'class="inputBox" type="text"  placeholder="write here"><button  id="commentB';
                                                                    string=string.concat(oneCampaign['id']);
                                                                    string+='" class="submitButton" type="submit"  name="Comment">Comment</button></form>';
 
@@ -114,7 +114,7 @@ fetch(url).
 
                                                                    string+='<form action="http://localhost/proiect/GaSM/public/Campaign/index/';
                                                                    string=string.concat(valParam);
-                                                                   string+='" method="post" class="greyContainerAllCampaigns">    <button  class="controlButton" type="prevPage" id="prevPage" name="PreviousPage"><</button></form>  ';
+                                                                   string+='" method="post" class="greyContainerAllCampaigns">    <button  class="controlButton" type="submit" id="prevPage" name="PreviousPage"><</button></form>  ';
                                                                   }
                                                                    
                                                                   counter++;
@@ -123,7 +123,7 @@ fetch(url).
                                                                    {
                                                                      string+='<form action="http://localhost/proiect/GaSM/public/Campaign/index/';
                                                                      string=string.concat(oneCampaign['id']);
-                                                                     string+='" method="post" class="greyContainerAllCampaigns">    <button  class="controlButton" type="nextPage" id="prevPage" name="NextPage">></button></form>  ';
+                                                                     string+='" method="post" class="greyContainerAllCampaigns">    <button  class="controlButton" type="submit" id="nextPage" name="NextPage">></button></form>  ';
                                                                      break;
                                                                    }
                                                                  
@@ -267,7 +267,7 @@ fetch(url).
                                                                   dataString='campaignID='  + idGenerat +   '&userID=' + <?php echo $_SESSION['userID']; ?> + '&CommentContent='; 
                                                                  dataString=dataString.concat(document.getElementById('comment' + idGenerat ).value);
                                                                  url='http://localhost/proiect/GaSM/public/api/campaigns/comment';
-                                                                 console.log(dataString);
+                                                                 //console.log(dataString);
                                                                  e.preventDefault();
                                                                  if(loggedIN==1) {
                       

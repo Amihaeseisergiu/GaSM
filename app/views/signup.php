@@ -54,7 +54,7 @@
     <input required title="max 16 alphanumeric chars" maxlength="16" pattern="[a-zA-Z\d]+" class="inputBox" type="password" id="pw" name="Password" placeholder="Password*" >
     <input required title="max 50 chars" maxlength="50" pattern="[a-zA-Z]+" class="inputBox" type="text" id="country" name="Country" placeholder="Country*">
     <input required title="max 50 alphanumeric chars" maxlength="50" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="county" name="County" placeholder="County*">
-    <input required title="max 50 alphanumeric chars" maxlength="50" pattern="[a-zA-Z\d]+" class="inputBox" type="text" id="city" name="City" placeholder="City*">
+    <input required title="max 50 alphanumeric chars" maxlength="50" pattern="[a-zA-Z\d ]+" class="inputBox" type="text" id="city" name="City" placeholder="City*">
     
     <button  class="submitButton" type="submit" id="submitB" name="SubmitButton">Submit</button>
     <?php

@@ -65,10 +65,13 @@ $campaignRoutes=
              
             "route" => "campaigns/like",
             "method" => "POST",
+            "middlewares" => ["IsLoggedIn"],
             "handler" => function ($req)
             {
                 $aCampaign=new CampaignModel();
 
+               if(isset($_POST['campaignID'])) 
+                {
                 $campaignID=$_POST['campaignID'];
                 //print_r($req);
         
@@ -81,6 +84,9 @@ $campaignRoutes=
                      }
                      else
                      Response::text("Campania nu exista");
+            
+                }
+                else  Response::text("Not enough parameters supplied");        
             }
 
          ],
@@ -88,11 +94,14 @@ $campaignRoutes=
          [
             "route" => "campaigns/comment",
             "method" => "POST",
+            "middlewares" => ["IsLoggedIn"],
             "handler" => function ($req)
             {
 
                 $aCampaign=new CampaignModel();
 
+                if(isset($_POST['campaignID'],$_POST['CommentContent'],$_POST['userID']))
+                {
                 $campaignID=$_POST['campaignID'];
                 $content=$_POST['CommentContent'];
                 $userID=$_POST['userID'];
@@ -112,6 +121,8 @@ $campaignRoutes=
                      }
                 else Response::text("Comment is not valid");
 
+                }
+                else Response::text("Not enough parameters supplied");
             }
 
         ],
@@ -123,6 +134,8 @@ $campaignRoutes=
             {
                 $aCampaign=new CampaignModel();
 
+                if(isset($_POST['name'],$POST['location'],$_POST['description']))
+                {
                 $aCampaign->name=$_POST['name'];
                 $aCampaign->location=$_POST['location'];
                 $aCampaign->description=$_POST['description'];
@@ -137,6 +150,8 @@ $campaignRoutes=
                    }    
                else Response::text("There's already a campaign with that name");  
                }
+              }
+            else Response::text("Not enough parameters supplied");
 
             }
         ],
@@ -194,6 +209,7 @@ $campaignRoutes=
         ]
 
         ];
+
 
 
 

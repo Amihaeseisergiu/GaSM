@@ -17,9 +17,11 @@ class User
  {
 
     $con=mysqli_connect("Localhost", "root" ,"", "tw");
+
+
      
-    $query = $con->prepare("SELECT * from users where name=? and pw=?");  //facem prepare 
-    $query->bind_param("ss",$this->name,$this->password);  //$idDat e de tipul String, bind-uim parametrii
+    $query = $con->prepare("SELECT * from users where name=?");  //facem prepare 
+    $query->bind_param("s",$this->name);  //$idDat e de tipul String, bind-uim parametrii
     $query->execute(); //executam query-ul
 
     $result=$query->get_result();
@@ -27,14 +29,18 @@ class User
 
     if ($result->num_rows===1)
     {
-        $_SESSION['privileges']=$row['privileges'];  //salvam in session-uri user id-ul,name-ul,tara,orasul si privilegiile userului logat
-        $_SESSION['userID']=$row['id'];
-        $_SESSION['country']=$row['country'];
-        $_SESSION['county']=$row['county'];
-        $_SESSION['city']=$row['city'];
-        $_SESSION['name']=$row['name'];
-        $con->close();
-        return true;
+        
+        if(password_verify($this->password, $row['pw']))
+        {
+          $_SESSION['privileges']=$row['privileges'];  //salvam in session-uri user id-ul,name-ul,tara,orasul si privilegiile userului logat
+          $_SESSION['userID']=$row['id'];
+          $_SESSION['country']=$row['country'];
+          $_SESSION['county']=$row['county'];
+          $_SESSION['city']=$row['city'];
+          $_SESSION['name']=$row['name'];
+          $con->close();
+          return true;
+        }  
     }
 
     $con->close();
@@ -48,6 +54,9 @@ public function storeIntoDB() //am sa verific eventual daca exista sau nu numele
     $con=mysqli_connect("Localhost", "root" ,"", "tw");
 
     $this->privileges="user";
+
+    $hashedPW=password_hash($this->password, PASSWORD_DEFAULT);
+    $this->password=$hashedPW;
 
     $query = $con->prepare("INSERT INTO users(name,pw,email,country,county,city,privileges) values(?,?,?,?,?,?,?)");  //facem prepare, nu dam valoare la id ca e auto_increment
     $query->bind_param("sssssss",$this->name,$this->password,$this->email,$this->country,$this->county,$this->city,$this->privileges);  //s de la String, bind-uim parametrii
@@ -99,7 +108,7 @@ public function validateSignupInput()
      if(!preg_match("/^[a-zA-Z\d]+$/",$this->county))
      return false;
 
-    if(!preg_match("/^[a-zA-Z\d]+$/",$this->city))
+    if(!preg_match("/^[a-zA-Z\d ]+$/",$this->city))
      return false;
 
     if (!filter_var($this->email, FILTER_VALIDATE_EMAIL))  //daca nu e valida adresa de email
