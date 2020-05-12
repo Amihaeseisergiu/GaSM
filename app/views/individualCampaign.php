@@ -77,9 +77,10 @@
 
             fetch(url).
                then(response=>response.json()).then(data=>{
-                                                              //console.log(data.length); 
+                   
+                                                              
                                                               var string="";
-                                                              if(data.length==1)//nu sunt comentarii
+                                                              if(data['message']=="The specified campaign has no comments yet.")//nu sunt comentarii
                                                               {
                                                                 string+='<h3 class="campaignDescText">No comments yet</h3>';
                                                                 document.getElementById("commentsCampaign").innerHTML=string;

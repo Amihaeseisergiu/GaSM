@@ -36,8 +36,8 @@ class Campaign extends Controller
                else  //daca numele dat mai exista la alta campanie
                {
                  
-                $this->view('campaign');
-                echo '<script>alert("Numele mai exista deja!")</script>';
+                $this->view('campaign',['mesaj'=>"Exista deja o campanie cu acest nume!"]);
+                
 
                }
 
@@ -45,8 +45,8 @@ class Campaign extends Controller
            else  //daca datele introduse nu sunt valide
            {
 
-            $this->view('campaign');
-            echo '<script>alert("Date invalide!")</script>';
+            
+            $this->view('campaign',['mesaj'=>"Date invalide!"]);
 
            }
            

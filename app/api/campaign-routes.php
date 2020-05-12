@@ -133,8 +133,9 @@ $campaignRoutes=
             "handler" => function ($req)
             {
                 $aCampaign=new CampaignModel();
+                
 
-                if(isset($_POST['name'],$POST['location'],$_POST['description']))
+                if(isset($_POST['name'],$_POST['location'],$_POST['description']))
                 {
                 $aCampaign->name=$_POST['name'];
                 $aCampaign->location=$_POST['location'];
