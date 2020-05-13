@@ -8,7 +8,7 @@ input:valid {
   outline: 4px solid  #0ed145;
 }
 
-input:invalid {
+input:focus:invalid {
   background-color: #8b0606;
 }
 
@@ -74,7 +74,9 @@ input:invalid {
   padding:0.5em;
   margin-top:0.7em;
   border:0;
+  border-radius:0.2em;
   outline:none;/* chestia cu albastru la click*/
+  background-color:white;
 }
 
 .submitButton

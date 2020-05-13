@@ -8,7 +8,7 @@ input:valid {
   outline: 4px solid  #0ed145;
 }
 
-input:invalid {
+input:focus:invalid {
   background-color: #8b0606;
 }
 
@@ -131,6 +131,7 @@ input:invalid {
   font-size:1.5em;
   padding:0.5em;
   border:0;
+  border-radius:0.2em;
   outline:none;/* chestia cu albastru la click*/
 }
 
