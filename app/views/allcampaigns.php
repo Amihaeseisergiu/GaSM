@@ -9,7 +9,7 @@
     <!--<link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/signup.css">-->
     <link rel="stylesheet" type="text/css" href="http://localhost:80/proiect/GaSM/app/css/inputButtons.css">
 </head>
-<body class="bodyClass">
+<body class="bodyClassAll">
     <div class="top">      <!--top part-->
         <div>
             <img src="http://localhost:80/proiect/GaSM/app/images/logo.jpg" alt="Logo">
@@ -143,15 +143,15 @@ fetch(url).
                  
                                                                    function likeFunction() 
                                                                    {
-
+                                                                        var likeSend = {campaignID:idGenerat};
                                                                         url='http://localhost/proiect/GaSM/public/api/campaigns/like';
                                                                         if(loggedIN==1) {
                                                                         alert ("You liked this campaign!");
                                              
                                                                         fetch(url, {
                                                                         method: 'POST',
-                                                                        headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
-                                                                        body: 'campaignID='  + idGenerat });
+                                                                        headers: {'Content-Type':'application/json'}, 
+                                                                        body: JSON.stringify(likeSend) });
                                                                               }  
                                                                    else alert ("Trebuie sa fiti logat pt. a da like-uri!");
   
@@ -159,23 +159,22 @@ fetch(url).
                                                                     }
 
                                                                     //////////////////////////////////////////
-                                                                    var dataString='campaignID='  + idGenerat +   '&userID=' + <?php echo $_SESSION['userID']; ?>+ '&CommentContent=';
-                                                                  
-                                                                   
+                                                          
                                                                    document.getElementById('commentForm'+idGenerat).addEventListener("submit", commentFunction);
                  
                                                                    function commentFunction(e) 
                                                                    {
+                                                                    var commentSend = {campaignID:idGenerat,userID:<?php echo $_SESSION['userID']; ?>,CommentContent:document.getElementById('comment' + idGenerat ).value};   
                                                                     url='http://localhost/proiect/GaSM/public/api/campaigns/comment';
-                                                                    dataString=dataString.concat(document.getElementById('comment' + idGenerat ).value);
+                                                                    
                                                                     e.preventDefault();
                                                                         if(loggedIN==1) {
                                                                         alert ("You left a comment!");
                                              
                                                                         fetch(url, {
                                                                         method: 'POST',
-                                                                        headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
-                                                                        body: dataString });
+                                                                        headers: {'Content-Type':'application/json'},  
+                                                                        body: JSON.stringify(commentSend) });
                                                                               }  
                                                                    else alert ("Trebuie sa fiti logat pt. a comenta!");
   
@@ -194,14 +193,15 @@ fetch(url).
                                                                    function likeFunction1() 
                                                                    {
                                                                         url='http://localhost/proiect/GaSM/public/api/campaigns/like';
-                                                                        
+                                                                        var like1Send = {campaignID:idGeneratPrim};
+
                                                                         if(loggedIN==1) {
                                                                         alert ("You liked this campaign!");
-                                             
+                                                                        
                                                                         fetch(url, {
                                                                         method: 'POST',
-                                                                        headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
-                                                                        body: 'campaignID='  + idGeneratPrim });
+                                                                        headers: {'Content-Type':'application/json'}, 
+                                                                        body: JSON.stringify(like1Send) });
                                                                               }  
                                                                    else alert ("Trebuie sa fiti logat pt. a da like-uri!");
   
@@ -215,8 +215,8 @@ fetch(url).
                  
                                                                    function commentFunction1(e) 
                                                                    {
-                                                                    dataString='campaignID='  + idGeneratPrim +   '&userID=' + <?php echo $_SESSION['userID']; ?> + '&CommentContent='; 
-                                                                    dataString=dataString.concat(document.getElementById('comment' + idGeneratPrim ).value);
+                                                                    var commentSend1 = {campaignID:idGeneratPrim,userID:<?php echo $_SESSION['userID']; ?>,CommentContent:document.getElementById('comment' + idGeneratPrim ).value};   
+                                                                    
                                                                     url='http://localhost/proiect/GaSM/public/api/campaigns/comment';
                                                                     //console.log(dataString);
                                                                     e.preventDefault();
@@ -225,8 +225,8 @@ fetch(url).
                                         
                                                                         fetch(url, {
                                                                         method: 'POST',
-                                                                        headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
-                                                                        body: dataString });
+                                                                        headers: {'Content-Type':'application/json'}, 
+                                                                        body: JSON.stringify(commentSend1) });
                                                                         alert ("You left a comment!");
                                                                         document.getElementById('comment' + idGeneratPrim ).value="";   
                                                                             }  
@@ -242,6 +242,7 @@ fetch(url).
                                                                    
                                                                    document.getElementById('like'+idGenerat).addEventListener("click", likeFunction2);
                  
+                                                                   var like2Send = {campaignID:idGenerat};
                                                                    function likeFunction2() 
                                                                    {
                                                                         url='http://localhost/proiect/GaSM/public/api/campaigns/like';
@@ -250,8 +251,8 @@ fetch(url).
                                              
                                                                         fetch(url, {
                                                                         method: 'POST',
-                                                                        headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
-                                                                        body: 'campaignID='  + idGenerat });
+                                                                        headers: {'Content-Type':'application/json'}, 
+                                                                        body: JSON.stringify(like2Send) });
                                                                               }  
                                                                    else alert ("Trebuie sa fiti logat pt. a da like-uri!");
   
@@ -264,8 +265,8 @@ fetch(url).
                  
                                                                 function commentFunction2(e) 
                                                                 {
-                                                                  dataString='campaignID='  + idGenerat +   '&userID=' + <?php echo $_SESSION['userID']; ?> + '&CommentContent='; 
-                                                                 dataString=dataString.concat(document.getElementById('comment' + idGenerat ).value);
+                                                                 var commentSend2 = {campaignID:idGenerat,userID:<?php echo $_SESSION['userID']; ?>,CommentContent:document.getElementById('comment' + idGenerat ).value};
+                                                                 
                                                                  url='http://localhost/proiect/GaSM/public/api/campaigns/comment';
                                                                  //console.log(dataString);
                                                                  e.preventDefault();
@@ -275,7 +276,7 @@ fetch(url).
                                                                  fetch(url, {
                                                                  method: 'POST',
                                                                  headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
-                                                                 body: dataString });
+                                                                 body: JSON.stringify(commentSend2) });
                                                                  alert ("You left a comment!");
                                                                  document.getElementById('comment' + idGenerat ).value="";
                                                                  }  

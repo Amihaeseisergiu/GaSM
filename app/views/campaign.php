@@ -62,7 +62,7 @@
 
 
     <form action="http://localhost/proiect/GaSM/public/Campaign/index/0" method="post" class="greyContainerInside">
-    <button  class="submitButton" type="submit" id="viewAllCampaigns" name="ViewAllCampaigns">View all campaigns</button>
+    <button  class="controlButton" type="submit" id="viewAllCampaigns" name="ViewAllCampaigns">View all campaigns</button>
     </form>    
 </div>  
 

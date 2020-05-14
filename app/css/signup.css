@@ -4,14 +4,13 @@
   font-size:1.1em;
 }
 
-input:valid {
-  outline: 4px solid  #0ed145;
-}
-
 input:focus:invalid {
-  background-color: #8b0606;
+  border-bottom:4px solid #8b0606;
 }
 
+input:valid {
+  border-bottom: 4px solid  #0ed145;
+}
 
 .greyContainerInside
 {
@@ -27,7 +26,7 @@ input:focus:invalid {
 
 .greenContainer
 {
-    background-color:#0ed145;
+  background-image: linear-gradient(rgb(8, 100, 0),#0ed145, rgb(8, 100, 0));
     height:53.5em;
     margin:0px;
     display:flex;
@@ -48,6 +47,9 @@ input:focus:invalid {
     padding:3em;
     background-color:#e7e7e7;
     border-radius:2em;
+    -webkit-box-shadow: 10px 10px 26px 6px rgba(0,0,0,0.75);
+    -moz-box-shadow: 10px 10px 26px 6px rgba(0,0,0,0.75);
+    box-shadow: 10px 10px 26px 6px rgba(0,0,0,0.75);
 }
 
 .textH {
@@ -77,6 +79,8 @@ input:focus:invalid {
   border-radius:0.2em;
   outline:none;/* chestia cu albastru la click*/
   background-color:white;
+  box-shadow: inset 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
+ 
 }
 
 .submitButton
@@ -91,7 +95,7 @@ input:focus:invalid {
   border:0;
   box-sizing: content-box; /* pt a avea acelasi width ca inputBox-urile*/
   outline:none;/* chestia cu albastru la click*/
-
+  box-shadow: inset 0px 3px 10px 0px rgba(0, 0, 0, 0.1);
   background-color:#0ed145;
   color:white;
   font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
@@ -112,6 +116,36 @@ input:focus:invalid {
     color:white;
     transform: translateY(5%);
     outline:none;
+}
+
+.controlButton
+{
+
+  width:30vw;
+  border-radius:0.5em;
+  font-size:1.5em;
+  padding:0.5em;
+  padding-top:0.8em;
+  padding-bottom:0.8em;
+  border-right:3px solid rgb(83, 83, 83);
+  border-bottom:5px solid rgb(83, 83, 83);
+
+  margin-top:1em;
+  box-sizing: content-box; /* pt a avea acelasi width ca inputBox-urile*/
+  outline:none;/* chestia cu albastru la click*/
+
+  background-color:black;
+  color:white;
+  font-family: "Segoe UI", Frutiger, "Frutiger Linotype", "Dejavu   Sans", "Helvetica Neue", Arial, sans-serif;
+
+}
+
+.controlButton:hover
+{
+    background-color:white;
+    color:black;
+    outline:none; /* chestia cu albastru cand apesi */
+    transition-duration:0.8s ;
 }
 
 ::placeholder
@@ -135,6 +169,10 @@ input:focus:invalid {
    }
 
    .submitButton{
+     width:50vw;
+   }
+
+   .controlButton{
      width:50vw;
    }
  }

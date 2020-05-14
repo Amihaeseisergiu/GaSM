@@ -23,6 +23,7 @@ $campaignRoutes=
 
             if(!$returnedArray)
               {
+                Response::status(400);  
                 Response::text("No such campaign found");
                 
               }
@@ -48,7 +49,7 @@ $campaignRoutes=
             
                 if(!$returnedArray)
                   {
-                   
+                        Response::status(400);
                         Response::text("The specified campaign has no comments yet.");
                    
                   }
@@ -70,9 +71,8 @@ $campaignRoutes=
             {
                 $aCampaign=new CampaignModel();
 
-               if(isset($_POST['campaignID'])) 
-                {
-                $campaignID=$_POST['campaignID'];
+              
+                $campaignID=$req['payload']['campaignID'];
                 //print_r($req);
         
                 
@@ -83,10 +83,11 @@ $campaignRoutes=
                          Response::text("Like added succesfully to the given campaign");
                      }
                      else
-                     Response::text("Campania nu exista");
-            
-                }
-                else  Response::text("Not enough parameters supplied");        
+                     {
+                      Response::status(400);
+                      Response::text("Campaign doesn't exist");
+                     }
+             
             }
 
          ],
@@ -100,11 +101,9 @@ $campaignRoutes=
 
                 $aCampaign=new CampaignModel();
 
-                if(isset($_POST['campaignID'],$_POST['CommentContent'],$_POST['userID']))
-                {
-                $campaignID=$_POST['campaignID'];
-                $content=$_POST['CommentContent'];
-                $userID=$_POST['userID'];
+                $campaignID=$req['payload']['campaignID'];
+                $content=$req['payload']['CommentContent'];
+                $userID=$req['payload']['userID'];
             
                 //echo var_dump($_POST);
                 if($aCampaign->isCommentValid($content))
@@ -117,29 +116,30 @@ $campaignRoutes=
                                    Response::text("Comment added to the given campaign");
 
                                }    
-                         else Response::text("The given campaign does not exist");        
+                         else {
+                                Response::status(400);
+                                Response::text("The given campaign does not exist");
+                              }        
                      }
-                else Response::text("Comment is not valid");
+                else {
+                     Response::status(401);
+                     Response::text("Comment is not valid");
+                    }
 
-                }
-                else Response::text("Not enough parameters supplied");
             }
 
         ],
 
         [
-            "route" => "campaigns/add",
+            "route" => "campaigns",
             "method" => "POST",
             "handler" => function ($req)
             {
                 $aCampaign=new CampaignModel();
                 
-
-                if(isset($_POST['name'],$_POST['location'],$_POST['description']))
-                {
-                $aCampaign->name=$_POST['name'];
-                $aCampaign->location=$_POST['location'];
-                $aCampaign->description=$_POST['description'];
+                $aCampaign->name=$req['payload']['name'];
+                $aCampaign->location=$req['payload']['location'];
+                $aCampaign->description=$req['payload']['description'];
 
                 if($aCampaign->isCampaignDataValid()) 
                 {
@@ -149,36 +149,15 @@ $campaignRoutes=
                       Response::status(200);
                       Response::text("Campaign added succesfully");
                    }    
-               else Response::text("There's already a campaign with that name");  
+               else {
+                     Response::text("There's already a campaign with that name");
+                     Response::status(400);
+                    }
                }
-              }
-            else Response::text("Not enough parameters supplied");
+              
 
             }
         ],
-
-        [
-            "route" => "campaigns/Allcampaigns",
-            "method" => "GET",
-            "handler" => function ($req)
-            {
-                $aCampaign=new CampaignModel();
-
-                $returnedArray = array();
-                $returnedArray=$aCampaign->getAllCampaigns();
-            
-                if(!$returnedArray)
-                  {
-                    Response::text("No campaings found");
-                  }
-                else
-                {
-                    Response::status(200);
-                    Response::json($returnedArray);
-                }  
-            }
-        ],
-
 
         [
             "route" => "campaigns/allcampaignsfrom/:id",
@@ -195,7 +174,7 @@ $campaignRoutes=
             
                 if(!$returnedArray)
                   {
-                    
+                        Response::status(400);
                         Response::text("No campaigns found from that index onwards");
                     
                   }
@@ -207,7 +186,31 @@ $campaignRoutes=
 
             }
 
+        ],
+
+        [
+            "route" => "campaigns",
+            "method" => "GET",
+            "handler" => function ($req)
+            {
+                $aCampaign=new CampaignModel();
+
+                $returnedArray = array();
+                $returnedArray=$aCampaign->getAllCampaigns();
+            
+                if(!$returnedArray)
+                  {
+                    Response::status(400);
+                    Response::text("No campaings found");
+                  }
+                else
+                {
+                    Response::status(200);
+                    Response::json($returnedArray);
+                }  
+            }
         ]
+
 
         ];
 

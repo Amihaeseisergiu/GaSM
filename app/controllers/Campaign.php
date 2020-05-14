@@ -19,13 +19,16 @@ class Campaign extends Controller
            if($aCampaign->isCampaignDataValid()) 
            {
 
+              $deTrimis=array('name'=>$aCampaign->name,'location'=>$aCampaign->location,'description'=>$aCampaign->description);
+              $finalTrimis=json_encode($deTrimis);
+
               if($aCampaign->isTheNameAvailable())
                {
                 echo '  <script>
-                fetch(\'http://localhost/proiect/GaSM/public/api/campaigns/add\', {
+                fetch(\'http://localhost/proiect/GaSM/public/api/campaigns\', {
                 method: \'POST\',
-                headers: {\'Content-Type\':\'application/x-www-form-urlencoded\'}, 
-                body: \'name=' . $aCampaign->name . '&location=' . $aCampaign->location . '&description=' . $aCampaign->description .'\'                       });
+                headers: {\'Content-Type\':\'application/json\'},
+                body:JSON.stringify(' . $finalTrimis  .                   ')});
                         </script>  ';
                     
 

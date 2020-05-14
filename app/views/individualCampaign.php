@@ -42,7 +42,7 @@
         </div>
     </div>
 
-<div class="greenContainerAllCampaigns"> <!--individual campaign part, ar trebui sa am un contor si daca max(id)>atunci sa am un buton cu next page-->
+<div class="greenContainerOneCampaign"> <!--individual campaign part, ar trebui sa am un contor si daca max(id)>atunci sa am un buton cu next page-->
                              <!--greenContainerAllCampaigns lasa spatiu in jos daca e putin scris-->
 
     
