@@ -55,8 +55,8 @@
                     <div class="leftarrow"></div>
                 </div>
                 <div id="chartContainer">
-                    <button onclick="resetZoom()" style="font-size : 0.6em; background: white; box-shadow: 0px 0px 0px transparent; border: 2px solid black; text-shadow: 0px 0px 0px transparent; position: absolute; margin-left: 5px; margin-top: 5px;">R</button>
-                    <div style="width : 2000px; height: 100%;">
+                    <button onclick="resetZoom()" id="resetZoom">R</button>
+                    <div id="chartWrapper">
                         <canvas id="chart"></canvas>
                     </div>
                 </div>
@@ -64,19 +64,19 @@
                     <div class="rightarrow"></div>
                 </div>
             </div>
-            <div class="form" style="position:relative; margin-top:1em; display:flex;">
-                <div class="garbage" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+            <div id="filterContainer">
+                <div id="garbageLabels">
                     <input type="checkbox" id="garbage1" name="plastic" value="Plastic">
-                    <label for="garbage1" style="margin-right: 0.5em;"> Plastic </label>
+                    <label for="garbage1" class="garbageLabel"> Plastic </label>
 
                     <input type="checkbox" id="garbage2" name="paper" value="Paper">
-                    <label for="garbage2" style="margin-right: 0.5em;"> Paper </label>
+                    <label for="garbage2" class="garbageLabel"> Paper </label>
 
                     <input type="checkbox" id="garbage3" name="glass" value="Glass">
-                    <label for="garbage3" style="margin-right: 0.5em;"> Glass </label>
+                    <label for="garbage3" class="garbageLabel"> Glass </label>
 
                     <input type="checkbox" id="garbage4" name="metal" value="Metal">
-                    <label for="garbage4" style="margin-right: 0.5em;"> Metal </label>
+                    <label for="garbage4" class="garbageLabel"> Metal </label>
                 </div>
                 <select name="filters" id="filters">
                     <option value="All Time">All Time</option>
@@ -84,7 +84,7 @@
                     <option value="Last Month">Last Month</option>
                     <option value="Today">Today</option>
                 </select>
-                <button onclick="changeChart()" name="dateFilter" id="filterButton" style="background-color: #0ed145; color:white; padding-left:1em; padding-right:1em; margin-left:0.5em; padding-top:0.3em; padding-bottom:0.3em; color:black; font-size:1em; font-weight:bold;">Filter</button>
+                <button onclick="changeChart()" name="dateFilter" id="filterButton">Filter</button>
             </div>
         </div>
     </div>
@@ -112,7 +112,7 @@
             <h3 class="box-p">
                 Garbage distribution
             </h3>
-            <div id="pieContainer" style="width : 100%;">
+            <div id="pieContainer">
                 <canvas id="pieChart"></canvas>
             </div>
         </div>
@@ -365,25 +365,25 @@
                 function getPlastic() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
                     URL = URL.concat(country, '?filter=', concatFilter, '&type=plastic');
-                    return fetch(URL).then(response => response.json());
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
                 }
 
                 function getPaper() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
                     URL = URL.concat(country, '?filter=', concatFilter, '&type=paper');
-                    return fetch(URL).then(response => response.json());
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
                 }
 
                 function getGlass() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
                     URL = URL.concat(country, '?filter=', concatFilter, '&type=glass');
-                    return fetch(URL).then(response => response.json());
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
                 }
 
                 function getMetal() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
                     URL = URL.concat(country, '?filter=', concatFilter, '&type=metal');
-                    return fetch(URL).then(response => response.json());
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
                 }
 
                 function getAll() {
@@ -546,25 +546,25 @@
                 function getPlastic() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
                     URL = URL.concat(country, '/', city, '?filter=', concatFilter, '&type=plastic');
-                    return fetch(URL).then(response => response.json());
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
                 }
 
                 function getPaper() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
                     URL = URL.concat(country, '/', city, '?filter=', concatFilter, '&type=paper');
-                    return fetch(URL).then(response => response.json());
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
                 }
 
                 function getGlass() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
                     URL = URL.concat(country, '/', city, '?filter=', concatFilter, '&type=glass');
-                    return fetch(URL).then(response => response.json());
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
                 }
 
                 function getMetal() {
                     var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
                     URL = URL.concat(country, '/', city, '?filter=', concatFilter, '&type=metal');
-                    return fetch(URL).then(response => response.json());
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
                 }
 
                 function getAll() {
@@ -1122,7 +1122,7 @@
                             filter = "LastWeek";
                         }
                     }
-                });
+                }).catch(error => console.log(error));
         }
     </script>
     <script>
@@ -1160,7 +1160,7 @@
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
-                });
+                }).catch(error => console.log(error));
         }
     </script>
     <script>
@@ -1206,16 +1206,16 @@
                 return c.toDataURL();
             }
             var img = new Image();
-            img.src = canvas1.resizeAndExport(1460, 400);
+            img.src = canvas1.resizeAndExport(1460, 550);
 
             var canvas2 = document.querySelector("#pieChart");
             //var dataURL1 = canvas1.toDataURL('image1/JPEG', 1);
             var dataURL2 = canvas2.toDataURL('image2/JPEG', 1);
             pdf.text(timeFlt, 160, 10);
             pdf.line(0, 15, 400, 15);
-            pdf.addImage(img, 'JPEG', 0, 25);
-            pdf.line(0, 135, 400, 135);
-            pdf.addImage(dataURL2, 'JPEG', 120, 150);
+            pdf.addImage(img, 'JPEG', 0, 15);
+            pdf.line(0, 160, 400, 160);
+            pdf.addImage(dataURL2, 'JPEG', 120, 180);
             pdf.line(0, 245, 400, 245);
 
             if (country != 'none' && county != 'none') {
@@ -1258,25 +1258,62 @@
                             pdf.line(0, 300, 400, 300);
                             pdf.text(cleanestRegions, 15, 310);
                             pdf.text(dirtiestRegions, 300, 310);
+                            pdf.line(0, 355, 400, 355);
+                            var timeFlt2 = '';
+                            if (filter == "AllTime") {
+                                timeFlt2 = 'All Time';
+                            }
+                            if (filter == "LastMonth") {
+                                timeFlt2 = "Monthly";
+                            }
+                            if (filter == "LastWeek") {
+                                timeFlt2 = "Weekly";
+                            }
+                            if (filter == "Today") {
+                                timeFlt2 = "Daily";
+                            }
+                            var firstChange = document.getElementById('first-change-span').textContent;
+                            var secondChange = document.getElementById('second-change-span').textContent;
+                            var thirdChange = document.getElementById('third-change-span').textContent;
+                            var changes = timeFlt2.concat(' Changes\r\n', firstChange, '\r\n', secondChange, '\r\n', thirdChange);
+                            pdf.text(changes, 160, 365);
                             pdf.save("download.pdf");
                         } else {
                             pdf.save("download.pdf");
                         }
                     });
             } else {
+                var timeFlt2 = '';
+                if (filter == "AllTime") {
+                    timeFlt2 = 'All Time';
+                }
+                if (filter == "LastMonth") {
+                    timeFlt2 = "Monthly";
+                }
+                if (filter == "LastWeek") {
+                    timeFlt2 = "Weekly";
+                }
+                if (filter == "Today") {
+                    timeFlt2 = "Daily";
+                }
+                var firstChange = document.getElementById('first-change-span').textContent;
+                var secondChange = document.getElementById('second-change-span').textContent;
+                var thirdChange = document.getElementById('third-change-span').textContent;
+                var changes = timeFlt2.concat(' Changes\r\n', firstChange, '\r\n', secondChange, '\r\n', thirdChange);
+                pdf.text(changes, 160, 260);
                 pdf.save("download.pdf");
             }
 
             function getByCounty() {
                 var pdfURL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
                 pdfURL = pdfURL.concat("/", country, "?filter=", filter);
-                return fetch(pdfURL).then(response => response.json());
+                return fetch(pdfURL).then(response => response.json()).catch(error => console.log(error));
             }
 
             function getByRegion() {
                 var pdfURL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity';
                 pdfURL = pdfURL.concat("/", country, "/", county, "?filter=", filter);
-                return fetch(pdfURL).then(response => response.json());
+                return fetch(pdfURL).then(response => response.json()).catch(error => console.log(error));
             }
 
             function getBoth() {
