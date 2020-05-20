@@ -23,7 +23,7 @@ $campaignRoutes=
 
             if(!$returnedArray)
               {
-                Response::status(400);  
+                Response::status(200);  
                 Response::text("No such campaign found");
                 
               }
@@ -49,7 +49,7 @@ $campaignRoutes=
             
                 if(!$returnedArray)
                   {
-                        Response::status(400);
+                        Response::status(200);
                         Response::text("The specified campaign has no comments yet.");
                    
                   }
@@ -174,7 +174,7 @@ $campaignRoutes=
             
                 if(!$returnedArray)
                   {
-                        Response::status(400);
+                        Response::status(200);
                         Response::text("No campaigns found from that index onwards");
                     
                   }
@@ -200,7 +200,7 @@ $campaignRoutes=
             
                 if(!$returnedArray)
                   {
-                    Response::status(400);
+                    Response::status(200);
                     Response::text("No campaings found");
                   }
                 else

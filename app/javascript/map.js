@@ -212,7 +212,7 @@ function selectMap(mapType)
                 countiesData.features[i].properties.nr_glass = 0;
                 for(var j = 0; j < markers.length; j++)
                 {
-                    if(countiesData.features[i].properties.name.localeCompare(markers[j].county) == 0)
+                    if(countiesData.features[i].properties.name === markers[j].county)
                     {
                         countiesData.features[i].properties.total++;
                         switch(markers[j].trash_type)
@@ -241,7 +241,7 @@ function selectMap(mapType)
             info.addTo(garbageMap);
             legend.addTo(garbageMap);
             garbageMap.removeLayer(markersCluster);
-        }).catch(error => console.log(error));;
+        }).catch(error => console.log(error));
     }
     currentMapType = mapType;
 }
