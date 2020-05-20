@@ -133,8 +133,7 @@
         var country = '<?php echo $_SESSION['country']; ?>';
         var city = '<?php echo $_SESSION['city'] ?>';
         var county = '<?php echo $_SESSION['county']; ?>';
-    </script>
-    <script>
+
         function switchChart() {
             if (currentChart === "line") {
                 // var chartId = document.getElementById(currentChart.concat("Chart"));
@@ -155,9 +154,6 @@
             }
             loadChart();
         }
-    </script>
-
-    <script>
         var filter = 'All Time';
         var showPlastic = true;
         var showPaper = true;
@@ -1124,11 +1120,8 @@
                     }
                 }).catch(error => console.log(error));
         }
-    </script>
-    <script>
         changeChart();
-    </script>
-    <script>
+
         function downloadHTML() {
             var url = "http://localhost:80/proiect/GaSM/app/php/ajaxHTML.php";
             var sentData = {
@@ -1160,10 +1153,9 @@
                     document.body.appendChild(a);
                     a.click();
                     a.remove();
-                }).catch(error => console.log(error));
+                });
         }
-    </script>
-    <script>
+
         function downloadPDF() {
             var timeFlt = "";
             var markersByCounty;
@@ -1320,9 +1312,7 @@
                 return Promise.all([getByCounty(), getByRegion()]);
             }
         }
-    </script>
-    <script src="http://danml.com/js/download.js"></script>
-    <script>
+
         function downloadCSV() {
             function blobToString(b) {
                 var u, x;
@@ -1351,8 +1341,15 @@
                         let row = rowArray.join(",");
                         csvContent += row + "\r\n";
                     });
-                    download(csvContent, "repot.csv", "csv");
-                }).catch(error => console.log(error));
+                    var encodedUri = encodeURI(csvContent);
+                    var link = document.createElement("a");
+                    link.setAttribute("href", encodedUri);
+                    link.setAttribute("download", "report.csv");
+                    document.body.appendChild(link);
+
+                    link.click();
+                    link.remove();
+                });
         }
 
         function handleErrors(response) {

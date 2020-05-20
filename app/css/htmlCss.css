@@ -33,6 +33,7 @@
     
 .canvasWrapper
 {
+    background-color: white;
     width: 3000px;
     height: 800px;
 }
