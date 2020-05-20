@@ -49,9 +49,9 @@
 
     <h1 class="textHCampaign">Start a campaign!</h1>
 
-    <input maxlength="25" title="max 25 alphanumeric chars" required pattern="[a-zA-Z\d ]+$" class="inputBox" type="text" id="name" name="Name" placeholder="Name">
-    <input maxlength="50" title="max 50 alphanumeric chars" required pattern="[a-zA-Z\d ]+$" class="inputBox" type="text" id="location" name="Location" placeholder="Location">
-    <input maxlength="250" title="max 250 alphanumeric and ,.?: etc chars" required pattern='[A-Za-z0-9 .,!?:\[\]()"-+]+' class="inputBox" type="text" id="description" name="Description" placeholder="Description">
+    <input maxlength="25" title="max 25 alphanumeric chars" required pattern="[a-zA-Z\d ]+$" class="inputBox" type="text" id="name" name="Name" placeholder="Name*">
+    <input maxlength="50" title="max 50 alphanumeric chars" required pattern="[a-zA-Z\d ]+$" class="inputBox" type="text" id="location" name="Location" placeholder="Location*">
+    <input maxlength="250" title="max 250 alphanumeric and ,.?: etc chars" required pattern='[A-Za-z0-9 .,!?:\[\]()"-+]+' class="inputBox" type="text" id="description" name="Description" placeholder="Description*">
 
     <?php
       if(isset($data['mesaj'])) echo '<p class="error">' . $data['mesaj'] .'</p>';
