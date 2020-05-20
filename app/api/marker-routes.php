@@ -29,6 +29,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(200);
                     Response::text("No Markers Found");
                 }
             }
@@ -67,6 +68,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markerByRegion);
                 } else {
+                    Response::status(200);
                     Response::text("No Markers Found");
                 }
             }
@@ -107,6 +109,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markersByCounty);
                 } else {
+                    Response::status(200);
                     Response::text("No Markers Found");
                 }
             }
@@ -132,6 +135,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(200);
                     Response::text("No Markers Found");
                 }
             }
@@ -159,6 +163,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(200);
                     Response::text("No Markers Found");
                 }
             }
@@ -185,6 +190,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(200);
                     Response::text("No Markers Found");
                 }
             }
@@ -207,6 +213,7 @@ $markerRoutes =
                         break;
                     }
                 } else {
+                    Response::status(200);
                     Response::text("No Markers Found");
                 }
             }
@@ -232,6 +239,7 @@ $markerRoutes =
                     Response::status(200);
                     Response::json($markers);
                 } else {
+                    Response::status(200);
                     Response::text("No Markers Found");
                 }
             }
