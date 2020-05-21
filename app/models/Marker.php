@@ -21,7 +21,7 @@ class Marker
 
     public function getAll()
     {
-        $query = $this->con->prepare("SELECT * from tw.markers JOIN tw.users ON tw.markers.user_id = tw.users.id WHERE `state` = 'active'");
+        $query = $this->con->prepare("SELECT markers.id, markers.latitude, markers.longitude, markers.trash_type, markers.user_id, markers.time, markers.country, markers.county, markers.city, markers.neighborhood, markers.state, markers.remove_time, users.name from tw.markers JOIN tw.users ON tw.markers.user_id = tw.users.id WHERE `state` = 'active'");
         $query->execute();
         return $query;
     }
