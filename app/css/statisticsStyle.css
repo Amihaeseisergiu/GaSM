@@ -228,6 +228,15 @@ input[type=checkbox]+ label:before
     display:flex;
 }
 
+::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, .3); /* Or any other instruction making the element visible */
+}
+
+::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
 #garbageLabels
 {
     display: flex; 
@@ -532,4 +541,8 @@ span
         font-size: 3.5vw;
     }
 
+    #filterButton
+    {
+        margin-bottom: 0.5em;
+    }
 }
