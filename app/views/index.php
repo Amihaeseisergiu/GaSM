@@ -78,18 +78,17 @@
         <!--bottom part-->
         <div class="bottom-text">
             <h3>Statistics</h3>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Veritatis a cupiditate explicabo perferendis
-                soluta sunt consectetur odio aliquid vitae ullam error eius reprehenderit nisi, magnam consequatur,
-                eligendi pariatur assumenda! Sit.</p>
+            <p>
+             Visualize different charts based on your account's region. Filter the charts according to your preferences. View how much your city has improved recently, and download useful reports
+             in HTML, PDF and CSV formats. 
+            </p>
         </div>
         <div class="vl"></div>
         <div class="hl"></div>
         <div class="bottom-text">
             <h3>Visualize the map</h3>
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur, excepturi placeat quaerat commodi
-                ipsam ad ducimus iste, sint debitis non modi nihil quia ratione aspernatur incidunt nesciunt
-                exercitationem veritatis corrupti?
+                Report garbage in your area and check county level statistics on the map page.
             </p>
         </div>
         <div class="vl"></div>
@@ -99,9 +98,7 @@
                 Help us improve
             </h3>
             <p>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Perspiciatis eum rerum incidunt saepe mollitia
-                sequi facere ipsa, exercitationem sed omnis? Id, incidunt qui laborum impedit debitis quidem temporibus
-                rem quae.
+                Use our website and give us your feedback. Your opinion helps us improve. Let's make the world a cleaner place!
             </p>
         </div>
     </div>
