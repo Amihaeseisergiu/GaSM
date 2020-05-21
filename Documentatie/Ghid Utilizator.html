@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GaSM Ghid Utilizator</title>
+	
+	<link rel="stylesheet" href="css/scholarly.min.css">
+	<script src="js/scholarly.min.js"></script>
+</head>
+<body>
+	<div role="content-info">
+		<h1>GaSM Ghid Utilizator</h1>
+		
+		<h2>Cuprins</h2>
+		<ol role="directory">
+			<li>
+				<a href="#crearecont">
+					<span> 1. </span>
+					Creare Cont
+				</a>
+			</li>
+			
+			<li>
+				<a href="#autentificare">
+					<span> 2. </span>
+					Autentificare
+				</a>
+			</li>
+			
+			<li>
+				<a href="#deconectare">
+					<span> 3. </span>
+					Deconectare
+				</a>
+			</li>
+			
+			<li>
+				<a href="#campanii">
+					<span> 4. </span>
+					Campanii
+				</a>
+				
+				<ol role="directory">
+						
+					<li>
+						<a href="#vizionarecampanii">
+							<span> 4.1. </span>
+							Vizionare
+						</a>
+					</li>
+					
+					<li>
+						<a href="#interactionarecampanii">
+							<span> 4.2. </span>
+							Interactionare
+						</a>
+					</li>
+					
+					<li>
+						<a href="#detaliicampanie">
+							<span> 4.3. </span>
+							Detalii
+						</a>
+					</li>
+					
+					<li>
+						<a href="#crearecampanie">
+							<span> 4.4. </span>
+							Creare
+						</a>
+					</li>
+				</ol>
+			</li>
+			
+			<li>
+				<a href="#harta">
+					<span> 5. </span>
+					Harta
+				</a>
+				
+				<ol role="directory">
+						
+					<li>
+						<a href="#marker">
+							<span> 5.1. </span>
+							Marker
+						</a>
+						
+						<ol role="directory">
+							<li>
+								<a href="#adaugaremarker">
+									<span> 5.1.1. </span>
+									Adaugare
+								</a>
+							</li>
+							
+							<li>
+								<a href="#stergeremarker">
+									<span> 5.1.2. </span>
+									Stergere
+								</a>
+							</li>
+							
+							<li>
+								<a href="#vizualizaremarker">
+									<span> 5.1.3. </span>
+									Vizualizare
+								</a>
+							</li>
+						</ol>
+					</li>
+					
+					<li>
+						<a href="#cautarelocatie">
+							<span> 5.2. </span>
+							Cautare Locatie
+						</a>
+					</li>
+					
+					<li>
+						<a href="#detectarelocatie">
+							<span> 5.3. </span>
+							Detectare Locatie
+						</a>
+					</li>
+					
+					<li>
+						<a href="#tipuriharta">
+							<span> 5.4. </span>
+							Tipuri Harta
+						</a>
+						
+						<ol role="directory">
+							<li>
+								<a href="#hartastatistici">
+									<span> 5.4.1. </span>
+									Harta Statistici
+								</a>
+							</li>
+							
+							<li>
+								<a href="#hartamarkere">
+									<span> 5.4.1. </span>
+									Harta Markere
+								</a>
+							</li>
+						</ol>
+					</li>
+				</ol>
+			</li>
+			
+			<li>
+				<a href="#statistici">
+					<span> 6. </span>
+					Statistici
+				</a>
+				
+				<ol role="directory">
+					
+					<li>
+						<a href="#vizualizarestatistici">
+							<span> 6.1. </span>
+							Vizualizare
+						</a>
+						
+						<ol role="directory">
+							<li>
+								<a href="#vizualizareoras">
+									<span> 6.1.1. </span>
+									La nivel de oras
+								</a>
+							</li>
+							
+							<li>
+								<a href="#vizualizarejudet">
+									<span> 6.1.2. </span>
+									La nivel de judet
+								</a>
+							</li>
+							
+							<li>
+								<a href="#vizualizaretara">
+									<span> 6.1.3. </span>
+									La nivel de tara
+								</a>
+							</li>
+							
+							<li>
+								<a href="#vizualizareprocentuala">
+									<span> 6.1.4. </span>
+									Cantitea procentuala a categoriilor de gunoi
+								</a>
+							</li>
+							
+							<li>
+								<a href="#vizualizareschimbari">
+									<span> 6.1.5. </span>
+									Schimbari pe unitate de timp
+								</a>
+							</li>
+						</ol>
+					</li>
+					
+					<li>
+						<a href="#filtrare">
+							<span> 6.2. </span>
+							Filtrare
+						</a>
+						
+						<ol role="directory">
+							
+							<li>
+								<a href="#filtrarecategorii">
+									<span> 6.2.1. </span>
+									Pe categorii de gunoi
+								</a>
+							</li>
+							
+							<li>
+								<a href="#filtraretimp">
+									<span> 6.2.2. </span>
+									Pe unitate de timp
+								</a>
+							</li>
+						</ol>
+					</li>
+					
+					<li>
+						<a href="#download">
+							<span> 6.3. </span>
+							Download
+						</a>
+						
+						<ol role="directory">
+							
+							<li>
+								<a href="#downloadcsv">
+									<span> 6.3.1. </span>
+									CSV
+								</a>
+							</li>
+							
+							<li>
+								<a href="#downloadhtml">
+									<span> 6.3.2. </span>
+									HTML
+								</a>
+							</li>
+							
+							<li>
+								<a href="#downloadpdf">
+									<span> 6.3.3. </span>
+									PDF
+								</a>
+							</li>
+						</ol>
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</div>
+	
+	<section id="crearecont">
+
+		<h3>
+			Creare Cont
+		</h3>
+		
+        <p>Pentru a va crea un cont, trebuie sa apasati butonul "Sign Up" aflat pe pagina principala a site-ului.</p>
+        <figure typeof="sa:image">
+          <img src="images/signupbutton.png">
+          <figcaption>Fig.1 - Butonul "Sign Up"</figcaption>
+        </figure>
+        <p>Dupa apasarea butonului de "Sign Up" veti fi redirectat catre pagina ce va va permite sa va creati un cont.</p>
+        <figure typeof="sa:image">
+          <img src="images/signuppage.png">
+          <figcaption>Fig.2 - Pagina de Sign Up</figcaption>
+        </figure>
+        <p>Aici va trebui sa completati toate campurile cu informatii valide, respectand constrangerile impuse referitoare la formatul datelor ce trebuie introduse.</p>
+        <figure typeof="sa:image">
+          <img src="images/constrangere.png">
+          <figcaption>Fig.3 - Exemplu de astfel de constrangere</figcaption>
+        </figure>
+        <p>Daca informatiile introduse intr-un camp sunt valide, campul respectiv va arata astfel:</p>
+        <figure typeof="sa:image">
+          <img src="images/datevalide.png">
+          <figcaption>Fig.4 - Exemplu camp ce contine date ce respecta formatul specificat</figcaption>
+        </figure>
+        <p>Daca informatiile introduse intr-un camp sunt invalide, campul respectiv va arata astfel(in acest caz va fi necesara completarea acestuia cu date valide, ce respecta formatul precizat):</p>
+        <figure typeof="sa:image">
+          <img src="images/dateinvalide.png">
+          <figcaption>Fig.5 - Exemplu camp ce contine date ce nu respecta formatul specificat</figcaption>
+        </figure>
+        <p>Dupa completarea tuturor campurilor cu date valide, ce respecta formatul specificat, apasati butonul "Submit".</p>
+        <figure typeof="sa:image">
+          <img src="images/submitbutton.png">
+          <figcaption>Fig.6 - Butonul "Submit"</figcaption>
+        </figure>
+        <p>Daca numele introdus apartine altui utilizator, veti ramane pe aceeasi pagina, si va va aparea un mesaj ce va va specifica acest lucru.</p>
+        <figure typeof="sa:image">
+          <img src="images/numefolosit.png">
+          <figcaption>Fig.7 - Mesajul ce apare daca numele introdus apartine deja altui utilizator</figcaption>
+        </figure>
+        <p>Daca numele introdus nu apartine niciunui alt utilizator, contul va fi creat si veti fi redirectionat pe pagina principala unde va veti putea autentifica.</p>
+	</section>
+	
+	<section id="autentificare">
+
+		<h3>
+			Autentificare
+		</h3>
+		
+		<p>Pentru a va autentifica, trebuie sa va introduceti numele si parola contului in campurile specificate, aflate in stanga butonului "Login" de pe pagina principala.</p>
+        <figure typeof="sa:image">
+          <img src="images/homenelogat.png">
+          <figcaption>Fig.8 - Pagina principala a site-ului cand nu sunteti autentificat</figcaption>
+        </figure >
+        <p>Acestea vor trebui sa respecte un format anume(acelasi format ca cel a campurilor corespunzatoare lor din pagina de Sign Up).</p>
+        <figure typeof="sa:image">
+          <img src="images/dateinvalidelogare.png">
+          <figcaption>Fig.9 - Date invalide ce nu respecta formatul specificat</figcaption>
+        </figure>
+        <figure typeof="sa:image">
+          <img src="images/datevalidelogare.png">
+          <figcaption>Fig.10 - Date valide ce respecta formatul specificat</figcaption>
+        </figure>
+        <p>Dupa completarea acestor campuri cu date valide, va trebui sa apasati butonul "Login".</p>
+        <p>Daca datele introduse corespund unui cont creat, va veti autentifica cu succes si veti fi redirectionati pe o pagina foarte similara cu aceasta, de unde va veti putea deconecta daca doriti.</p>
+        <p>Daca datele introduse nu corespund vreunui cont creat, veti ramane pe aceeasi pagina si veti putea incerca sa va conectati din nou.</p>
+        <p>In acest caz, va va aparea un mesaj informativ:</p>
+        <figure typeof="sa:image">
+          <img src="images/parolausernamegresit.png">
+          <figcaption>Fig.11 - Mesajul ce va va aparea daca numele si/sau parola introduse sunt gresite, necorespunzand vreunui cont</figcaption>
+        </figure>
+	</section>
+	
+	<section id="deconectare">
+
+		<h3>
+			Deconectare
+		</h3>
+		
+        <p>Daca v-ati autentificat cu succes, pagina principala a site-ului va arata astfel:</p>
+        <figure typeof="sa:image">
+          <img src="images/homelogat.png">
+          <figcaption>Fig.12 - Pagina principala a site-ului cand sunteti autentificat</figcaption>
+        </figure>
+        <p>Apasand butonul "Logout" va veti putea deconecta si veti fi redirectionat pe pagina principala, de unde va puteti loga din nou.(eventual cu alt cont)</p>
+	</section>
+	
+	<section id="campanii">
+
+		<h3>
+			Campanii
+		</h3>
+
+		<section id="vizionarecampanii">
+
+			<h3>
+				Vizionare
+			</h3>
+			
+			<p>Pentru a vedea toate campaniile deja existente, trebuie sa apasati butonul "Campaigns" situat in partea de dreapta sus a site-ului.</p>
+			<p>Acest buton se va regasi in acest loc pe toate paginile site-ului, iar efectul sau va fi acelasi:</p>
+			<figure typeof="sa:image">
+			  <img src="images/campaignsbutton.png">
+			  <figcaption>Fig.13 - Butonul "Campaigns"</figcaption>
+			</figure>
+			<p>Odata apasat acest buton, veti fi redirectionat pe o pagina unde veti putea vedea toate campaniile existente deja, in mod paginat, cate 2 pe o pagina, sau doar 1 daca nu mai sunt 2 campanii de afisat.</p>
+			<figure typeof="sa:image">
+			  <img src="images/allcampaigns.png">
+			  <figcaption>Fig.14 - Pagina ce contine toate campaniile</figcaption>
+			</figure>
+			<p>Totodata, de pe aceasta pagina, veti putea apasa butonul "Start yours!" care va va redirectiona pe o pagina de unde veti putea crea o campanie noua.</p>
+			<p>Butoanele ">" si "<" vor putea fi folosite pentru a naviga printre pagini.</p>
+            <p>La apasarea unuia dintre ele veti fi redirectat cu o pagina in urma/in fata. </p>
+            <p>Butonul ">" va avea semnificatia de "next page" in timp ce butonul "<" va avea semnificatia de "previous page".</p>
+            <p>Acestea vor aparea in josul paginii curente, doar daca exista cel putin o pagina in urma("<") si doar daca exista o pagina in fata. (">")</p>
+            <figure typeof="sa:image">
+            <img src="images/butoanenextprevpage.png">
+            <figcaption>Fig.15 - Butoanele ">" si "<" folosite pt. a naviga intre pagini ce contin campanii</figcaption>
+        </figure>
+		</section>
+		
+		<section id="interactionarecampanii">
+
+			<h3>
+				Interactionare
+			</h3>
+			
+			<p>Veti putea aprecia o campanie, prin apasarea butonului "Like" din dreptul ei dar si sa lasati un comentariu respectivei campanii, cu ajutorul butonului "Comment" si a campului de deasupra lui.</p>
+			<p>Veti putea aprecia campanii/lasa comentarii lor doar daca sunteti auntetificat.</p>
+			<p>Pentru a lasa un comentariu unei campanii, va trebui sa introduceti un text ce respecta formatul cerut in campul de deasupra butonului "Comment" din dreptul acelei campanii.</p>
+			<p>Formatul necesar este specificat la hover deasupra respectivului camp.Aveti voie sa folositi maxim 250 caractere alfanumerice, cat si caractere precum !,.: etc.</p>
+			<figure typeof="sa:image">
+			  <img src="images/comentariunevalid.png">
+			  <figcaption>Fig.16 - Asa va arata campul daca comentariul introdus nu este valid</figcaption>
+			</figure>
+			<figure typeof="sa:image">
+			  <img src="images/comentariuvalid.png">
+			  <figcaption>Fig.17 - Asa va arata campul daca comentariul introdus este valid</figcaption>
+			</figure>
+			<p>Daca comentariul introdus este valid si nu sunteti autentificat, atunci comentariul introdus nu va fi postat respectivei campanii.</p>
+			<figure typeof="sa:image">
+			  <img src="images/comentariunelogat.png">
+			  <figcaption>Fig.18 - Veti primi acest mesaj daca nu sunteti logat si incercati sa postati un comentariu unei campanii</figcaption>
+			</figure>
+			<p>Daca comentariul introdus este valid si sunteti autentificat, atunci comentariul introdus va fi postat respectivei campanii.</p>
+			<figure typeof="sa:image">
+			  <img src="images/comentariulogat.png">
+			  <figcaption>Fig.19 - Veti primi acest mesaj daca  sunteti logat si incercati sa postati un comentariu unei campanii</figcaption>
+			</figure>
+			<p>Daca apasati butonul "Like" din dreptul unei campanii si nu sunteti autentificat, like-ul nu se va contoriza respectivei campanii.</p>
+			<figure typeof="sa:image">
+			  <img src="images/likenelogat.png">
+			  <figcaption>Fig.20 - Veti primi acest mesaj daca nu sunteti logat si incercati sa apreciati o campanie</figcaption>
+			</figure>
+			
+			<p>Daca apasati butonul "Like" din dreptul unei campanii si sunteti autentificat, like-ul  se va contoriza respectivei campanii.</p>
+			<figure typeof="sa:image">
+			  <img src="images/likelogat.png">
+			  <figcaption>Fig.21 - Veti primi acest mesaj daca sunteti logat si incercati sa apreciati o campanie</figcaption>
+			</figure>
+		</section>
+		
+		<section id="detaliicampanie">
+
+			<h3>
+				Detalii
+			</h3>
+			
+			<p>Pentru a vedea toate detaliile legate de o campanie si toate comentariile postate ei, puteti apasa butonul "Details" de sub numele respectivei campanii:</p>
+			<figure typeof="sa:image">
+			  <img src="images/detailsbutton.png">
+			  <figcaption>Fig.22 - Butonul "Details"</figcaption>
+			</figure>
+			<p>Dupa apasarea acestui buton veti fi redirectionat pe pagina ce contine toate aceste informatii. </p>
+			<figure typeof="sa:image">
+			  <img src="images/paginadetails.png">
+			  <figcaption>Fig.23 - Pagina ce contine toate detaliile unei campanii si toate comentariile postate ei</figcaption>
+			</figure>
+			<p>Pentru a va intoarce pe pagina anterioara, puteti apasa butonul "Back" situat in partea inferioara a acestei pagini.</p>
+		</section>
+		
+		<section id="crearecampanie">
+
+			<h3>
+				Creare
+			</h3>
+			
+			<p>Puteti sa creati o noua campanie apasand butonul "Start yours!" de pe pagina ce contine toate campaniile existente.</p>
+            <figure typeof="sa:image">
+              <img src="images/paginacrearecampanie.png">
+              <figcaption>Fig.24 - Pagina ce va permite sa creati o noua campanie</figcaption>
+            </figure>
+            <p>Pentru a crea o noua campanie, trebuie sa completati toate campurile, avand grija sa respectati formatul cerut.(puteti vedea care este acesta facand hover peste campul respectiv)</p>
+            <p>De exemplu, numele campaniei poate contine maxim 25 caractere alfanumerice.</p>
+            <figure typeof="sa:image">
+              <img src="images/campaniecrearevalid.png">
+              <figcaption>Fig.25 - Camp completat cu date ce respecta formatul cerut</figcaption>
+            </figure>
+            <figure typeof="sa:image">
+              <img src="images/campaniecrearenevalid.png">
+              <figcaption>Fig.26 - Camp completat cu date ce nu respecta formatul cerut</figcaption>
+            </figure>
+            <p>Dupa completarea tuturor campurilor in mod valid, apasati "Start Campaign!".</p>
+            <p>Daca numele campaniei nu este folosit deja de o alta campanie, campania va fi creata si veti fi redirectionat pe pagina ce contine toate campaniile create pana acum.</p>
+            <p>Daca numele campaniei este deja folosit de alta campanie, campania nu va fi creata si veti ramane pe aceasta pagina.</p>
+            <p>In acest caz, va va aparea un mesaj cu rosu imediat deasupra butonului "Start Campaign!" ce va va informa de acest lucru.</p>
+            <figure typeof="sa:image">
+              <img src="images/numefolositcampanie.png">
+              <figcaption>Fig.27 - Mesajul care apare daca numele dat campaniei este deja folosit de alta campanie</figcaption>
+            </figure>
+            <p>Daca v-ati razgandit si nu mai doriti sa creati o noua campanie puteti, de exemplu,sa apasati butonul "View all campaigns" care va va redirecta la pagina ce contine toate campaniile existente.</p>
+		</section>
+	</section>
+	
+	<section id="harta">
+
+		<h3>
+			Harta
+		</h3>
+
+		<section id="marker">
+
+			<h3>
+				Marker
+			</h3>
+			
+			<section id="adaugaremarker">
+
+				<h3>
+					Adaugare
+				</h3>
+
+				<p> Pentru a adauga un marker utilizatorul selecteaza unul din butoanele din stanga hartii dupa care face click pe harta </p>
+				
+				<figure typeof="sa:image">
+					<img src="images/mapaddmarker.png">
+					<figcaption>Fig.28 - Butoanele ce pot fi selectate pentru a adauga un marker</figcaption>
+				</figure>
+			</section>
+			
+			<section id="stergeremarker">
+
+				<h3>
+					Stergere
+				</h3>
+
+				<p> Pentru a sterge un marker, daca utilizatorul este administrator atunci ii va aparea un buton in plus in coltul din stanga sus al hartii.
+					Dupa ce face click pe acesta, administratorul poate selecta o regiune sub forma unui dreptunghi tinand apasat click stanga pe mouse. Dupa
+					ce intrerupe click stanga, toate markerele din dreptunghiul selectat vor fi marcate ca sterse.
+				</p>
+				
+				<figure typeof="sa:image">
+					<img src="images/mapdeletemarker.png">
+					<figcaption>Fig.29 - Butonul impreuna cu dreptunghiul pentru stergerea markerelor</figcaption>
+				</figure>
+			</section>
+			
+			<section id="vizualizaremarker">
+
+				<h3>
+					Vizualizare
+				</h3>
+
+				<p> Daca markerul nu se afla intr-un cluster group si se face click stanga pe acesta, va aparea un popup in care este specificat
+					cine a raportat deseul respectiv si cand
+				</p>
+				
+				<figure typeof="sa:image">
+					<img src="images/mapvisualizemarker1.png">
+					<figcaption>Fig.30 - Popup-ul cu informatii despre un marker</figcaption>
+				</figure>
+				
+				<p> Daca markerul se afla intr-un cluster group se poate face click pe cluster group pentru a afisa markerele din interior si a face
+					zoom pe acestea
+				</p>
+				
+				<figure typeof="sa:image">
+					<img src="images/mapvisualizemarker2.png">
+					<figcaption>Fig.31 - Cluster group</figcaption>
+				</figure>
+			</section>
+
+		</section>
+		
+		<section id="cautarelocatie">
+
+			<h3>
+				Cautare Locatie
+			</h3>
+
+			<p> Utilizatorul poate cauta o locatie specifica folosind butonul din stanga sus al hartii (cel care are o lupa drept icon)</p>
+			
+			<figure typeof="sa:image">
+				<img src="images/mapfindlocations.png">
+				<figcaption>Fig.32 - Cautare locatii</figcaption>
+			</figure>
+			
+		</section>
+		
+		<section id="detectarelocatie">
+
+			<h3>
+				Detectare Locatie
+			</h3>
+
+			<p> Utilizatorul va fi intrebat la incarcarea paginii daca doreste ca locatie lui sa fie aflata</p>
+			
+			<figure typeof="sa:image">
+				<img src="images/mapfindlocation.png">
+				<figcaption>Fig.33 - Popup locatie</figcaption>
+			</figure>
+			
+			<p> Daca utilizatorul accepta atunci pe harta vor aparea un cerc si un marker care reprezinta pozitia aproximativa unde se afla utilizatorul dupa care
+				se face zoom pe acestea. Daca utilizatorul refuza harta ramane neschimbata
+			</p>
+			
+			<figure typeof="sa:image">
+				<img src="images/maplocationfound.png">
+				<figcaption>Fig.34 - Locatia utilizatorului</figcaption>
+			</figure>
+		</section>
+		
+		<section id="tipuriharta">
+
+			<h3>
+				Tipuri Harta
+			</h3>
+
+			<section id="hartastatistici">
+
+				<h3>
+					Harta Statistici
+				</h3>
+
+				<p> Utilizatorul poate schimba tipul hartii intr-o harta cu statistici pe judete folosind butonul "Statistics Map" din partea dreapta a paginii Daca utilizatorul
+					se afla deja pe "Statistics Map" nu se va intampla nimic.
+				</p>
+			
+				<figure typeof="sa:image">
+					<img src="images/mapstatisticsmarkers.png">
+					<figcaption>Fig.35 - Butonul "Statistics Map"</figcaption>
+				</figure>
+				
+				<p> Fiecare judet va fi colorat in functie de cate deseuri se afla in judetul respectiv. In partea dreapta a hartii se poate regasi legenda culorilor </p>
+				
+				<p> Daca utilizatorul pune mouse-ul peste un judet in partea dreapta sus a hartii va aparea un popup cu statistici despre judetul respectiv</p>
+			
+				<figure typeof="sa:image">
+					<img src="images/mapstatisticshover.png">
+					<figcaption>Fig.36 - Statistici judet</figcaption>
+				</figure>
+
+			</section>
+			
+			<section id="hartamarkere">
+
+				<h3>
+					Harta Markere
+				</h3>
+
+				<p> Utilizatorul poate schimba tipul hartii la harta standard folosind butonul "Markers Map" din partea dreapta a paginii. Daca utilizatorul
+					se afla deja pe "Markers Map" nu se va intampla nimic.
+				</p>
+			
+				<figure typeof="sa:image">
+					<img src="images/mapstatisticsmarkers.png">
+					<figcaption>Fig.37 - Butonul "Markers Map"</figcaption>
+				</figure>
+			</section>
+		</section>
+		
+	</section>
+	
+	<section id="statistici">
+
+		<h3>
+			Statistici
+		</h3>
+
+		<section id="vizualizarestatistici">
+
+			<h3>
+				Vizualizare
+			</h3>
+			<p>
+			Pagina de statistici pune la dispozitie posibilitatea de vizualizare a diferitor statistici in formate grafice si numerice. Graficul dispune de scrollbar vertical si orizontal, 
+			pentru o intelegere mai usoara acestuia. Tinind apasat click stanga pe grafic si miscand mouse-ul pe orizontala se poate face zoom pe o anumita portiune a graficului. De asemenea 
+			in partea din stanga sus a graficului se afla un buton denumit "R" care va zoom-ul graficului.
+			</p>
+			<figure typeof="sa:image">
+					<img src="images/zoom-reset.png">
+					<figcaption>Fig.38 - Butonul de resetare a zoom-ului</figcaption>
+			</figure>
+			<p>
+			Utilizatorul poate naviga pritnre grafice cu ajutorul butoanelor laterale.
+			</p>
+			<figure typeof="sa:image">
+					<img src="images/switch.png">
+					<figcaption>Fig.39 - Butonul de navigare printre grafice</figcaption>
+			</figure>
+			<figure typeof="sa:image">
+					<img src="images/zoom-exemple.png">
+					<figcaption>Fig.40 - Animatia de zoom asupra graficului</figcaption>
+			</figure>
+			<p>
+			In partea de sus a graficului se afla legenda cu tipurile de gunoi afisate.
+			</p>
+			<figure typeof="sa:image">
+					<img src="images/legend.png">
+					<figcaption>Fig.41 Legenda</figcaption>
+			</figure>
+			<section id="vizualizareoras">
+
+				<h3>
+					La nivel de oras
+				</h3>
+				<p>
+				La nivel de oras sunt disponibile 2 chart-uri, un line chart si un bar chart, ce au pe axa X timpul plasarii marker-ului si pe axa Y cantitea de gunoi raportata la acea data.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/ghid-line-chart.png">
+					<figcaption>Fig.42 - Exemplu de line chart la nivel de oras</figcaption>
+				</figure>
+				<figure typeof="sa:image">
+					<img src="images/ghid-bar-chart.png">
+					<figcaption>Fig.43 - Exemplu de bar chart la nivel de oras</figcaption>
+				</figure>
+			</section>
+			
+			<section id="vizualizarejudet">
+
+				<h3>
+					La nivel de judet
+				</h3>
+				<p>
+				Graficul la nivel de judet va apea pe axa X orasele judetului din care face parte utilizatorul si pe axa Y cantitatile de gunoi raportate ale fiecarui pras. Fiecare oras va fi reprezentat de o bara in grafic si fiecare categorie de gunoi 
+				va avea propria ei culoare.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/ghid-bar-chart3.png">
+					<figcaption>Fig.44 - Exemplu de bar chart la nivel de judet</figcaption>
+				</figure>
+			</section>
+			
+			<section id="vizualizaretara">
+
+				<h3>
+					La nivel de tara
+				</h3>
+				<p>
+				Graficul la nivel de tara va apea pe axa X judetele tarii utilizatorului si pe axa Y cantitatile de gunoi raportate ale fiecarui judet. Fiecare judet va fi reprezentat de o bara in grafic si fiecare categorie de gunoi 
+				va avea propria ei culoare.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/ghid-bar-chart2.png">
+					<figcaption>Fig.45 - Exemplu de bar chart la nivel de tara</figcaption>
+				</figure>
+			</section>
+			
+			<section id="vizualizareprocentuala">
+
+				<h3>
+					Cantitea procentuala a categoriilor de gunoi
+				</h3>
+				<p>
+				In partea din mijloc, in josul paginii, se afla un pie chart, ce reprezinta cantitatea procentuala a fiecarei categorii de gunoi, calculata cu markerele din intervalul de timp specificat din optiunea de filtrare.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/ghid-pie-chart.png">
+					<figcaption>Fig.46 - Exemplu de pie chart</figcaption>
+				</figure>
+			</section>
+			
+			<section id="vizualizareschimbari">
+
+				<h3>
+					Schimbari pe unitate de timp
+				</h3>
+				<p>
+				In partea din stanga jos a paginii se pot vizualiza diferite statistici ce evolueaza de-a lungul timpului. Schimbari in viteza de ridicare a markerelor, congestia la nivel de oras sau a numarului de raporturi. 
+				Aceste schimbari sunt calculate prin compararea situatiei curente cu situatia anterioara. (de exemplu daca filtrul de timp ales este "Last Week" se va comapra situatia de saptamana aceasta cu situatia de acum 2 saptamani). 
+				Daca schimbarile sunt pozitive in dreptul lor va fi afisata o sageata verde, iar daca sunt negative o sageata rosie.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/ghid-changes.png">
+					<figcaption>Fig.47 - Exemplu de statistici</figcaption>
+				</figure>
+
+			</section>
+
+		</section>
+		
+		<section id="filtrare">
+
+			<h3>
+				Filtrare
+			</h3>
+			
+			<section id="filtrarecategorii">
+
+				<h3>
+					Pe categorii de gunoi
+				</h3>
+				<p>
+				Filtrarea pe categorii de gunoi va afisa, la apasarea butonului de "Filter" doar markerele care fac parte din categoriile selectate.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/filter-by-type.png">
+					<figcaption>Fig.48 - Checkboxuri de filtrare</figcaption>
+				</figure>
+			</section>
+			
+			<section id="filtraretimp">
+
+				<h3>
+					Pe unitate de timp
+				</h3>
+				<p>
+				Sub grafic se afla o lista de optiune cu unitati de timp pe care utilizatorul le poate alege pentru a vizualiza grafice pentru datele din perioada respectiva.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/time-filter.png">
+					<figcaption>Fig.49 - Filtrare pe unitate de timp</figcaption>
+				</figure>
+			</section>
+		<p>
+		Efectele filtrelor selectate vor avea loc dupa apasarea butonului oval denumit "Filter".
+		</p>
+		<figure typeof="sa:image">
+					<img src="images/filter-button.png">
+					<figcaption>Fig.50 - Butonul de filtrare</figcaption>
+				</figure>
+		</section>
+		
+		<section id="download">
+
+			<h3>
+				Download
+			</h3>
+			
+			<section id="downloadcsv">
+
+				<h3>
+					CSV
+				</h3>
+				<p>
+				Butonul "CSV" va copia local datele despre markerele din intervalul de timp ales din optiunile de filtrare. Acest document poate fi deschis intr-un program precum Microsoft Excel.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/csv.png">
+					<figcaption>Fig.51 - Butonul de download pentru formatul CSV</figcaption>
+				</figure>
+			</section>
+			
+			<section id="downloadhtml">
+
+				<h3>
+					HTML
+				</h3>
+				<p>
+				Butonul "HTML" va copia local primele 2 grafice disponibile (cele la nivel de oras) si pie chart-ul din josul paginii. Partea de sus a documentului va specifica orasul si unitatea de timp pentru care a fost efectuat raportul. Mai jos se vor afla 
+				cele 3 grafice, urmate de 2 liste care cuprind lista judetelor respectiv oraselor, ordonate in ordine crescatoare dupa numarul de rapoarte. Aceste lista vor evidentia cu verde zonele cele mai curate si cu rosu zonele cele mai mizere.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/ghid-html.png">
+					<figcaption>Fig.52 - Butonul de download pentru formatul HTML</figcaption>
+				</figure>
+				<figure typeof="sa:image">
+					<img src="images/ghid-html2.png">
+					<figcaption>Fig.53 - Snapshot dintr-un document HTML</figcaption>
+				</figure>
+
+			</section>
+			
+			<section id="downloadpdf">
+
+				<h3>
+					PDF
+				</h3>
+				<p>
+				Butonul "PDF" va copia local cele 2 grafice ce se afla pe pagina la momentul apasarii butonului. Mai jos acesta va evidentia ca si documentul HTML zonele cele mai curate/mizare, iar in final va afisa lista de schimbari din stanga jos 
+				a paginii in format text.
+				</p>
+				<figure typeof="sa:image">
+					<img src="images/pdf-download.png">
+					<figcaption>Fig.54 - Butonul de download pentru formatul PDF</figcaption>
+				</figure>
+				<figure typeof="sa:image">
+					<img src="images/ghid-pdf.png">
+					<figcaption>Fig.55 - Snapshot dintr-un document PDF</figcaption>
+				</figure>
+			</section>
+
+		</section>
+		
+	</section>
+</body>
+</html>
