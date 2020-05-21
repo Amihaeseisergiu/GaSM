@@ -91,7 +91,7 @@ if (isset($data['timeFilter'])) {
     $str = str_replace('<?php echo $glsQuantity; ?>', $data['allGlass'], $str);
     $str = str_replace('<?php echo $mtlQuantity; ?>', $data['allMetal'], $str);
     if ($data['timeFilter'] == "Today") {
-        $unit = "minute";
+        $unit = "hour";
     } else {
         $unit = "day";
     }
