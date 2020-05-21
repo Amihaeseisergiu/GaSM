@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>GasM Documentatie</title>
+
+	<link rel="stylesheet" href="css/scholarly.min.css">
+	<script src="js/scholarly.min.js"></script>
+</head>
+
+<body>
+
+	<div role="content-info">
+		<h1>GaSM Documentatie</h1>
+		<section typeof="sa:ProjectLinks">
+			<ul>
+				<li typeof="schema:WebPage" role="link" resource="https://github.com/Amihaeseisergiu/GaSM"
+					property="schema:citation" id="github">
+					<cite property="schema:name">
+						<a href="https://github.com/Amihaeseisergiu/GaSM">Github</a>
+					</cite>
+				</li>
+				<li typeof="schema:WebPage" role="link" resource="https://app.swaggerhub.com/apis/GaSM/GaSM/1.0.0#/"
+					property="schema:citation" id="github">
+					<cite property="schema:name">
+						<a href="https://app.swaggerhub.com/apis/GaSM/GaSM/1.0.0#/">Swagger</a>
+					</cite>
+				</li>
+			</ul>
+		</section>
+
+		<section typeof="sa:AuthorsList">
+			<h2>Autori</h2>
+			<ul>
+				<li typeof="sa:ContributorRole" property="schema:author">
+					<span typeof="schema:Person">
+						<meta property="schema:givenName" content="Sergiu">
+						<meta property="schema:familyName" content="Amihaesei">
+						<span property="schema:name">Sergiu Amihaesei</span>
+					</span>
+					<ul>
+						<li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+							<a href="amihaeseisergiu@gmail.com" property="schema:email">amihaeseisergiu@gmail.com</a>
+						</li>
+						<li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+							<a href="telephone:+40728254166" property="schema:telephone">+40728254166</a>
+						</li>
+					</ul>
+				</li>
+				<li typeof="sa:ContributorRole" property="schema:author">
+					<span typeof="schema:Person">
+						<meta property="schema:givenName" content="Cezar">
+						<meta property="schema:additionalName" content="Iustinian">
+						<meta property="schema:familyName" content="Iacob">
+						<span property="schema:name">Cezar I. Iacob</span>
+					</span>
+					<ul>
+						<li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+							<a href="icezar731@gmail.com" property="schema:email">icezar731@gmail.com</a>
+						</li>
+						<li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+							<a href="telephone:+40736765598" property="schema:telephone">+40736765598</a>
+						</li>
+					</ul>
+				</li>
+				<li typeof="sa:ContributorRole" property="schema:author">
+					<span typeof="schema:Person">
+						<meta property="schema:givenName" content="Vasile">
+						<meta property="schema:familyName" content="Alexandru">
+						<span property="schema:name">Vasile Alexandru</span>
+					</span>
+					<ul>
+						<li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+							<a href="alexvasile99@yahoo.com" property="schema:email">alexvasile99@yahoo.com</a>
+						</li>
+						<li property="schema:roleContactPoint" typeof="schema:ContactPoint">
+							<a href="telephone:+40740047179" property="schema:telephone">+40740047179</a>
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</section>
+
+		<h2>Cuprins</h2>
+		<ol role="directory">
+			<li>
+				<a href="#introducere">
+					<span> 1. </span>
+					Introducere
+				</a>
+			</li>
+			<li>
+				<a href="#database">
+					<span> 2. </span>
+					Database
+				</a>
+
+				<ol role="directory">
+					<li>
+						<a href="#usersdb">
+							<span> 2.1. </span>
+							Tabelul Users
+						</a>
+					</li>
+					<li>
+						<a href="#campaignsdb">
+							<span> 2.2. </span>
+							Tabelul Campaigns
+						</a>
+					</li>
+					<li>
+						<a href="#commentsdb">
+							<span> 2.3. </span>
+							Tabelul Comments
+						</a>
+					</li>
+					<li>
+						<a href="#markersdb">
+							<span> 2.4. </span>
+							Tabelul Markers
+						</a>
+					</li>
+				</ol>
+			</li>
+			<li>
+				<a href="#front-end">
+					<span> 3. </span>
+					Front End
+				</a>
+
+				<ol role="directory">
+					<li>
+						<a href="#signupfront">
+							<span> 3.1. </span>
+							Sign-Up
+						</a>
+					</li>
+					<li>
+						<a href="#loginfront">
+							<span> 3.2. </span>
+							Login
+						</a>
+					</li>
+					<li>
+						<a href="#logoutfront">
+							<span> 3.3. </span>
+							Logout
+						</a>
+					</li>
+					<li>
+						<a href="#campaniifront">
+							<span> 3.4. </span>
+							Campanii
+						</a>
+
+						<ol role="directory">
+							<li>
+								<a href="#initierecampaniefront">
+									<span> 3.4.1. </span>
+									Initiere Campanie
+								</a>
+							</li>
+							<li>
+								<a href="#vizualizarecampaniifront">
+									<span> 3.4.2. </span>
+									Vizualizare Campanii
+								</a>
+							</li>
+							<li>
+								<a href="#vizualizarecampaniefront">
+									<span> 3.4.3. </span>
+									Vizualizare Campanie
+								</a>
+							</li>
+						</ol>
+					</li>
+					<li>
+						<a href="#hartafront">
+							<span> 3.5. </span>
+							Harta
+						</a>
+					</li>
+					<li>
+						<a href="#statisticifront">
+							<span> 3.6. </span>
+							Statistici
+						</a>
+					</li>
+				</ol>
+			</li>
+			<li>
+				<a href="#back-end">
+					<span> 4. </span>
+					Back End
+				</a>
+
+				<ol role="directory">
+					<li>
+						<a href="#signuploginback">
+							<span> 4.1. </span>
+							Sign-Up & Login
+						</a>
+					</li>
+					<li>
+						<a href="#campaniiback">
+							<span> 4.2. </span>
+							Campanii
+						</a>
+					</li>
+					<li>
+						<a href="#hartaback">
+							<span> 4.3. </span>
+							Harta
+						</a>
+					</li>
+					<li>
+						<a href="#statisticiback">
+							<span> 4.4. </span>
+							Statistici
+						</a>
+					</li>
+				</ol>
+			</li>
+		</ol>
+	</div>
+
+	<section id="introducere">
+
+		<h3>
+			Introducere
+		</h3>
+
+	</section>
+
+	<section id="database">
+
+		<h3>
+			Database
+		</h3>
+		<p>Pentru a spori gradul de securitate al site-ului au fost folosite statement-uri prepared de fiecare data cand
+			a fost interogata baza de date.</p>
+		<section id="usersdb">
+			<h3>
+				Tabelul Users
+			</h3>
+			<p>Datele ce vor fi introduse in acest tabel sunt furnizate de form-ul din pagina de sign-up si corespund
+				credentialelor contului nou creat.</p>
+			<p>Asa arata tabelul users, ca structura, acesta fiind tabelul unde vor fi stocate toate detaliile legate de
+				un utilizator:</p>
+			<figure typeof="sa:image">
+				<img src="images/tabelusersstructura.png">
+				<figcaption>Fig.1 - Structura tabelului users</figcaption>
+			</figure>
+			<p>Asa arata un exemplu de date stocate in tabelul users:</p>
+			<figure typeof="sa:image">
+				<img src="images/tabelusersdate.png">
+				<figcaption>Fig.2 - Exemplu de date din tabelulul users</figcaption>
+			</figure>
+		</section>
+
+		<section id="campaignsdb">
+			<h3>
+				Tabelul Campaigns
+			</h3>
+			<p>Datele ce vor fi introduse in acest tabel sunt furnizate de form-ul din pagina de creare a unei noi
+				campanii si corespund datelor campaniei nou create.</p>
+			<p>Datele necesare popularii acestui tabel vor fi trimise printr-un apel fetch la API-ul REST al aplicatiei
+			</p>
+			<p>Asa arata structura tabelului campaigns:</p>
+			<figure typeof="sa:image">
+				<img src="images/tabelcampaignsstructura.png">
+				<figcaption>Fig.1 - Structura tabelului campaigns</figcaption>
+			</figure>
+
+
+			<p>Asa arata un exemplu de date stocate in tabelul campaigns:</p>
+			<figure typeof="sa:image">
+				<img src="images/tabelcampaignsdate.png">
+				<figcaption>Fig.2 - Exemplu de date din tabelulul campaigns</figcaption>
+			</figure>
+
+
+
+		</section>
+
+		<section id="commentsdb">
+			<h3>
+				Tabelul Comments
+			</h3>
+
+			<p>Comentariul in sine va fi preluat din form-ul caruia utilizatorul i-a dat submit de pe pagina ce afiseaza
+				toate campaniile existente, fiind trimis ca un parametru al unui apel fetch la API-ul REST al
+				aplicatiei.</p>
+			<p>Fiecare campanie existenta are un astfel de form pe acea pagina.</p>
+			<p>ID-ul utilizatorului care a lasat comentariul respectiv este luat din variabila $_SESSION['userID'].</p>
+			<p>ID-ul campaniei la care a fost postat comentariul este trimis ca parametru printr-un apel fetch la API-ul
+				REST al site-ului.</p>
+			<p>Asa arata structura tabelului comments:</p>
+			<figure typeof="sa:image">
+				<img src="images/tabelcommentsstructura.png">
+				<figcaption>Fig.3 - Structura tabelului comments</figcaption>
+			</figure>
+
+
+			<p>Asa arata un exemplu de date stocate in tabelul comments:</p>
+			<figure typeof="sa:image">
+				<img src="images/tabelcommentsdate.png">
+				<figcaption>Fig.4 - Exemplu de date din tabelulul comments</figcaption>
+			</figure>
+
+		</section>
+
+		<section id="markersdb">
+			<h3>
+				Tabelul Markers
+			</h3>
+
+			<p>Markerele vor fi adaugate de utilizator de pe pagina cu harta (apelandu-se in spate un fetch) si vor
+				putea fi prelucrate de pagina de statistici si harta</p>
+			<p>Coloanele latitude, longitude, trash_type, country, county, city, neighborhood, state vor fi completate
+				automat in functie de unde a fost plasat markerul</p>
+			<p>Daca un administrator decide sa stearga un marker acesta va avea in baza de date coloana "state" marcata
+				cu "inactive" pentru a fi utilizat de pagina de statistici</p>
+			<p>ID-ul utilizatorului care a plasat markerul respectiv este luat din variabila $_SESSION['userID'].</p>
+			<p>Asa arata structura tabelului markers:</p>
+			<figure typeof="sa:image">
+				<img src="images/tablemarkersstructure.png">
+				<figcaption>Fig.100 - Structura tabelului markers</figcaption>
+			</figure>
+
+
+			<p>Asa arata un exemplu de date stocate in tabelul markers:</p>
+			<figure typeof="sa:image">
+				<img src="images/tablemarkersdata.png">
+				<figcaption>Fig.101 - Exemplu de date din tabelulul markers</figcaption>
+			</figure>
+
+		</section>
+	</section>
+
+	<section id="front-end">
+
+		<h3>
+			Front End
+		</h3>
+
+		<p>Toate paginile site-ului sunt responsive, elementele ce le compun redimensionandu-se in pagina in functie de
+			dispozitivul utilizat, paginile oferind astfel o experienta placuta inclusiv pe device-uri ca iPhone 5 SE ce
+			are un ecran ingust si scurt.</p>
+		<section id="signupfront">
+			<h3>
+				Sign-Up
+			</h3>
+
+			<p>Pagina de Sign Up are denumirea de signup.php.</p>
+			<p>Partea de sus este aceeasi cu cea a tuturor celorlaltor pagini, partea ei dreapta reprezentand
+				meniul/bara de navigatie a site-ului iar partea ei stanga
+				fiind ocupata de logo-ul site-ului si de numele sau.(desktop)
+			</p>
+
+			<p>In ceea ce priveste pozitionarea in cazul variantei mobile a site-ului, bara de navigatie va fi
+				pozitionata sub logo-ul si titlul site-ului, ambele avand
+				latimea egala cu cea a ecranului.In functie de butonul apasat utilizatorul va fi redirectionat catre
+				pagina corespunzatoare
+			</p>
+
+			<p>Folosindu-ne de meniul/bara de navigatie a site-ului ce este situata in partea de sus a paginii, lucru ce
+				este valabil pentru toate paginile acestui site
+				putem ajunge pe urmatoarele pagini a site-ului: (map.php,allcampaigns.php,statistics.php,index.php, etc)
+			</p>
+
+			<p>
+				Situate imediat sub partea de sus a site-ului(formata din bara de navigatie, logo-ul si titlul
+				site-ului) se afla un div si un form, primul fiind de culoare
+				verde si acoperind tot restul paginii, in timp ce form-ul se afla situat in centrul sau si are culoarea
+				gri.
+			</p>
+
+			<p>Acest form din urma contine in interiorul sau un text cu caracter informativ pentru utilizator,"Sign
+				Up"(pentru a sti in ce scop este necesara completarea campurilor de sub el)
+				cat si 6 input box-uri fiecare fiind destinat preluarii de anumite
+				informatii:"Name","Email","Password","Country","County","City", acestea fiind si numele placeholder-elor
+				din interiorul
+				fiecaruia dintre ele.Completarea tuturor acestor campuri este obligatorie.
+			</p>
+
+			<p>Input box-ul destinat introducerii email-ului are ca tip "email" pentru ca textul introdus inauntrul ei
+				sa fie validat ca fiind o adresa de email.</p>
+			<p>Input box-ul destinat introducerii parolei va avea ca tip "password pentru ca textul introdus inauntru sa
+				fie cenzurat.</p>
+
+			<p>Continutul input box-urilor va fi validat client-side folosindu-se atributul pattern,iar la hover
+				formatul necesar va fi specificat utilizatorului.
+				Daca userul introduce date ce nu corespund formatului cerut de input box-ul respectiv acesta va dobandi
+				un border rosu inchis in partea inferioara, iar daca datele respective sunt valide
+				input box-ul va avea un border verde in partea inferioara.</p>
+			<p>In acest sens, de exemplu, numele va putea contine doar caractere alfanumerice.</p>
+
+			<p>Nu se va putea apasa butonul "Submit" fara ca toate campurile sa fie completate folosindu-se formatul
+				specificat.</p>
+
+
+			<p>Sub input box-uri se afla un buton de Submit cu latimea egala cu cea a input box-urilor.Cand este apasat
+				de utilizator, acesta va fi redirectionat catre
+				varianta homepage-ului cand utilizatorul nu este logat(view-ul index.php), daca toate campurile sunt
+				completate iar datele introduse in ele sunt valide .
+				De asemenea se va verifica server-side si daca numele introdus mai exista, iar daca da, acest lucru va
+				fi specificat utilizatorului prin aparitia unui text de culoare
+				rosie in partea inferioara a paginii, contul nefiind creat si utilizatorul ramanand pe pagina de signup
+				in acest caz.
+			</p>
+		</section>
+
+		<section id="loginfront">
+			<h3>
+				Login
+			</h3>
+
+			<p>Pentru a se conecta cu un cont existent user-ul trebuie sa fie pe homepage-ul site-ului si sa nu fie
+				logat la acel moment dat.(view-ul index.php) </p>
+			<p>In partea dreapta a homepage-ului, sunt 2 input box-uri, in primul dintre ele trebuie introdus numele iar
+				in al doilea parola.</p>
+			<p>La hover peste ele user-ului ii va fi specificat formatul ce trebuie introdus in ele.</p>
+			<p>Validarea acestor input box-uri client-side se face prin intermediul atributului pattern.</p>
+			<p>Formatul cerut pentru ambele dintre ele este identic cu cel cerut de pagina de Sign Up in momentul
+				inregistrarii pentru campurile name respectiv password.</p>
+			<p>Ambele input box-uri trebuie completate cu date valide.</p>
+			<p>Daca input box-urile contin date valide, acestea vor avea un border verde in partea lor inferioara.</p>
+			<p>Daca datele din ele nu sunt valide, ele vor avea un border rosu in partea lor inferioara.</p>
+			<p>Daca datele din ele sunt valide si apartin unui utilizator inregistrat atunci la apasarea butonului
+				"Login" utilizatorul va fi redirectat catre view-ul indexLoggedIn.php el conectandu-se cu succes in
+				acest caz.</p>
+		</section>
+
+		<section id="logoutfront">
+			<h3>
+				Logout
+			</h3>
+
+			<p>Pentru a se deconecta, un utilizator conectat nu trebuie decat sa navigheze pe homepage-ul site-ului si
+				sa apese butonul "Logout".</p>
+		</section>
+
+		<section id="campaniifront">
+			<h3>
+				Campanii
+			</h3>
+
+			<section id="initierecampaniefront">
+
+				<h3>
+					Initiere Campanie
+				</h3>
+				<p>Pagina destinata initierii unei campanii se numeste campaign.php </p>
+				<p> Pentru a initia o campanie este necesar ca toate campurile sa fie completate.In acest sens, o
+					campanie trebuie sa aiba un nume, o locatie si o descriere.
+					Campurile vor trebui sa respecte formatul cerut. (campurile vor fi validate client side cu ajutorul
+					atributului pattern iar formatul necesar va fi specificat userului la hover peste un anumit camp)
+				</p>
+
+				<p>Continutul input box-urilor va fi validat client-side, pt. ca utilizatorul sa stie exact formatul
+					datelor ce trebuie introduse in fiecare dintre ele.
+					Daca userul introduce date ce nu corespund formatului cerut de input box-ul respectiv, acesta va
+					dobandi un border rosu inchis in partea sa de jos, iar daca datele respective sunt valide
+					input box-ul va avea un border verde in partea sa inferioara.</p>
+				<p>In acest sens, de exemplu, numele campaniei va putea contine doar caractere alfanumerice.</p>
+				</p>
+				<p>Daca se va apasa butonul "Start campaign!" si toate campurile sunt completate respectand formatul
+					cerut, o noua campanie va fi creata iar userul va fi redirectat pe pagina continand toate campaniile
+					create pana la acel moment dat.</p>
+				<p>Totusi, daca numele campaniei introdus este deja folosit de o alta campanie, campania nu va fi
+					creata, iar userul va ramane pe aceeasi pagina.</p>
+				<p>In acest caz, imediat deasupra butonului "Start campaign!" va aparea un text rosu ce-i va transmite
+					utilizatorului faptul ca numele campaniei ales este deja in uz.</p>
+				<p>In caz contrar, utilizatorul va ramane pe aceeasi pagina, nicio campanie nefiind creata.</p>
+
+				<p> Pagina mai contine un buton, "View all campaigns" care o data apasat va redirecta user-ul pe pagina
+					ce contine toate campaniile existente.</p>
+			</section>
+
+			<section id="vizualizarecampaniifront">
+
+				<h3>
+					Vizualizare Campanii
+				</h3>
+				<p>Aceasta pagina/view poarta denumirea de allcampaigns.php.</p>
+				<p>Aceasta pagina contine textul "All campaigns" urmat de un buton numit "Start yours!" care o data
+					apasat va redirecta userul catre pagina de creare a unei noi campanii.</p>
+				<p>Situate imediat sub acestea vor fi pozitionate denumirile a 2 campanii(daca exista >=2 campanii in
+					total).Imediat sub denumirea fiecarei campanii vor fi pozitionate
+					urmatoarele butoane : "Details" care o data apasat va redirecta userul catre o noua pagina,
+					corespunzatoarea respectivei campanii, unde va putea vizualiza mai multe detalii despre aceasta,
+					"Like" , un buton ce o data apasat va contoriza un like pentru respectiva campanie, un input box si
+					un buton "Comment" pentru a lasa un comentariu
+					la respectiva campanie.Continutul acestui input box va fi si el validat client-side, formatul
+					necesar fiind specificat userului la hover.
+				</p>
+
+				<p>Detaliile legate de campanii prezente pe pagina sunt obtinute cu ajutorul unui apel fetch la API-ul
+					REST al site-ului.</p>
+				<p>Pt. butoanele de "Like" si de "Comment" s-a folosit AJAX(fetch API) pentru a nu da refresh la pagina,
+					creand astfel o experienta placuta pt. utilizator.</p>
+				<p>Astfel, daca utilizatorul apasa butonul de "Like" si daca el este logat, va fi facut un request catre
+					API, iar un like va fi adaugat la campania respectiva</p>
+				<p>Exemplu de cod pt like:</p>
+
+				<figure typeof="schema:SoftwareSourceCode">
+					<pre>document.getElementById('like'+idGenerat).addEventListener("click", likeFunction);
+							 
+						function likeFunction() 
+						{
+
+							 url='http://localhost/proiect/GaSM/public/api/campaigns/like';
+							 if(loggedIN==1) {
+							 alert ("You liked this campaign!");
+
+							 fetch(url, {
+							 method: 'POST',
+							 headers: {'Content-Type':'application/x-www-form-urlencoded'}, 
+							 body: 'campaignID='  + idGenerat });
+								   }  
+						else alert ("Trebuie sa fiti logat pt. a da like-uri!");
+
+						return false;
+						 }
+				   </pre>
+				</figure>
+
+				<p>Daca utilizatorul apasa butonul "Comment" si a completat campul corespunzator comentariului,
+					continutul acestuia fiind valid, respectivul comentariu va fi postat
+					campaniei respective, acest lucru facandu-se tot cu ajutorul unui apel AJAX folosindu-ne de fetch
+					API.
+				</p>
+
+				<p>Exemplu de cod pentru comentarii:</p>
+
+				<figure typeof="schema:SoftwareSourceCode">
+					<pre>
+						document.getElementById('commentForm'+idGenerat).addEventListener("submit", commentFunction);
+								 
+						function commentFunction(e) 
+						{
+						 var commentSend = {campaignID:idGenerat,userID:<?php echo $_SESSION['userID']; ?>,CommentContent:document.getElementById('comment' + idGenerat ).value};   
+						 url='http://localhost/proiect/GaSM/public/api/campaigns/comment';
+						 
+						 e.preventDefault();
+							 if(loggedIN==1) {
+							 alert ("You left a comment!");
+
+							 fetch(url, {
+							 method: 'POST',
+							 headers: {'Content-Type':'application/json'},  
+							 body: JSON.stringify(commentSend) });
+								   }  
+						else alert ("Trebuie sa fiti logat pt. a comenta!");
+
+						return false;
+						 }
+					</pre>
+				</figure>
+
+				<p> In partea inferioara a paginii se vor afla, dupa caz, maxim doua butoane ">" respectiv "<", cu
+						semnificatia de "next page" si "previous page" . Daca exista campanii "in urma" (ex: suntem pe
+						pagina a 2-a a paginii cu toate campaniile) va aparea butonul "<" care o data apasat va
+						redirecta userul pe pagina precedenta.Similar, daca suntem de ex. pe pagina 2 si mai exista
+						campanii va aparea butonul ">" care o data apasat va redirecta userul pe urmatoarea pagina .
+						</p>
+			</section>
+
+			<section id="vizualizarecampaniefront">
+
+				<h3>
+					Vizualizare campanie
+				</h3>
+				<p>Aceasta pagina este afisata cu ajutorul view-ului individualCampaign.php</p>
+				<p> Aceasta contine numele campaniei, impreuna cu descrierea acesteia si numarul sau de like-uri curent.
+				</p>
+				<p> Totodata, aceasta contine toate comentariile asociate respectivei campanii, impreuna cu autorul lor.
+				</p>
+				<p>Daca campania respectiva nu are niciun comentariu postat, in locul acestora va aparea textul "No
+					comments yet".</p>
+				<p>Detaliile legate de respectiva campanie sunt obtinute cu ajutorul a doua apeluri fetch la API-ul REST
+					al site-ului</p>
+				<p>Primul apel este menit sa obtina toate datele campaniei respective precum:nume,locatie,descriere,nr.
+					de like-uri etc.</p>
+				<p>Al doilea apel este menit sa obtina toate comentariile postate respectivei campanii cat si autorul
+					lor, data la care au fost postate.</p>
+				<p>Aceasta este bucata de cod ce face apelul fetch pentru a obtine toate detaliile corespunzatoare unei
+					anumite campanii, si care apoi le pune in pagina:</p>
+				<figure typeof="schema:SoftwareSourceCode">
+					<pre>
+						var url='http://localhost/proiect/GaSM/public/api/campaigns/details/';
+						var idValue=<?php echo $data['id'] ?>;
+						url=url.concat(idValue);
+
+						fetch(url).
+						   then(response=>response.json()).then(data=>{        <!--scrise asa tag-urile pt ca altfel chiar le afisa in pagina-->
+									 var string = "";
+									 string+='< h3 class="campaignNameText">' + data['name'] + '</ h3>';
+									 string+='< h3 class="campaignDescText">Location:' + data['location'] + '</ h3>';
+									 string+='< h3 class="campaignDescText">Description:' + data['description'] + '</ h3>';
+									 string+='< h3 class="campaignDescText">No. of likes:' + data['likes'] + '</ h3>';
+									 document.getElementById("infoCampaign").innerHTML=string;   
+																	  })
+
+					 </pre>
+				</figure>
+				<p> De asemenea, aceasta contine in partea sa inferioara un buton numit "Back" care o data apasat va
+					redirecta userul pe pagina cu toate campaniile ce contine campania de pe pagina individuala a careia
+					a fost apasat butonul de back.</p>
+			</section>
+		</section>
+
+		<section id="hartafront">
+			<h3>
+				Harta
+			</h3>
+
+			<p>Pagina cu harta are denumirea de map.php.</p>
+			<p>Partea de sus este aceeasi cu cea a tuturor celorlaltor pagini, partea ei dreapta reprezentand
+				meniul/bara de navigatie a site-ului iar partea ei stanga
+				fiind ocupata de logo-ul site-ului si de numele sau.(desktop)
+			</p>
+
+			<p>In ceea ce priveste pozitionarea in cazul variantei mobile a site-ului, bara de navigatie va fi
+				pozitionata sub logo-ul si titlul site-ului, ambele avand
+				latimea egala cu cea a ecranului.In functie de butonul apasat utilizatorul va fi redirectionat catre
+				pagina corespunzatoare
+			</p>
+
+			<p>Folosindu-ne de meniul/bara de navigatie a site-ului ce este situata in partea de sus a paginii, lucru ce
+				este valabil pentru toate paginile acestui site
+				putem ajunge pe urmatoarele pagini a site-ului: (map.php,allcampaigns.php,statistics.php,index.php, etc)
+			</p>
+
+			<p>In varianta desktop in partea stanga se afla 4 butoane pentru selectarea tipului de marker (plastic,
+				paper, metal, glass), in mijloc harta iar in partea
+				dreapta 2 butoane pentru a schimba tipul de harta (statistics map, markers map)
+			</p>
+
+			<p>In varianta mobile in partea de sus se vor afla butoanele pentru marker, la mijloc harta, iar jos
+				butoanele pentru a schimba tipul hartii</p>
+
+			<p>Butoanele au culoarea verde cu textul alb, iar atunci cand se face hover peste ele culoarea de fundal se
+				va transforma in alb iar textul in negru</p>
+
+			<p>Dupa selectarea unui tip de deseu (plastic, paper, metal, glass) daca utilizatorul apasa pe harta atunci
+				se va pune un marker la pozitia respectiva
+				Fiecare tip de marker are un icon care semnifica tipul de deseu si o umbra.
+			</p>
+
+			<p>Daca mai multe markere se afla intr-o locatie atunci acestea vor fi grupate intr-un cerc. In interiorul
+				cercului se va afla un text cu numarul de markere
+				din interiorul sau, culoarea schimbandu-se de asemenea in functie de acest numar
+			</p>
+
+			<p>Daca utilizatorul selecteaza un marker atunci va aparea un pop-up cu informatii despre markerul respectiv
+				(cine l-a raportat si cand) </p>
+
+			<p>Daca utilizatorul accepta ca locatia lui sa fie cunoscuta atunci va aparea un cerc albastru pe harta
+				impreuna cu un marker ce reprezinta pozitia la care se afla
+				utilizatorul
+			</p>
+
+			<figure typeof="sa:image">
+				<img src="images/mapmarkers.png">
+				<figcaption>Fig.103 - Exemplu de harta cu markere si locatie</figcaption>
+			</figure>
+
+			<p>Daca utilizatorul apasa pe butonul "Statistics Map" atunci harta se va schimba in una de tip choropleth,
+				evidentiindu-se fiecare judet</p>
+
+			<p>In functie de cate deseuri (markere) se afla in judetul respectiv, harta isi va schimba culoarea in zona
+				respectiva</p>
+
+			<p>Daca utilizatorul face hover peste un judet, in coltul din dreapta sus ii va aparea un pop-up cu
+				statistici din judetul respectiv (totalul de deseuri, si totalul pe categorii: plastic, paper, metal,
+				glass) </p>
+
+			<p>Daca un utilizator apasa pe un judet pe harta de statistici atunci se va face zoom pe judetul respectiv
+			</p>
+
+			<p>In coltul din dreapta jos pe harta cu statistici se afla legenda hartii
+			<p>
+
+			<figure typeof="sa:image">
+				<img src="images/mapstatistics.png">
+				<figcaption>Fig.104 - Exemplu de harta cu statistici</figcaption>
+			</figure>
+
+			<p>Daca utilizatorul apasa pe butonul "Markers Map" va reveni pe harta normala unde va putea plasa markere
+			</p>
+
+			<p>In coltul din stanga sus al hartii se afla un buton cu o lupa pe care daca utilizatorul il apasa va putea
+				cauta o locatie in functie de nume </p>
+
+			<figure typeof="sa:image">
+				<img src="images/maplocation.png">
+				<figcaption>Fig.105 - Exemplu cautare locatii harta</figcaption>
+			</figure>
+
+			<p>Tot in coltul din stanga sus al hartii se afla un buton cu un dreptunghi pe care daca un administrator il
+				apasa va putea selecta o regiune
+				din harta, iar markerele din regiunea respectiva vor fi sterse
+			</p>
+
+			<figure typeof="sa:image">
+				<img src="images/mapdelete.png">
+				<figcaption>Fig.106 - Exemplu stergere markere harta</figcaption>
+			</figure>
+
+		</section>
+
+		<section id="statisticifront">
+			<h3>
+				Statistici
+			</h3>
+			<p>
+				In partea de sus a paginii de statistici se afla butoanele de navigare catre celelalte pagini.</p>
+			<p>
+				In partea centrala a paginii se afla pe partea stanga 3 butoane de download, cate unul pentru fiecare
+				format (PDF, HTML, CSV), iar in partea dreapta se afla un chart ce contine scroll bar-uri pe axa X
+				si pe axa Y, pentru a fi mai usor de vizualizat, in cazul in care exista o mare discrepanta intre
+				marimea datelor. De asemenea chart-ul are 2 butoane de navigare in stanga si respectiv in dreapta,
+				pentru a vizualiza toate chart-urile disponibile client-ului.
+			<p>
+				In partea de jos a paginii se afla 3 chenare. Primul chenar va cuprinde niste schimbari
+				procentuale periodice, al doilea contine un pie chart pentru a vizualiza cantitatea procentuala a
+				fiecarei categorii de gunoi, iar ultimul chenar contine informatii utile pentru clienti.
+			</p>
+			<figure typeof="sa:image">
+				<img src="images/changes.png">
+				<figcaption>Fig.107 - Exemplu de schimbari procentuale periodice</figcaption>
+			</figure>
+			<figure typeof="sa:image">
+				<img src="images/pie-chart.png">
+				<figcaption>Fig.108 - Exemplu de pie chart</figcaption>
+			</figure>
+			</p>
+			<p>
+				Partea centrala si partea de jos a paginii sunt aliniate folosind 2 containere de tip div, ambele avand
+				proprietatea display: flex. Pe rezolutii mari aceste containere au proprietatea display-direction:
+				row, iar pentru variantele mobile, ce au lungimea mai mare decat latimea, proprietatea
+				display-direction: column, iar ordinea de aliniere a butoanele si a chart-ului sunt inversate, pentru ca
+				chart-ul sa apara primul. Tot pe varianta mobila, sagetile de nagivare intre charturi se vor muta
+				deasupra si respectiv sub chart,
+				pentru a facilita o vizualizare mai buna a acestuia.
+			</p>
+			<p>
+				Exista 2 chart-uri posibile de vizualizare pentru utilizatorii nelogati si 4 pentru cei logati (deoarece
+				se pot genera inca 2 chart-uri pe baza locatiei lor). Fiecare chart va avea in stanga sus un buton denumit "R" pentru a reseta zoom-ul.
+			</p>
+			<p>
+				Primul chart este un line chart, ce va contine cate o linie pentru fiecare categorie de gunoi. Pe axa X
+				a chart-ului va fi timpul la care s-a plasat marker-ul,
+				iar pe axa Y numarul de markere plasate pe mapa la o anumita data din categoria de gunoi asociata liniei
+				(chart-urile cuprind si o legenda pentru a sti aceste informatii).
+			</p>
+			<figure typeof="sa:image">
+				<img src="images/line-chart.png">
+				<figcaption>Fig.109 - Exemplu de line chart</figcaption>
+			</figure>
+			<p>
+				Al doilea chart este asemanator cu primul doar ca acesta va folosi bare in loc de linii. La fiecare data 
+				cuprinsa in chart se vor afla 4 bare, cate una pentru fiecare categorie de gunoi.
+			</p>
+			<figure typeof="sa:image">
+				<img src="images/bar-chart.png">
+				<figcaption>Fig.110 - Exemplu de bar chart</figcaption>
+			</figure>
+			<p>
+				Aceste chart-uri vor afisa situatia la nivelul orasului in care se afla utilizatorul, in caz ca este logat. 
+				Daca acesta nu este logat se va afisa situatia la nivel global.
+			</p>
+			<p>
+				Al treilea chart va fi disponibil doar pentru utilizatorii logati, deoarece este nevoie de informatiile client-ului pentru a fi generat.
+				El va fi un stacked bar chart ce va afisa situatia curenta in judetul utilizatorului. Axa X va cuprinde fiecare oras din judetului respectiv,
+				iar pe axa Y, cantitatarile de gunoi din fiecare categorie, puse unele peste altele, insa fiecare categorie de gunoi va fi evidentiata printr-o culoare diferita.
+			</p>
+			<figure typeof="sa:image">
+				<img src="images/bar-chart3.png">
+				<figcaption>Fig.111 - Exemplu de bar chart la nivel de judet</figcaption>
+			</figure>
+			<p>
+				Al patrulea chart va fi asemanator cu al treilea, insa acesta va afisa situatia la nivel de tara, nu de judet. Iar pe axa X se vor afla judetele tarii, in loc de orase.
+			</p>
+			<figure typeof="sa:image">
+				<img src="images/bar-chart2.png">
+				<figcaption>Fig.112 - Exemplu de bar chart la nivel de tara</figcaption>
+			</figure>
+			<p>
+				Primele 2 chart-uri vor avea o optiune de zoom pe axa X, pentru a vizualiza doar o anumita sectiune orizontala din chart, iar ultimele 2 chartui vor avea optiunea de pan
+				pe axa Y, daca unele informatii sunt prea mari fata de celelalte.
+			</p>
+			<p>
+				Sub chart se vor afla la dispozitie niste optiuni de filtrare a acestuia. Acestea contin patru checkbox-uri pentru a alege doar categoriile de gunoi pe care utilizatorul doreste sa le vizioneze, 
+				alaturi de o lista de optiuni pentru intervale de timp (zi, luna, an). Aceste optiuni au in dreapta lor un buton oval denumit "Filter", care va aplica filterele selectate la apasarea lui (va afisa doar 
+				informatii despre markerele plasate in intervalul de timp ales si doar din categoriile de gunoi alese). 
+			</p>
+			<p>
+				Raportul in format CSV va continea toate informatiile despre markerele plasate in intervalul de timp ales in optiunile de filtrare.
+			</p>
+			<p>
+				Raportul in format PDF va contine chart-ul asa cum arata el pe pagina in momentul apasarii pe butonul de download, impreuna cu pie chart-ul, o lista cu cele mai curate/mizere localitati/judete din 
+				locatia utilizatorului si o lista cu schimbarile procentuale periodice afisate in chenarul din stanga jos a paginii.
+			</p>
+			<figure typeof="sa:image">
+				<img src="images/pdf.png">
+				<figcaption>Fig.113 - Exemplu de document PDF</figcaption>
+			</figure>
+			<p>
+				Raportul in format HTML va contine primele 2 chart-uri (cele la nivel de oras), pie chart-ul si 2 liste cu judetele tarii utilizatorului, respectiv orasele judetului din care se afla utilizatorul, in 
+				ordinea crescatoare a numarului de markere plasate in acel oras/judet in intervalul de timp ales de filter. Locurile cu cele mai putine markere, adica cele mai curate, vor fi evidentiate cu verde, iar 
+				cele cu multe markere, cele mai mizere, cu rosu.
+			</p>
+			<figure typeof="sa:image">
+				<img src="images/html.png">
+				<figcaption>Fig.114 - Exemplu de lista de locatii, evidentand cele mai mai curate/mizere locuri</figcaption>
+			</figure>
+			<p>
+				Unele informatii din aceste rapoarte nu vor fi disponibile daca utilizatorul nu este logat.
+			</p>
+
+		</section>
+	</section>
+
+	<section id="back-end">
+
+		<h3>
+			Back End
+		</h3>
+
+		<section id="signuploginback">
+			<h3>
+				Sign-Up & Login
+			</h3>
+			<p>Arhitectura generala a partii/modulului responsabil de Sign-Up si Login este bazata pe MVC.</p>
+			<p>Fiecare utilizator inregistrat va avea un nume si un id unic.</p>
+			<p>Se vor folosi sesiuni pt. a se stoca diferite lucruri, sesiunile folosite fiind: </p>
+
+			<ul>
+				<li>$_SESSION['loggedIn'] :va stoca daca utilizatorul este logat sau nu, avand valoarea true/false</li>
+				<li>$_SESSION['userID'] :va stoca id-ul utilizatorului, daca acesta este logat, iar -1 daca acesta nu
+					este logat</li>
+				<li>$_SESSION['privileges'] :va stoca privilegiile utilizatorului, avand valorile "admin","user" sau
+					"none" daca utilizatorul nu este logat </li>
+				<li>$_SESSION['country'] :va stoca numele tarii utilizatorului, sau "none" daca acesta nu este
+					autentificat</li>
+				<li>$_SESSION['county'] :va stoca numele judetului utilizatorului, sau "none" daca acesta nu este
+					autentificat</li>
+				<li>$_SESSION['city'] :va stoca numele orasului utilizatorului, sau "none" daca acesta nu este
+					autentificat</li>
+				<li>$_SESSION['name'] :va stoca numele utilizatorului, sau "none" daca acesta nu este logat</li>
+			</ul>
+
+			<p>Aceste valori $_SESSION vor fi folosite pentru o multitudine de lucruri in interiorul site-ului ca de
+				ex:restrictionarea anumitor actiuni, ce vor putea fi indeplinite doar de utilizatorii logati</p>
+			<p>In acest sens, de exemplu, utilizatorii nelogati nu vor putea da like-uri sau posta comentarii
+				campaniilor existente.</p>
+			<p>Numele controllerului folosit este Home.php</p>
+			<p>Acesta se va ocupa de redirectarea user-ului pe view-ul/pagina corecta in functie de mai multe criterii.
+			</p>
+			<p>Criteriile de care acesta va tine cont cand va decide ce pagina/view sa afiseze vor fi urmatoarele:</p>
+			<ul>
+				<li>URL-ul dat</li>
+				<li>butoanele apasate</li>
+				<li>valoarea $_SESSION['loggedIn'](true sau false)</li>
+			</ul>
+
+			<p>Controller-ul Home.php va gestiona urmatoarele URL-uri:</p>
+
+			<ul>
+				<li>http://localhost/proiect/GaSM/public/</li>
+				<p>Homepage-ul site-ului, corespunzator view-ului indexLoggedIn.php sau index.php in functie de
+					$_SESSION['loggedIn'](daca utilizatorul este logat sau nu)</p>
+				<li>http://localhost/proiect/GaSM/public/Signup</li>
+				<p>Pagina de Sign-Up, unde se poate crea un nou cont, corespunzatoare view-ului signup.php</p>
+			</ul>
+
+			<p>In acest sens, daca utilizatorul este logat($_SESSION['loggedIn'] are valoarea true) si se apasa butonul
+				"Home" din orice parte a site-ului, controller-ul va decide daca sa afiseze view-ul index.php sau
+				indexLoggedIn.php</p>
+			<p>Daca se apasa butonul "Sign Up" user-ul va fi redirectat pe pagina signup.php unde va putea sa-si creeze
+				un cont.Daca isi creeaza un cont valid, atunci el va fi delogat automat, daca era logat inainte, si
+				redirectat pe pagina index.php</p>
+			<p>Daca userul se afla pe pagina index.php, nefiind autentificat adica, si introduce o combinatie corecta de
+				username+parola apoi apasa butonul Login, el va fi redirectat catre pagina indexLoggedIn.php, iar
+				valorile tuturor variabilelor $_SESSION vor fi actualizate cu cele corespunzatoare contului.</p>
+			<p>Daca userul de pe pagina indexLoggedIn.php fiind deja logat si apasa butonul "Logout" acesta va fi
+				delogat si redirectat pe pagina index.php, valoarea variabilelor $_SESSION fiind reactualizata pentru a
+				reflecta acest lucru</p>
+
+			<p>Numele modelului folosit este User.php</p>
+
+			<p>Clasa User, corespunzatoare modelului User.php contine toate functiile folosite de controller-ul mai sus
+				amintit, Home.php </p>
+			<p>Cu ajutorul functiilor din modelul User.php datele introduse de utilizator vor fi validate.De asemenea se
+				va verifica daca numele de utilizator introdus este deja folosit(in cazul sign-up-ului)</p>
+			<p>Daca datele furnizate de utilizator nu sunt valide utilizatorul va fi informat de acest lucru (acest
+				lucru nu se va intampla decat daca utilizatorul modifica HTML-ul intrucat acesta se ocupa de validarea
+				datelor introduse client-side)</p>
+			<p>Daca datele furnizate nu sunt valide, nu se va rula vreun query pe ele si nu se va verifica daca exista
+				un cont cu numele si parola furnizate(la login, de exemplu)</p>
+
+
+			<p>La signup, daca datele furnizate de utilizator sunt corecte iar numele nu mai este folosit de nimeni,
+				fiind disponibil, datele respective vor fi introduse in baza de date, contul fiind creat</p>
+			<p>Parola va fi hash-uita inainte de a fi introdusa in baza de date, nefiind stocata in plain-text.Pentru
+				acest lucru a fost folosita functia password_hash</p>
+			<p>La logare, se va folosi functia password_verify pentru a verifica daca parola corespunzatoare numelui
+				introdus de utilizator specificat la login este aceeasi cu cea furnizata la login</p>
+
+			<p>S-au folosit statement-uri prepared de fiecare data cand baza de date a fost interogata, pentru a spori
+				securitatea aplicatiei, protejand astfel impotriva SQL Injection</p>
+
+			<p>Pentru stocarea tuturor datelor legate de un utilizator a fost folosita o baza de date MySQL, cea
+				integrata in XAMPP.</p>
+			<p>Datele legate de useri precum parola contului, nume etc au fost stocate in tabelul users.</p>
+
+		</section>
+
+		<section id="campaniiback">
+			<h3>
+				Campanii
+			</h3>
+			<p>Arhitectura generala a partii/modulului responsabil de partea cu campaniile este bazata pe MVC si pe
+				API-ul REST al aplicatiei.</p>
+			<p>Controller-ul Campaign.php va gestiona urmatoarele pagini/view-uri:</p>
+			<ul>
+				<li>campaign.php</li>
+				<p>Pagina de unde se va putea crea o campanie noua.</p>
+				<li>allcampaigns.php</li>
+				<p>Pagina care va avea listate in format paginat toate campaniile existente, cate 2 pe pagina, si va
+					avea butoane back/forward pt. a naviga intre pagini</p>
+				<li>individualCampaign.php</li>
+				<p>Pagina care va oferi toate informatiile disponibile despre o anumita campanie</p>
+				<li>campaignNotFound.php</li>
+				<p>Pagina pe care utilizatorul va fi redirectat daca introduce un id de campanie inexistent in URL, de
+					exemplu: http://localhost/proiect/GaSM/public/Campaign/details/90 , iar in tabelul campaigns nu
+					exista vreo campanie cu acest ID, 90</p>
+			</ul>
+			<p>In acest sens, controller-ul Campaign.php va redirectiona userul pe pagina corespunzatoare URL-ului
+				introdus si/sau a butoanelor apasate</p>
+
+			<p>Fiecare campanie are un ID unic, aceasta fiind cheia primara a teblului campaigns unde sunt stocate toate
+				campaniile, si acesta fiind modul prin care campaniile individuale sunt identificate</p>
+
+			<p>URL-urile in functie de care se face aceasta rutare sunt:</p>
+
+			<ul>
+				<li>http://localhost/proiect/GaSM/public/Campaign/</li>
+				<p>Va afisa pagina campaign.php</p>
+				<p>Crearea unei campanii se face prin apelarea API-ului REST, mai exact a rutei campaigns/add impreuna
+					cu parametrii aferenti trimisi prin POST(nume, locatie, descriere)</p>
+				<li>http://localhost/proiect/GaSM/public/Campaign/index/id
+					<p>Va redirecta catre pagina/view-ul allcampaigns.php</p>
+					<p>id va fi un nr, daca acesta este 0 de exemplu, pagina va contine campaniile cu id-urile 1 si 2
+						daca acestea exista, sau doar 1</p>
+					<p>Campaniile afisate pe aceasta pagina vor fi obtinute cu ajutorul unui apel fetch la API, pe ruta
+						campaigns/allcampaignsfrom/:id</p>
+					<p>id-ul din ruta va fi acelasi cu cel din URL</p>
+					<p>Ex:pt ruta campaigns/allcampaignsfrom/2 API-ul va returna toate campaniile cu id-ul>2</p>
+					<p>Daca acele campanii nu exista atunci va fi afisata o pagina cu textul "Not found"</p>
+				</li>
+				<li>http://localhost/proiect/GaSM/public/Campaign/details/idCampanie</li>
+				<p>Daca campania cu acel id exista, atunci va fi afisata pagina care va contine toate detaliile legate
+					de ea(pagina individualCampaign.php)</p>
+				<p>Daca acea campanie nu exista atunci va fi afisata pagina campaignNotFound.php</p>
+				<p>Toate detaliile legate de respectiva campanie vor fi obtinute cu ajutorul API-ului REST, facandu-se
+					un fetch la rutele campaigns/details/:id si campaigns/comments/:id </p>
+				<p>Din primul apel vor fi obtinute toate detaliile aferente campaniei cu acel id(nume,locatie,descriere,
+					nr like-uri,etc)</p>
+				<p>Din cel de-al doilea apel vor fi obtinute toate comentariile aferente respectivei campanii</p>
+				<p>Daca nu exista niciun comentariu va fi afisat textul "No comments yet"</p>
+			</ul>
+
+			<p>Modelul CampaignModel.php contine toate functiile ce sunt utilizate de controller-ul Campaign.php</p>
+			<p>La crearea unei noi campanii, datele introduse de utilizator vor fi validate client-side, apoi
+				server-side prin intermediul functiilor de validare din modelul CampaignModel.php </p>
+			<p>Daca acestea sunt valide, si daca numele specificat pt. respectiva campanie nu este folosit deja, atunci
+				campania va fi creata</p>
+			<p>Daca numele introdus de utilizator pt. respectiva campanie este deja folosit, utilizatorul va ramane pe
+				aceeasi pagina,campania nefiind creata, aparandu-i un mesaj cu rosu deasupra butonului "Start campaign!
+				care-i va specifica acest lucru</p>
+			<p>Acelasi lucru se va intampla si daca utilizatorul modifica HTML-ul stergand validarea client-side si da
+				submit unor date nevalide, doar ca mesajul va fi diferit: "Date invalide!</p>
+			<p>In acest caz, userul va fi redirectat catre http://localhost/proiect/GaSM/public/Campaign/index/0, adica
+				pagina ce contine toate campaniile(prima pagina a ei)</p>
+			<p>In acel moment va exista cel putin o campanie, cea creata anterior la apasarea butonului "Start
+				campaign!"</p>
+
+			<p>Daca se apasa butonul "Start yours!" de pe pagina ce afiseaza toate campaniile existente, indiferent de
+				pe care pagina a ei se face aceasta, utilizatorul va fi redirectat pe
+				http://localhost/proiect/GaSM/public/Campaign/, unde va putea sa isi creeze o noua campanie</p>
+
+
+			<p>Daca se apasa butonul "Like" un like va fi adaugat campaniei respective.(daca utilizatorul este logat)
+			</p>
+			<p>Acest lucru se face prin trimiterea unui fetch request la API pe ruta campaigns/like ce va contine ID-ul
+				campaniei ca parametru trimis prin POST</p>
+			<p>Daca campania cu respectivul ID exista si utilizatorul este autentificat, campaniei ii va fi adaugat un
+				like</p>
+			<p>Daca utilizatorul nu este autentificat, el va fi anuntat de acest lucru prin intermediul unui pop-up iar
+				like-ul nu va fi adaugat campaniei specificate</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					[
+						 
+						"route" => "campaigns/like",
+						"method" => "POST",
+						"middlewares" => ["IsLoggedIn"],
+						"handler" => function ($req)
+						{
+							$aCampaign=new CampaignModel();
+
+						  
+							$campaignID=$req['payload']['campaignID'];
+							//print_r($req);
+					
+							
+								 if($aCampaign->doesItExist($campaignID))
+								 {
+									 $aCampaign->addLike($campaignID);
+									 Response::status(200);
+									 Response::text("Like added succesfully to the given campaign");
+								 }
+								 else
+								 {
+								  Response::status(400);
+								  Response::text("Campaign doesn't exist");
+								 }
+						 
+						}
+
+					 ],
+				</pre>
+			</figure>
+
+			<p>Daca se apasa butonul "Comment" iar campul situat imediat deasupra lui, destinat continutului
+				comentariului este completat in mod valid, atunci comentariul introdus va fi adaugat campaniei
+				respective(daca utilizatorul este logat)</p>
+			<p>Acest lucru se face cu ajutorul unui fetch request la API, pe ruta campaigns/comment, impreuna cu
+				parametrii necesari trimisi prin POST(id-ul campaniei la care se vrea sa se adauge comentariul,
+				continutul comentariului, id-ul userului care a postat comentariul)</p>
+			<p>Daca utilizatorul este logat, iar id-ul campaniei cat si comentariul sunt valide, comentariul va fi
+				postat respectivei campanii.</p>
+			<p>Daca utilizatorul nu este logat, acesta va fi anuntat de acest lucru prin intermediul unui pop-up, iar
+				comentariul nu va fi postat campaniei specificate</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					[
+						"route" => "campaigns/comment",
+						"method" => "POST",
+						"middlewares" => ["IsLoggedIn"],
+						"handler" => function ($req)
+						{
+
+							$aCampaign=new CampaignModel();
+
+							$campaignID=$req['payload']['campaignID'];
+							$content=$req['payload']['CommentContent'];
+							$userID=$req['payload']['userID'];
+						
+							//echo var_dump($_POST);
+							if($aCampaign->isCommentValid($content))
+								 {
+									 if($aCampaign->doesItExist($campaignID))
+										   {
+											   
+											   $aCampaign->addComment($campaignID,$content,$userID);
+											   Response::status(200);
+											   Response::text("Comment added to the given campaign");
+
+										   }    
+									 else {
+											Response::status(400);
+											Response::text("The given campaign does not exist");
+										  }        
+								 }
+							else {
+								 Response::status(401);
+								 Response::text("Comment is not valid");
+								}
+
+						}
+
+					],
+				</pre>
+			</figure>
+
+			<p>Daca se apasa butonul "<" vom vedea precedentele 2 campanii</p>
+					<p>Ex: daca suntem pe URL-ul http://localhost/proiect/GaSM/public/Campaign/index/4 si apasam "<" vom
+							fi redirectati pe http://localhost/proiect/GaSM/public/Campaign/index/2</p>
+							<p>Daca se apasa butonul ">" vom vedea urmatoarele 2 campanii, sau urmatoarea campanie(daca
+								mai exista doar una)</p>
+							<p>Ex: daca suntem pe URL-ul http://localhost/proiect/GaSM/public/Campaign/index/4 si apasam
+								">" vom fi redirectati pe http://localhost/proiect/GaSM/public/Campaign/index/6</p>
+							<p>S-au folosit statement-uri prepared de fiecare data cand baza de date a fost interogata,
+								pentru a spori securitatea aplicatiei, protejand astfel impotriva SQL Injection</p>
+
+							<p>Daca suntem pe pagina ce contine toate detaliile despre o
+								campanie(individualcampaign.php, cu URL-ul
+								http://localhost/proiect/GaSM/public/Campaign/details/idCampanie si apasam butonul
+								"Back" aflat in partea inferioara a paginii, vom fi redirectati pe pagina ce contine
+								campania respectiva.</p>
+							<p>Ex:apasam "Back" de pe http://localhost/proiect/GaSM/public/Campaign/details/6 sau
+								http://localhost/proiect/GaSM/public/Campaign/details/5</p>
+							<p>In ambele cazuri, vom fi redirectati pe
+								http://localhost/proiect/GaSM/public/Campaign/index/4 , aceasta pagina continand
+								campaniile cu id-ul 5 si 6</p>
+
+							<p>Pentru a stoca toate datele referitoare la campanii, s-a folosit o baza de date MySQL,
+								cea din XAMPP.</p>
+							<p>Datele au fost stocate in 2 tabele, numite campaigns si comments.</p>
+							<p>Tabelul campaigns stocheaza toate datele referitoare la o campanie, cat si nr. sau de
+								like-uri curent.</p>
+							<p>Tabelul comments stocheaza toate comentariile tuturor campaniilor, stocand id-ul
+								campaniei careia ii apartine comentariul, id-ul userului care l-a scris, comentariul in
+								sine, cat si data si ora cand a fost postat.</p>
+
+
+		</section>
+
+		<section id="hartaback">
+			<h3>
+				Harta
+			</h3>
+
+			<p>Arhitectura generala a partii/modulului responsabil de partea cu harta este bazata pe API-ul REST al
+				aplicatiei. Pentru realizarea hartii s-a folosit
+				biblioteca "Leaflet"
+			</p>
+
+			<p>La incarcarea paginii se face un apel la API-ul REST pentru a prelua markerele active (cele sterse sunt
+				marcate in baza de date ca fiind "inactive") impreuna cu numele utilizatorului care a raportat markerul
+				respectiv.
+				In functie de tipul de deseu, markerul va primi icon-ul corespunzator, dupa care se adauga popup-ul cu
+				numele utilizatorului si timpul cand a fost raportat.
+				Markerele sunt adaugate apoi la un cluster group (se foloseste pluginul leaflet "Leaflet Marker
+				Cluster"), dupa care cluster group-ul respectiv este
+				adaugat ca un layer la harta.
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					fetch('http://localhost:80/proiect/GaSM/public/api/markers/active').then(handleErrors).then(response => response.json())
+					.then(data => {
+						for(var i = 0; i < data.length; i++)
+								addMarker(data[i]);
+						
+							garbageMap.addLayer(markersCluster);
+					}).catch(error => console.log(error));
+					
+					function addMarker(marker)
+					{
+						if(marker.trash_type.localeCompare('paper') == 0) markerIcon = paperMarkerIcon;
+						else if(marker.trash_type.localeCompare('plastic') == 0) markerIcon = plasticMarkerIcon;
+						else if(marker.trash_type.localeCompare('metal') == 0) markerIcon = metalMarkerIcon;
+						else if(marker.trash_type.localeCompare('glass') == 0) markerIcon = glassMarkerIcon;
+
+						if(marker.trash_type.localeCompare('') != 0)
+						{
+							const mapMarker = L.marker([marker.latitude, marker.longitude], {title: marker.trash_type, icon: markerIcon})
+								.bindPopup('Reported by ' + marker.name + ' on ' + marker.time);
+							markersCluster.addLayer(mapMarker);
+							loadedMarkers.push(mapMarker);
+						}
+					}
+
+				</pre>
+			</figure>
+
+			<p>Daca utilizatorul accepta detectarea locatiei, la harta va fi adaugat un nou layer cu un cerc si un
+				marker albastru dupa care se va face zoom pe harta la pozitia respectiva. Diametrul cercului va fi setat
+				in functie de cat de precis a fost detectata locatia
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					garbageMap.locate({setView: true})
+					.on('locationfound', function(e){
+						var marker = L.marker([e.latitude, e.longitude]).bindPopup('Your are here');
+						var circle = L.circle([e.latitude, e.longitude], e.accuracy/2, {
+							weight: 1,
+							color: 'blue',
+							fillColor: '#cacaca',
+							fillOpacity: 0.2
+						});
+						garbageMap.addLayer(marker);
+						garbageMap.addLayer(circle);
+						marker.openPopup();
+					});
+				</pre>
+			</figure>
+
+			<p>Dupa ce utilizatorul a selectat un tip de deseu (apasand pe butonele din stanga in modul desktop sau
+				butoanele de sus in modul mobile) si a apasat pe harta
+				se va face un fetch cu metoda "POST" catre API-ul aplicatiei pentru a insera in baza de date un marker
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					fetch('http://localhost:80/proiect/GaSM/public/api/markers', {
+                            method: 'POST',
+                            headers: {'Content-Type':'application/json'},
+                            body: JSON.stringify(marker)
+                        }).then(handleErrors).then(response => {
+                            loadMyLastMarker();
+                        }).catch(error => console.log(error));
+				</pre>
+			</figure>
+
+			<p>Datele privind locatia de pe harta unde a fost plasat markerul (orasul, judetul, tara, latitudine,
+				longitudine) sunt preluate folosind pluginul leaflet
+				"Esri Leaflet Geocoder", dupa care sunt eliminate diacriticele
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					var geocodeService = L.esri.Geocoding.geocodeService();
+                    geocodeService.reverse().latlng(latlng).run(function(error, result) {
+                        var locationData = {
+                            neighborhood : result.address.Neighborhood.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                            city : result.address.City.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                            county: result.address.Region.normalize("NFD").replace(/[\u0300-\u036f]/g, ""),
+                            country : getCountryNameIso3(result.address.CountryCode)
+                        }
+				</pre>
+			</figure>
+
+			<p>Utilizatorul poate cauta o locatie specifica folosind butonul din stanga sus al hartii (cel cu o lupa
+				drept icon). Pentru gasirea locatiilor
+				s-a folosit pluginul leaflet "Leaflet Esri Geocoder" si providerul "Arcgis Online".
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					L.esri.Geocoding.geosearch({
+						providers: [
+						arcgisOnline,
+						L.esri.Geocoding.featureLayerProvider({
+							url: 'https://services.arcgis.com/uCXeTVveQzP4IIcx/arcgis/rest/services/gisday/FeatureServer/0/',
+							searchFields: ['Name', 'Organization'],
+							label: 'GIS Day Events',
+							bufferRadius: 5000,
+							formatSuggestion: function (feature) {
+							return feature.properties.Name + ' - ' + feature.properties.Organization;
+							}
+						})
+						]
+					}).addTo(garbageMap);
+				</pre>
+			</figure>
+
+			<p>Daca utilizatorul este logat drept administrator atunci in coltul din stanga sus al hartii va aparea un
+				buton in plus pentru a permite stergerea markerelor de
+				pe harta. Pentru a vedea ca un utilizator este administrator s-a facut apel la variabila
+				$_SESSION['privileges']. Pentru desenarea dreptunghiului pe harta s-a folosit
+				pluginul leaflet "Leaflet Draw". Dupa desenarea dreptunghiului se face un fetch cu metoda "PUT" catre
+				API-ul REST pentru a schimba markerele din dreptunghi in "inactive",
+				dupa care markerele sunt eliminate din cluster group (si implicit de pe harta).
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					garbageMap.on(L.Draw.Event.CREATED, function (geometry) {
+
+						var markers = jsonToArray(markersCluster.getLayers());
+						var result = geometry.layer.contains(markers);
+
+						for(var i = 0; i < result.length; i++)
+						{
+							var marker = {
+								"latitude": result[i]._latlng.lat,
+								"longitude": result[i]._latlng.lng
+							}
+
+							fetch('http://localhost:80/proiect/GaSM/public/api/markers', {
+								method: 'PUT',
+								headers: {'Content-Type':'application/json'},
+								body: JSON.stringify([marker, "inactive"])
+							}).then(handleErrors).then(response => {
+								
+								markersCluster.removeLayers(result);
+							}).catch(error => console.log(error));;
+						}
+					});
+				</pre>
+			</figure>
+
+			<p>Daca utilizatorul apasa pe butonul "Statistics Map", atunci se va face un fetch catre baza de date
+				(pentru a nu se face refresh la pagina) pentru a lua ultimele date
+				despre markere. Apoi se adauga cate un layer pentru fiecare judet pentru a crea harta choropleth
+				(fiecare poligon este creat cu informatiile din romaniacounties.js),
+				se adauga legenda in coltul din dreapta jos si se sterge cluster group-ul (markerele de pe harta).
+				Fiecarui layer ii este atasat un popup cu statistici (totalul de deseuri si totalul pe categorii).
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					fetch('http://localhost:80/proiect/GaSM/public/api/markers/active').then(handleErrors).then(response => response.json())
+					.then(data => {
+						var markers = data;
+						for(var i = 0; i < countiesData.features.length; i++)
+						{
+							countiesData.features[i].properties.total = 0;
+							countiesData.features[i].properties.nr_plastic = 0;
+							countiesData.features[i].properties.nr_paper = 0;
+							countiesData.features[i].properties.nr_metal = 0;
+							countiesData.features[i].properties.nr_glass = 0;
+							for(var j = 0; j < markers.length; j++)
+							{
+								if(countiesData.features[i].properties.name === markers[j].county)
+								{
+									countiesData.features[i].properties.total++;
+									switch(markers[j].trash_type)
+									{
+										case 'plastic':
+											countiesData.features[i].properties.nr_plastic++;
+											break;
+										case 'paper':
+											countiesData.features[i].properties.nr_paper++;
+											break;
+										case 'metal':
+											countiesData.features[i].properties.nr_metal++;
+											break;
+										case 'glass':
+											countiesData.features[i].properties.nr_glass++;
+											break;
+										default: break;
+									}
+								}
+							}
+						}
+						geojson = L.geoJson(countiesData, {
+							style: style,
+							onEachFeature: onEachFeature
+						}).addTo(garbageMap);
+						info.addTo(garbageMap);
+						legend.addTo(garbageMap);
+						garbageMap.removeLayer(markersCluster);
+					}).catch(error => console.log(error));
+				</pre>
+			</figure>
+
+			<p> Daca utilizatorul apasa pe butonul "Markers Map" si are deja afisata harta cu statistici se va face un
+				apel fetch catre baza de date dupa care
+				se sterg layerele cu judetele, apoi se reconstruieste cluster group-ul si se adauga la harta. Daca se
+				afla deja pe "Markers Map" nu se va schimba nimic
+			</p>
+
+			<p> Pentru a lua ultimele markere din baza de date a fost folosita ruta /markers/active cu metoda "GET" din
+				API-ul REST. In aceasta ruta se iau toate informatiile din tabelul
+				"markers" dupa care se face join pe tabelul "users" pentru a lua numele utilizatorului care a raportat
+				markerul respectiv
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					[
+						"route" => "markers/active",
+						"method" => "GET",
+						"handler" => function ($req) {
+							global $marker;
+
+							$result = $marker->getAll();
+							$num = $result->rowCount();
+							if ($num > 0) {
+								$markers = array();
+								while ($row = $result->fetch(PDO::FETCH_ASSOC)) {
+									array_push($markers, $row);
+								}
+
+								Response::status(200);
+								Response::json($markers);
+							} else {
+								Response::status(200);
+								Response::text("No Markers Found");
+							}
+						}
+					]
+				</pre>
+			</figure>
+
+			<p> Pentru a insera un nou marker in baza de date a fost folosita ruta /markers cu metoda "POST" din API-ul
+				REST. Ruta verifica
+				printr-un middleware ca utilizatorul este logat. Pentru a afla daca utilizatorul este logat se foloseste
+				variabila $_SESSION
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					[
+						"route" => "markers",
+						"middlewares" => ["IsLoggedIn"],
+						"method" => "POST",
+						"handler" => function ($req) {
+							global $marker;
+
+							$marker->insert($req['payload']);
+
+							Response::status(200);
+						}
+					]
+				</pre>
+			</figure>
+
+			<p> Pentru a modifica un marker in baza de date a fost folosita ruta /markers cu metoda "PUT" din API-ul
+				REST. Ruta verifica
+				printr-un middleware ca utilizatorul este logat si este administrator. Pentru a afla daca utilizatorul
+				este logat si este administrator se foloseste variabila $_SESSION
+			</p>
+
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					[
+						"route" => "markers",
+						"middlewares" => ["IsLoggedIn", "isAdmin"],
+						"method" => "PUT",
+						"handler" => function ($req) {
+							global $marker;
+
+							$marker->update($req['payload'][0], $req['payload'][1]);
+
+							Response::status(200);
+						}
+					]
+				</pre>
+			</figure>
+
+		</section>
+
+		<section id="statisticiback">
+			<h3>
+				Statistici
+			</h3>
+			<p> 
+				Pe partea de back-end a paginii de statistici se va utiliza exclusiv API-ul REST al aplicatiei pentru a se schimba dinamic continutul paginii din JavaScript, prin fetch-uri. Rolul controller-ului va fi doar acela 
+				de a afisa view-ul, fara a trimite informatii catre acesta. Vizualizarea chart-urilor se face cu ajutorul bibliotecii Chartjs.
+			</p>
+			<p>
+				Pentru toate apelurile catre API au fost trimise in URL informatii precum tara, orasul si filtrul de timp ales. Aceste informatii sunt stocate la incarcarea paginii si preluate din variabile de tip session.
+			</p>
+			<p>
+			La incarcarea paginii se va face un apel catre API cu toate informatiile despre markere de care avem nevoie pentru a crea chart-urile. Aceste informatii vor fi procesate in array-uri de obiecte, fiecare obiect 
+			avand o cheie "time", ce reprezinta data de pe axa X a primelor 2 chart-uri si cheia "quantity", ce reprezinta numarul de markere puse la data specificata de "time". Daca filtrul de timp ales este saptamana/luna/all time atunci
+			markerele vor fi grupate pe zile, iar daca filtrul este cel de zi, markele vor fi grupate pe ore.
+			</p>
+			<p>
+			In acest fetch vor fi create 4 array-uri, cate unul pentru fiecare categorie de gunoi. Se vor parcurge datele primite de la API intr-un foreach si fiecare marker va fi pus in unul dintre aceste array-uri.
+			</p>
+			<p>
+			Un exemplu de adaugare a unui marker in array-ul de plastics:
+			</p>
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					if (marker["trash_type"] === "plastic") {
+						var ok = 0;
+                        for (var i = 0; i < plastics.length; i++) {
+							var time2 = new Date(plastics[i]['time']);
+							if (time2.getTime() == time.getTime()) {
+								plastics[i]['quantity']++;
+								ok = 1;
+                                }
+                            }
+                            if (ok == 0) {
+								var myArray = {
+								"time": time,
+								"quantity": 1
+								}
+								plastics.push(myArray);
+							}
+                    }
+				</pre>
+			</figure>
+			<p>
+			Dupa ce datele primite de la API au fost prelucrate, se va apela functia loadChart(), care va verifica printr-un if chart-ul pe care trebuie sa il afiseze.
+			</p>
+			<p>
+			Exemplu de configuratie pentru un line chart:
+			</p>
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+					function loadChart() {
+            if (filter == "Today") {
+                var unit = 'hour';
+            } else {
+                var unit = 'day';
+            }
+            if (chart) {
+                chart.destroy();
+            }
+            if (currentChart === "line") {
+                var ctx = document.getElementById('chart').getContext('2d');
+                chart = new Chart(ctx, {
+                    type: 'line',
+                    fill: false,
+                    data: {
+                        datasets: [{
+                                label: 'Plastic',
+                                borderColor: 'red',
+                                hidden: showPlastic,
+                                data: plasticDps
+                            },
+                            {
+                                label: 'Paper',
+                                borderColor: 'yellow',
+                                hidden: showPaper,
+                                data: paperDps
+                            },
+                            {
+                                label: 'Glass',
+                                borderColor: 'blue',
+                                hidden: showGlass,
+                                data: glassDps
+                            },
+                            {
+                                label: 'Metal',
+                                borderColor: 'green',
+                                hidden: showMetal,
+                                data: metalDps
+                            }
+                        ]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        scales: {
+                            xAxes: [{
+                                type: 'time',
+                                time: {
+                                    unit: unit
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    stepSize: 1
+                                }
+                            }]
+                        },
+                        plugins: {
+                            zoom: {
+                                zoom: {
+                                    enabled: true,
+                                    drag: {
+                                        borderColor: 'rgba(225,225,225,0.3)',
+                                        borderWidth: 5,
+                                        backgroundColor: 'rgb(225,225,225)',
+                                        animationDuration: 0
+                                    },
+
+                                    mode: 'x',
+                                    speed: 0.1,
+                                    sensitivity: 3
+                                }
+                            }
+                        }
+                    }
+                });
+				</pre>
+			</figure>
+			<p>
+			 La apasarea sagetilor din stanga, respectiv dreapta chart-ului se va apela functia switchChart(), la finalul careia se va apela din nou functia loadChart(), pentru a incarca urmatorul grafic.
+			</p>
+			<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+				function switchChart() {
+            if (currentChart === "line") {
+                currentChart = "bar";
+            } else if (currentChart == "bar") {
+                if (city != 'none') {
+                    currentChart = "country";
+                } else {
+                    currentChart = "line";
+                }
+            } else if (currentChart == "country") {
+                currentChart = "county";
+            } else if (currentChart == "county") {
+                currentChart = "line";
+            }
+            loadChart();
+        }
+				</pre>
+				</figure>
+				<p>
+				Pentru a incarca chart-urile la nivel de judet/tara se vor face apeluri catre ruta "/quantity" a API-ului, care returneaza cantitatea de gunoi, dintr-o anumita locatie, insa nu returneaza si data la care 
+				au fost puse markerele, deoarece aceste chart-uri nu vor mai avea pe axa X data, ci orase/judete.
+				</p>
+				<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+	                function getPlastic() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
+                    URL = URL.concat(country, '?filter=', concatFilter, '&type=plastic');
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
+                }
+
+                function getPaper() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
+                    URL = URL.concat(country, '?filter=', concatFilter, '&type=paper');
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
+                }
+
+                function getGlass() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
+                    URL = URL.concat(country, '?filter=', concatFilter, '&type=glass');
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
+                }
+
+                function getMetal() {
+                    var URL = 'http://localhost:80/proiect/GaSM/public/api/markers/quantity/';
+                    URL = URL.concat(country, '?filter=', concatFilter, '&type=metal');
+                    return fetch(URL).then(response => response.json()).catch(error => console.log(error));
+                }
+
+                function getAll() {
+                    return Promise.all([getPlastic(), getPaper(), getGlass(), getMetal()]);
+                }
+				</pre>
+				</figure>
+				<p>
+				La apasarea butonul de "Filter" se va actualiza si pie chart-ul din chenarul mijlociu din partea de jos a paginii, care va arata cantitatile procentuale a fiecarei categorii de gunoi, folosind doar markerele din
+				intervalul de timp specificat de "Filter".
+				</p>
+				<p>
+				Tot la apasarea butonului de "Filter", se vor actualiza si schimbarile din chenarul din stanga jos a paginii.
+				</p>
+				<p>
+				Prima schimbare este cea a vitezei. Aceasta viteza o reprezinta timpul necesar ca un marker plasat pe mapa sa fie sters de catre un administrator. Pentru fiecare marker se va face diferenta intre timpul plasarii acestuia si 
+				timpul la care acesta a fost sters (reprezentat de coloana "remove_time" din tabelul markers). Daca markerul inca nu a fost sters, se va folosi data curenta in schimb. Fiecare diferenta de timp va fi adaugata intr-o variabila 
+				si apoi se va face media aritmetica a acestor timpi. Acest calcul se va face odata pentru markerele din intervalul curent de timp si odata pentru markerele din intervalul de timp precedent, folosind ruta "/precedent" catre API. 
+				De exemplu, daca la apasarea butonului "Filter", intervalul de timp selectat este "Last Week", atunci aceste calcule se vor face odata pentru markele plasate saptamana trecuta si odata pentru markerele plasate acum 2 saptamani. 
+				Dupa care se va face diferanta procentuala intre aceste 2 variabile. Daca viteza a crescut fata de saptamana trecuta, o sageata verde va fi afisata, altfel o sageata rosie.
+				</p>
+				<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+				var averageCurrentWaitingTime = 0;
+                        var averagePrecedentWaitingTime = 0;
+                        markers.forEach(marker => {
+                            var auxTime1 = new Date(marker["time"]);
+                            if (marker["remove-time"] == null) {
+                                var auxTime2 = new Date();
+                                var date = auxTime2.getFullYear() + '-' + (auxTime2.getMonth() + 1) + '-' + auxTime2.getDate();
+                                var time = auxTime2.getHours() + ":" + auxTime2.getMinutes() + ":" + auxTime2.getSeconds();
+                                var auxTime2 = date + ' ' + time;
+                                auxTime2 = new Date(auxTime2);
+                            } else {
+                                var auxTime2 = new Date(marker["remove-time"]);
+                            }
+                            var diffInMilliSeconds = Math.abs(auxTime2 - auxTime1);
+                            var minutes = Math.floor(diffInMilliSeconds / 60000);
+                            averageCurrentWaitingTime = averageCurrentWaitingTime + minutes;
+				</pre>
+				</figure>
+				<p>
+				A doua schimbare reprezinta cea a congestiei. Modul de calcul este ca la schimbarea vitezei, doar ca in schimb se va calcula distanta medie intre markere. Cu cat distanta medie e mai mica, congestia va fi mai mare, ceea ce inseamna 
+				ca o cantitate mare de gunoi se afla intr-un spatiu relativ mic. Acest calcul nu este exact, deoarece timpul de procesare este destul de mare. Pentru a calcula congestia se va face o estimare asupra unui numar n de markere (spre exemplu 100), 
+				aceasta aproximare se va repede de m ori (spre exemplu 10), iar rezultatul mediu va fi afisat pe pagina.
+				</p>
+				<p>
+				Ultima schimbare este cea a numarului de markere/reports. Ea este cea mai simpla, doar calculeaza diferenta intre numarul de markere plasate intre cele 2 unitati de timp. Daca au fost plasate mai putin markere, inseamna ca locatia este mai curata.
+				</p>
+				<p>
+				La apasarea butonului "HTML", se va apela functia downloadHTML(), care va face un fetch cu metoda POST catre un fisier "ajaxHTML.php", ii va trimite datele necesare crearii documentului. In acel fisier va fi creat un document DOM, 
+				vor fi copiate scripturile de generare a chart-urilor, si se va inlocui campul "data" din configuratia chart-ului cu datele primite prin POST. Foile de stil CSS vor fi incluse intr-un tag 'style' in tag-ul head-ul documentului. 
+				Acel DOM va fi returnat inapoi ca response.
+				</p>
+				<figure typeof="schema:SoftwareSourceCode">
+				<pre>
+				        function downloadHTML() {
+            var url = "http://localhost:80/proiect/GaSM/app/php/ajaxHTML.php";
+            var sentData = {
+                "timeFilter": filter,
+                "country": country,
+                "city": city,
+                "county": county,
+                "plastic": JSON.stringify(plastics),
+                "paper": JSON.stringify(papers),
+                "glass": JSON.stringify(glasses),
+                "metal": JSON.stringify(metals),
+                "allPlastic": allPlastic,
+                "allPaper": allPaper,
+                "allGlass": allGlass,
+                "allMetal": allMetal
+            };
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(sentData)
+                }).then(response => response.blob())
+                .then(data => {
+                    var url = window.URL.createObjectURL(data);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = "report.html";
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                });
+        }
+				</pre>
+				</figure>
+				<p>
+				Butonul de "CSV" va copia toate datele din tabele in format CSV, primite printr-un fetch GET de la fisierul "getCSV.php".
+				</p>
+				<p>
+				Pentru a crea documentul PDF am folosit biblioteca "jspdf", in care am inclus cele 2 chart-uri vizibile pe pagina ca imagine, o lista cu cele mai curate/mizere orase/judete si o lista cu schimbarile procentuale. 
+				Acest document va fi accesibil prin butonul "PDF".
+				</p>
+		</section>
+	</section>
+
+</body>
+
+</html>
